@@ -9,11 +9,10 @@
 
 <style>
 :root {
-  --bg: #000;
-  --red: #ff2e2e;
-  --dark: #0a0a0a;
-  --card: rgba(255,255,255,0.05);
-  --text: #fff;
+  --bg: #2b1b12;
+  --card: rgba(255,255,255,0.06);
+  --accent: #d6a15f;
+  --text: #f5f5f5;
 }
 
 * {
@@ -29,167 +28,131 @@ body {
   overflow-x: hidden;
 }
 
-/* ANIMATED BACKGROUND GLOW */
-.bg-glow {
+/* ANTS LAYER */
+.ant {
   position: fixed;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(255,46,46,0.25), transparent 60%);
-  top: -200px;
-  left: -200px;
-  animation: floatGlow 6s ease-in-out infinite alternate;
+  width: 18px;
+  height: 18px;
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/4/4d/Ant.svg");
+  background-size: contain;
+  opacity: 0.5;
+  animation: crawl linear infinite;
   z-index: 0;
 }
 
-@keyframes floatGlow {
-  from { transform: translate(0,0); }
-  to { transform: translate(120px,80px); }
+@keyframes crawl {
+  0% { transform: translate(-10vw, 0) rotate(0deg); }
+  100% { transform: translate(110vw, 80vh) rotate(360deg); }
 }
 
 /* HERO */
 .hero {
   position: relative;
-  min-height: 75vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   text-align: center;
-  padding: 60px 20px;
-}
-
-.hero img {
-  width: 160px;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  padding: 80px 20px;
+  z-index: 1;
 }
 
 .hero h1 {
-  font-size: 60px;
-  color: var(--red);
-  text-shadow: 0 0 25px rgba(255,46,46,0.5);
+  font-size: 56px;
+  letter-spacing: 2px;
+  color: var(--accent);
 }
 
 .hero p {
   margin-top: 10px;
+  opacity: 0.8;
   max-width: 600px;
-  opacity: 0.85;
+  margin-inline: auto;
 }
 
+/* BUTTONS */
 .buttons {
   margin-top: 25px;
   display: flex;
   gap: 12px;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .btn {
   padding: 14px 22px;
-  border-radius: 12px;
-  background: var(--red);
+  background: var(--accent);
   color: #000;
   font-weight: 700;
-  transition: 0.25s;
-  box-shadow: 0 0 20px rgba(255,46,46,0.3);
+  border-radius: 10px;
+  transition: 0.2s;
+  text-decoration: none;
 }
 
 .btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 35px rgba(255,46,46,0.7);
+  transform: translateY(-3px);
 }
 
-/* SECTION */
+/* GRID */
 .container {
   max-width: 1100px;
   margin: auto;
   padding: 40px 20px;
+  position: relative;
+  z-index: 1;
 }
 
-/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: 16px;
 }
 
 .card {
   background: var(--card);
-  border: 1px solid rgba(255,46,46,0.15);
+  border: 1px solid rgba(255,255,255,0.08);
   padding: 22px;
-  border-radius: 16px;
-  transition: 0.25s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-/* glowing edge animation */
-.card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 2px;
-  background: var(--red);
-  transition: 0.4s;
-}
-
-.card:hover::before {
-  left: 0;
+  border-radius: 14px;
+  transition: 0.25s;
+  backdrop-filter: blur(6px);
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 0 25px rgba(255,46,46,0.25);
+  border-color: var(--accent);
 }
 
 .card h3 {
-  color: var(--red);
+  color: var(--accent);
   margin-bottom: 10px;
 }
 
 .card p {
-  opacity: 0.85;
+  opacity: 0.8;
   font-size: 14px;
   line-height: 1.5;
 }
 
-/* IMAGE CARD */
-.card img {
-  width: 100%;
-  border-radius: 12px;
-  margin-top: 10px;
-  filter: drop-shadow(0 0 10px rgba(255,46,46,0.3));
+/* ICON STYLE */
+.icon {
+  width: 22px;
+  height: 22px;
+  margin-bottom: 10px;
+  fill: var(--accent);
 }
 
 /* CTA */
 .cta {
   text-align: center;
   padding: 70px 20px;
-}
-
-.cta h2 {
-  font-size: 28px;
+  position: relative;
+  z-index: 1;
 }
 
 .cta a {
   display: inline-block;
-  margin-top: 18px;
-  padding: 14px 26px;
-  background: var(--red);
+  margin-top: 15px;
+  padding: 14px 24px;
+  background: var(--accent);
   color: black;
   font-weight: 700;
-  border-radius: 12px;
-  transition: 0.2s;
-}
-
-.cta a:hover {
-  transform: scale(1.08);
+  border-radius: 10px;
 }
 
 /* FOOTER */
@@ -214,17 +177,19 @@ footer {
 
 <body>
 
-<div class="bg-glow"></div>
+<!-- ANTS (random layers) -->
+<div class="ant" style="top:10%; animation-duration:12s;"></div>
+<div class="ant" style="top:30%; animation-duration:18s;"></div>
+<div class="ant" style="top:60%; animation-duration:22s;"></div>
+<div class="ant" style="top:80%; animation-duration:15s;"></div>
 
 <!-- HERO -->
 <section class="hero">
-  <img src="RepLogHeader.png" alt="RepLog">
-
   <h1>RepLog</h1>
-  <p>Track. Train. Transform. Every rep builds the beast.</p>
+  <p>Track. Train. Transform. Build strength inside the colony.</p>
 
   <div class="buttons">
-    <a class="btn" href="PushUpChallenge.html">Push-Up</a>
+    <a class="btn" href="PushUpChallenge.html">Push</a>
     <a class="btn" href="CoreChallenge.html">Core</a>
     <a class="btn" href="CardioChallenge.html">Cardio</a>
   </div>
@@ -235,33 +200,39 @@ footer {
   <div class="grid">
 
     <div class="card">
-      <h3>🐜 What is RepLog?</h3>
-      <p>A grind-based fitness system where every workout = progression.</p>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7-6.5-4.5L6.5 20l2-7L3 9h7z"/></svg>
+      <h3>System</h3>
+      <p>Every workout is tracked and stored like colony progression data.</p>
     </div>
 
     <div class="card">
-      <h3>📈 Growth System</h3>
-      <p>Every rep is saved. Every day stacks your strength.</p>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg>
+      <h3>Progress</h3>
+      <p>Strength builds over time — every rep matters in the system.</p>
     </div>
 
     <div class="card">
-      <h3>⚡ Daily Grind</h3>
-      <p>Push, core, cardio — structured like a training game.</p>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>
+      <h3>World</h3>
+      <p>RepLog runs like a living colony — always active, always growing.</p>
     </div>
 
     <div class="card">
-      <h3>📱 Everywhere</h3>
-      <p>Works on phone, tablet, desktop — no install needed.</p>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/></svg>
+      <h3>Device</h3>
+      <p>Works on any screen size — mobile, tablet, or desktop.</p>
     </div>
 
     <div class="card">
-      <h3>👨‍💻 Creator</h3>
-      <p>Built by Theo as a fitness + coding progression project.</p>
+      <svg class="icon" viewBox="0 0 24 24"><path d="M12 12l8-4-8-4-8 4 8 4z"/></svg>
+      <h3>Creator</h3>
+      <p>Built by Theo — a system combining fitness and coding progression.</p>
     </div>
 
     <div class="card">
-      <h3>📷 Instant Access</h3>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ciphanonstudios.github.io/RepLog/" />
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/></svg>
+      <h3>Access</h3>
+      <p>Instant access through browser — no downloads required.</p>
     </div>
 
   </div>
@@ -269,12 +240,12 @@ footer {
 
 <!-- CTA -->
 <section class="cta">
-  <h2>Join the grind.</h2>
+  <h2>Enter the colony</h2>
   <a href="UpdLog.html">Update Log</a>
 </section>
 
 <footer>
-  © 2026 RepLog — Built for the grind
+  RepLog — Colony Training System
 </footer>
 
 </body>
