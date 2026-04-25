@@ -1,245 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RepLog</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  /
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RepLog</title>
 
-  <style>
-    :root {
-      --navy: #000000;
-      --green: #00FF7F;
-      --white: #FFFFFF;
-      --light-navy: #000000;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+:root {
+  --bg: #000;
+  --green: #00FF7F;
+  --card: rgba(255,255,255,0.06);
+  --text: #fff;
+}
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      color: var(--white);
-      background: var(--navy);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    a {
-      text-decoration: none;
-    }
+body {
+  font-family: Poppins, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-    /* HERO */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 20px;
-      background: linear-gradient(135deg, var(--light-navy), var(--navy));
-      background-img:src('');
-    }
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 20px;
+  overflow: hidden;
+}
 
-    .hero img {
-      width: 300px;
-      height: 300px;
-      margin-bottom: -30px;
-    }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438') center/cover;
+  opacity: 0.25;
+  z-index: 0;
+}
 
-    .hero h1 {
-      font-size: 48px;
-      color: var(--green);
-      margin-bottom: 15px;
-    }
+.hero img {
+  width: 180px;
+  z-index: 1;
+  margin-bottom: 10px;
+}
 
-    .hero p {
-      font-size: 20px;
-      max-width: 600px;
-      margin-bottom: 30px;
-      line-height: 1.5;
-    }
+.hero h1 {
+  font-size: 52px;
+  color: var(--green);
+  z-index: 1;
+}
 
-    .hero .btn {
-      padding: 18px 40px;
-      background-color: var(--green);
-      color: var(--navy);
-      font-weight: 700;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      margin: 10px;
-      display: inline-block;
-    }
+.hero p {
+  margin-top: 10px;
+  max-width: 600px;
+  font-size: 18px;
+  opacity: 0.85;
+  z-index: 1;
+}
 
-    .hero .btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 25px var(--green), 0 0 50px rgba(0,255,127,0.4);
-    }
+.buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 1;
+}
 
-    /* CARDS */
-    .sections {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 40px 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+.btn {
+  padding: 14px 24px;
+  border-radius: 12px;
+  background: var(--green);
+  color: #000;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
 
-    .card {
-      background: rgba(255,255,255,0.05);
-      padding: 30px 20px;
-      border-radius: 16px;
-      flex: 1 1 300px;
-      max-width: 350px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-    }
+.btn:hover {
+  transform: scale(1.05);
+}
 
-    .card::before {
-      content: "";
-      display: block;
-      height: 4px;
-      width: 40px;
-      background: var(--green);
-      margin: 0 auto 15px;
-      border-radius: 10px;
-    }
+/* GRID SECTION */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.6);
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
 
-    .card h2 {
-      color: var(--green);
-      margin-bottom: 15px;
-      font-size: 26px;
-    }
+.card {
+  background: var(--card);
+  padding: 22px;
+  border-radius: 16px;
+  transition: 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+}
 
-    .card p {
-      font-size: 16px;
-      line-height: 1.5;
-    }
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--green);
+}
 
-    .card img {
-      margin-top: 15px;
-      border-radius: 10px;
-    }
+.card h3 {
+  color: var(--green);
+  margin-bottom: 10px;
+}
 
-    /* SOCIALS */
-    .socials a {
-      display: inline-block;
-      margin: 8px 10px;
-      color: var(--white);
-      font-weight: 600;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
+.card p {
+  opacity: 0.85;
+  font-size: 14px;
+  line-height: 1.5;
+}
 
-    .socials a:hover {
-      transform: translateY(-2px);
-      text-decoration: underline;
-    }
+/* IMAGE CARD */
+.card img {
+  width: 100%;
+  border-radius: 12px;
+  margin-top: 10px;
+}
 
-    /* UPDATE BUTTON */
-    .update-section {
-      text-align: center;
-      margin: 20px;
-    }
+/* CTA SECTION */
+.cta {
+  text-align: center;
+  padding: 60px 20px;
+}
 
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0,0,0,0.2);
-      font-size: 14px;
-      margin-top: auto;
-    }
+.cta a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 14px 26px;
+  background: white;
+  color: black;
+  border-radius: 12px;
+  font-weight: 700;
+}
 
-    /* MOBILE */
-    @media(max-width: 768px) {
-      .hero h1 {
-        font-size: 36px;
-      }
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  opacity: 0.5;
+}
 
-      .hero p {
-        font-size: 18px;
-      }
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 
-      .card {
-        max-width: 90%;
-      }
-    }
-  </style>
+  .hero h1 {
+    font-size: 38px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HERO -->
-  <section class="hero">
-    <img src="RepLogHeader.png" alt="RepQuest Logo">
-    <!--<h1>RepLog</h1> -->
-    <p>Your strength journey starts here. Track, push, and level up with RepQuest.</p>
+<!-- HERO -->
+<section class="hero">
+  <img src="RepLogHeader.png" alt="RepLog">
 
-    <a href="PushUpChallenge.html" class="btn">Push-Up Challenge</a>
-    <a href="CoreChallenge.html" class="btn">Core Challenge</a>
-    <a href="CardioChallenge.html" class="btn">Cardio Challenge</a>
-  </section>
+  <h1>RepLog</h1>
+  <p>Track. Train. Transform. Turn your workouts into progression you can actually see.</p>
 
-  <!-- CARDS -->
-  <section class="sections">
-
-    <div class="card">
-      <h2>What is RepLog?</h2>
-      <p>RepQuest turns your workouts into a personal quest. Track reps, conquer challenges, and become stronger every day.</p>
-    </div>
-
-    <div class="card">
-      <h2>About Me</h2>
-      <p>Hi, I'm Theo, a 17-year-old creator. I built RepLog to improve my coding skills, stay consistent, and make fitness feel like a game. Glow-up, one rep at a time.</p>
-    </div>
-
-    <div class="card">
-      <h2>Works Everywhere</h2>
-      <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 0 24 24" width="40px" fill="#00FF7F"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18 10h4v7h-4z" opacity=".3"/><path d="M23 8h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7zM4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6z"/></svg>
-      <p>RepLog works on phones, tablets, and desktops. Train anytime, anywhere—no downloads needed.</p>
-    </div>
-
-    <div class="card">
-      <h2>Scan to Start</h2>
-      <p>Scan this QR code to open RepLog instantly on your phone.</p>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ciphanonstudios.github.io/RepLog/" alt="QR Code">
-    </div>
-
-    <div class="card">
-      <h2>Socials</h2>
-      <div class="socials">
-        <a href="https://ciphanonstudios.github.io/Replog/ComingSoonPage.html" target="_blank">YouTube</a><br>
-        <a href="https://www.snapchat.com/add/t49474294" target="_blank">Snapchat</a><br>
-        <a href="https://ciphanonstudios.github.io/Replog/ComingSoonPage.html" target="_blank">TikTok</a>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- UPDATE BUTTON -->
-  <div class="hero">
-    <a href="UpdLog.html" class="btn">Update Log</a>
+  <div class="buttons">
+    <a class="btn" href="PushUpChallenge.html">Push-Up</a>
+    <a class="btn" href="CoreChallenge.html">Core</a>
+    <a class="btn" href="CardioChallenge.html">Cardio</a>
   </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    &copy; 2026 RepQuest. All rights reserved. [v6.3.2]
-  </footer>
+<!-- CARDS -->
+<section class="container">
+  <div class="grid">
+
+    <div class="card">
+      <h3>🔥 What is RepLog?</h3>
+      <p>A simple fitness tracker that turns workouts into progression-based challenges.</p>
+    </div>
+
+    <div class="card">
+      <h3>📈 Progress System</h3>
+      <p>Log reps daily and actually see your strength increase over time.</p>
+    </div>
+
+    <div class="card">
+      <h3>⚡ Daily Challenges</h3>
+      <p>Push yourself with structured workouts like push, core, and cardio days.</p>
+    </div>
+
+    <div class="card">
+      <h3>📱 Mobile First</h3>
+      <p>Works perfectly on phones, tablets, and desktop—no app download needed.</p>
+    </div>
+
+    <div class="card">
+      <h3>👨‍💻 Creator</h3>
+      <p>Built by Theo to stay consistent, improve coding, and track fitness progress.</p>
+    </div>
+
+    <div class="card">
+      <h3>📷 Scan & Start</h3>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://ciphanonstudios.github.io/RepLog/" />
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to level up?</h2>
+  <a href="UpdLog.html">View Update Log</a>
+</section>
+
+<footer>
+  © 2026 RepLog. Track. Train. Transform.
+</footer>
 
 </body>
 </html>
