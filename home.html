@@ -1,213 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>RepLog</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --bg: #2b1b12;
-  --accent: #d6a15f;
-  --card: rgba(0,0,0,0.6);
-  --text: #f5f5f5;
+:root{
+  --bg:#120b08;
+  --card:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.08);
+  --text:#f2f2f2;
+  --muted:rgba(255,255,255,0.65);
+  --accent:#d6a15f;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-body {
-  font-family: Poppins, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
+body{
+  font-family:Poppins,sans-serif;
+  background: radial-gradient(circle at top, #2b1b12, #0b0705);
+  color:var(--text);
+  overflow-x:hidden;
 }
 
-/* 🐜 ANT STYLE */
-.ant {
-  position: fixed;
-  width: 14px;
-  height: 14px;
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/4/4d/Ant.svg");
-  background-size: contain;
-  pointer-events: none;
-  opacity: 0.5;
-  z-index: 0;
+/* subtle background glow */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(214,161,95,0.15), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(214,161,95,0.08), transparent 35%);
+  z-index:-1;
+}
+
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 40px;
+}
+
+nav .logo{
+  font-weight:700;
+  color:var(--accent);
+  letter-spacing:1px;
+}
+
+nav a{
+  color:var(--muted);
+  text-decoration:none;
+  margin-left:20px;
+  font-size:14px;
+}
+
+nav a:hover{
+  color:white;
 }
 
 /* HERO */
-.hero {
-  text-align: center;
-  padding: 80px 20px;
-  position: relative;
-  z-index: 1;
+.hero{
+  text-align:center;
+  padding:80px 20px 40px;
 }
 
-.hero img {
-  width: 180px;
-  margin-bottom: 10px;
+.hero img{
+  width:220px;
+  margin-bottom:20px;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6));
 }
 
-.hero h1 {
-  font-size: 56px;
-  color: var(--accent);
+.hero h1{
+  font-size:54px;
+  color:var(--accent);
+  letter-spacing:1px;
 }
 
-.hero p {
-  margin-top: 10px;
-  opacity: 0.8;
+.hero p{
+  margin-top:10px;
+  color:var(--muted);
 }
 
-/* BUTTONS */
-.buttons {
-  margin-top: 25px;
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
+/* CTA BUTTONS */
+.cta-buttons{
+  margin-top:25px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
 }
 
-.btn {
-  padding: 14px 22px;
-  background: var(--accent);
-  color: black;
-  font-weight: 700;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.2s;
+.btn{
+  padding:12px 20px;
+  border-radius:10px;
+  background:var(--accent);
+  color:black;
+  font-weight:700;
+  text-decoration:none;
+  transition:0.2s;
 }
 
-.btn:hover {
-  transform: translateY(-3px);
+.btn:hover{
+  transform:translateY(-3px);
 }
 
-/* FEATURED CARD */
-.featured {
-  max-width: 900px;
-  margin: 30px auto;
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
+/* FEATURE */
+.feature{
+  max-width:1000px;
+  margin:50px auto;
+  padding:20px;
 }
 
-.featured img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
+.feature-card{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
 }
 
-.featured-text {
-  position: absolute;
-  bottom: 0;
-  padding: 20px;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+.feature-card img{
+  width:100%;
+  height:320px;
+  object-fit:cover;
 }
 
-.featured-text h2 {
-  color: var(--accent);
+.feature-content{
+  padding:20px;
+}
+
+.feature-content h2{
+  color:var(--accent);
+}
+
+.feature-content p{
+  color:var(--muted);
+  margin-top:8px;
 }
 
 /* GRID */
-.container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 40px 20px;
-  position: relative;
-  z-index: 1;
+.section{
+  max-width:1100px;
+  margin:60px auto;
+  padding:0 20px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
 }
 
-/* CARD */
-.card {
-  background: var(--card);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: 0.3s;
+.card{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:18px;
+  overflow:hidden;
+  transition:0.3s;
 }
 
-.card-img-wrap {
-  position: relative;
-  height: 180px;
-  overflow: hidden;
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(214,161,95,0.3);
 }
 
-.card-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: 0.4s;
+.card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
 }
 
-.card-overlay {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+.card-content{
+  padding:14px;
 }
 
-.card-overlay h3 {
-  color: white;
+.card-content h3{
+  color:white;
 }
 
-.card p {
-  padding: 15px;
-  font-size: 14px;
-  opacity: 0.85;
-}
-
-.card:hover img {
-  transform: scale(1.1);
-}
-
-.card:hover {
-  transform: translateY(-6px);
+.card-content p{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:6px;
 }
 
 /* CTA */
-.cta {
-  text-align: center;
-  padding: 60px 20px;
+.final-cta{
+  text-align:center;
+  padding:60px 20px;
 }
 
-.cta a {
-  padding: 14px 24px;
-  background: var(--accent);
-  color: black;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 700;
+.final-cta h2{
+  color:var(--accent);
+}
+
+.final-cta a{
+  display:inline-block;
+  margin-top:15px;
+  padding:12px 22px;
+  border-radius:10px;
+  background:white;
+  color:black;
+  font-weight:700;
+  text-decoration:none;
 }
 
 /* FOOTER */
-footer {
-  text-align: center;
-  padding: 20px;
-  opacity: 0.5;
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:12px;
+  color:rgba(255,255,255,0.4);
 }
 
-/* MOBILE */
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: 1fr;
+/* RESPONSIVE */
+@media(max-width:900px){
+  .grid{
+    grid-template-columns:1fr;
   }
 
-  .hero h1 {
-    font-size: 40px;
+  .hero h1{
+    font-size:38px;
   }
 
-  .featured img {
-    height: 220px;
+  .feature-card img{
+    height:220px;
   }
 }
 </style>
@@ -215,130 +241,98 @@ footer {
 
 <body>
 
-<!-- 🐜 ANTS -->
-<script>
-const ANT_COUNT = 20;
+<nav>
+  <div class="logo">RepLog</div>
+  <div>
+    <a href="PushUpChallenge.html">Push</a>
+    <a href="CoreChallenge.html">Core</a>
+    <a href="CardioChallenge.html">Cardio</a>
+  </div>
+</nav>
 
-function random(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-function createAnt() {
-  const ant = document.createElement("div");
-  ant.classList.add("ant");
-  document.body.appendChild(ant);
-
-  let x = random(0, window.innerWidth);
-  let y = random(0, window.innerHeight);
-  let angle = Math.random() * Math.PI * 2;
-
-  function move() {
-    angle += random(-0.3, 0.3);
-    x += Math.cos(angle) * 1.2;
-    y += Math.sin(angle) * 1.2;
-
-    if (x < 0) x = window.innerWidth;
-    if (x > window.innerWidth) x = 0;
-    if (y < 0) y = window.innerHeight;
-    if (y > window.innerHeight) y = 0;
-
-    ant.style.transform = `translate(${x}px, ${y}px) rotate(${angle}rad)`;
-    requestAnimationFrame(move);
-  }
-
-  move();
-}
-
-for (let i = 0; i < ANT_COUNT; i++) {
-  createAnt();
-}
-</script>
-
-<!-- HERO -->
 <section class="hero">
   <img src="RepLogHeader.png" alt="RepLog">
   <h1>RepLog</h1>
-  <p>Track. Train. Transform. Build strength inside the colony.</p>
+  <p>Track. Train. Transform.</p>
 
-  <div class="buttons">
-    <a class="btn" href="PushUpChallenge.html">Push</a>
+  <div class="cta-buttons">
+    <a class="btn" href="PushUpChallenge.html">Push Day</a>
     <a class="btn" href="CoreChallenge.html">Core</a>
     <a class="btn" href="CardioChallenge.html">Cardio</a>
   </div>
 </section>
 
-<!-- FEATURED -->
-<div class="featured">
-  <img src="RepLogAnt.png">
-  <div class="featured-text">
-    <h2>RepAnt System</h2>
-    <p>Your strength grows with every rep.</p>
+<section class="feature">
+  <div class="feature-card">
+    <img src="RepLogAnt.png" alt="RepAnt">
+    <div class="feature-content">
+      <h2>RepAnt System</h2>
+      <p>Every rep builds your colony. Progress is earned, not given.</p>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- CARDS -->
-<section class="container">
+<section class="section">
   <div class="grid">
 
     <div class="card">
-      <div class="card-img-wrap">
-        <img src="push.jpg">
-        <div class="card-overlay"><h3>Push Day</h3></div>
+      <img src="RepLogAnt.png">
+      <div class="card-content">
+        <h3>Push Day</h3>
+        <p>Chest, shoulders, triceps strength training.</p>
       </div>
-      <p>Chest, shoulders, triceps training.</p>
     </div>
 
     <div class="card">
-      <div class="card-img-wrap">
-        <img src="core.jpg">
-        <div class="card-overlay"><h3>Core</h3></div>
+      <img src="RepLogAnt.png">
+      <div class="card-content">
+        <h3>Core</h3>
+        <p>Stability, abs, endurance building.</p>
       </div>
-      <p>Abs, stability, endurance.</p>
     </div>
 
     <div class="card">
-      <div class="card-img-wrap">
-        <img src="cardio.jpg">
-        <div class="card-overlay"><h3>Cardio</h3></div>
+      <img src="RepLogAnt.png">
+      <div class="card-content">
+        <h3>Cardio</h3>
+        <p>Speed and stamina conditioning.</p>
       </div>
-      <p>Speed, stamina, conditioning.</p>
     </div>
 
     <div class="card">
-      <div class="card-img-wrap">
-        <img src="progress.jpg">
-        <div class="card-overlay"><h3>Progress</h3></div>
+      <img src="RepLogAnt.png">
+      <div class="card-content">
+        <h3>Progress</h3>
+        <p>Track every improvement over time.</p>
       </div>
-      <p>Track your improvement daily.</p>
     </div>
 
     <div class="card">
-      <div class="card-img-wrap">
-        <img src="streak.jpg">
-        <div class="card-overlay"><h3>Streaks</h3></div>
+      <img src="RepLogAnt.png">
+      <div class="card-content">
+        <h3>Streaks</h3>
+        <p>Stay consistent and build momentum.</p>
       </div>
-      <p>Stay consistent and build momentum.</p>
     </div>
 
     <div class="card">
-      <div class="card-img-wrap">
-        <img src="RepLogAnt.png">
-        <div class="card-overlay"><h3>RepAnt</h3></div>
+      <img src="RepLogAnt.png">
+      <div class="card-content">
+        <h3>RepAnt</h3>
+        <p>Your identity inside the colony.</p>
       </div>
-      <p>The symbol of your grind.</p>
     </div>
 
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta">
+<section class="final-cta">
   <h2>Enter the Colony</h2>
   <a href="UpdLog.html">Update Log</a>
 </section>
 
 <footer>
-  RepLog — Colony Training System
+  RepLog • Colony Training System
 </footer>
 
 </body>
