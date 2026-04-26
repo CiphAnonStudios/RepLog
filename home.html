@@ -73,9 +73,18 @@ nav a:hover{
 }
 
 .hero img{
-  width:220px;
+  width:300px;
   margin-bottom:20px;
   filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6));
+  border-radius: 25px;
+  z-index: 10;
+}
+
+.HeaderBox {
+  height: 50px;
+  width: 50px;
+  background-color: black;
+  z-index: 5;
 }
 
 .hero h1{
@@ -252,7 +261,8 @@ footer{
 
 <section class="hero">
   <img src="RepLogHeader.png" alt="RepLog">
-  <h1>RepLog</h1>
+  <div class="HeaderBox"></div>
+ <!-- <h1>RepLog</h1> -->
   <p>Track. Train. Transform.</p>
 
   <div class="cta-buttons">
