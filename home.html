@@ -30,7 +30,7 @@ body{
   overflow-x:hidden;
 }
 
-/* glow */
+/* background glow */
 body::before{
   content:"";
   position:fixed;
@@ -46,34 +46,36 @@ nav{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:16px 24px;
+  padding:18px 40px;
   position:relative;
 }
 
-/* logo */
+/* LOGO */
 .logo{
   display:flex;
   align-items:center;
   gap:10px;
   font-weight:700;
   color:var(--accent);
+  letter-spacing:1px;
 }
 
 .logo img{
   width:34px;
   height:34px;
   border-radius:8px;
+  object-fit:cover;
 }
 
-/* links */
+/* LINKS */
 .nav-links{
   display:flex;
-  gap:18px;
 }
 
 .nav-links a{
   color:var(--muted);
   text-decoration:none;
+  margin:0 12px;
   font-size:14px;
   transition:0.2s;
 }
@@ -82,7 +84,7 @@ nav{
   color:white;
 }
 
-/* profile */
+/* PROFILE BUTTON */
 .profile-btn{
   padding:8px 14px;
   border-radius:10px;
@@ -96,9 +98,10 @@ nav{
 
 .profile-btn:hover{
   transform:translateY(-2px);
+  background:rgba(214,161,95,0.25);
 }
 
-/* HAMBURGER */
+/* ====== ADDED: HAMBURGER MENU ====== */
 .menu-btn{
   display:none;
   flex-direction:column;
@@ -113,7 +116,7 @@ nav{
   border-radius:2px;
 }
 
-/* MOBILE MENU */
+/* dropdown */
 .mobile-menu{
   display:none;
   position:absolute;
@@ -126,6 +129,7 @@ nav{
   flex-direction:column;
   gap:12px;
   min-width:160px;
+  z-index:100;
 }
 
 .mobile-menu a{
@@ -141,19 +145,25 @@ nav{
 /* HERO */
 .hero{
   text-align:center;
-  padding:70px 20px 40px;
+  padding:80px 20px 40px;
 }
 
 .hero img{
-  width:280px;
-  border-radius:25px;
+  width:300px;
+  margin-bottom:20px;
   filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6));
+  border-radius:25px;
 }
 
-.HeaderBox{
-  height:40px;
-  background:black;
-  width:100%;
+.HeaderBox {
+  height: 50px;
+  width: 100%;
+  background-color: black;
+}
+
+.hero h1{
+  font-size:54px;
+  color:var(--accent);
 }
 
 .hero p{
@@ -161,72 +171,129 @@ nav{
   color:var(--muted);
 }
 
-/* buttons */
+/* CTA */
 .cta-buttons{
-  margin-top:20px;
+  margin-top:25px;
   display:flex;
   justify-content:center;
-  gap:10px;
+  gap:12px;
   flex-wrap:wrap;
 }
 
 .btn{
-  padding:12px 18px;
+  padding:12px 20px;
   border-radius:10px;
   background:var(--accent);
   color:black;
   font-weight:700;
   text-decoration:none;
+  transition:0.2s;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+}
+
+/* FEATURE */
+.feature{
+  max-width:1000px;
+  margin:50px auto;
+  padding:20px;
+}
+
+.feature-card{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.feature-card img{
+  width:100%;
+  height:320px;
+  object-fit:cover;
+}
+
+.feature-content{
+  padding:20px;
+}
+
+.feature-content h2{
+  color:var(--accent);
+}
+
+.feature-content p{
+  color:var(--muted);
+  margin-top:8px;
 }
 
 /* GRID */
 .section{
   max-width:1100px;
-  margin:50px auto;
+  margin:60px auto;
   padding:0 20px;
 }
 
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:16px;
+  gap:18px;
 }
 
 .card{
   background:var(--card);
   border:1px solid var(--stroke);
-  border-radius:16px;
+  border-radius:18px;
   overflow:hidden;
   transition:0.3s;
 }
 
 .card:hover{
-  transform:translateY(-5px);
+  transform:translateY(-6px);
+  border-color:rgba(214,161,95,0.3);
 }
 
 .card img{
   width:100%;
-  height:150px;
+  height:160px;
   object-fit:cover;
 }
 
 .card-content{
-  padding:12px;
+  padding:14px;
+}
+
+.card-content h3{
+  color:white;
+}
+
+.card-content p{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:6px;
 }
 
 /* CTA */
 .final-cta{
   text-align:center;
-  padding:50px 20px;
+  padding:60px 20px;
+}
+
+.final-cta h2{
+  color:var(--accent);
 }
 
 .final-cta a{
+  display:inline-block;
+  margin-top:15px;
+  padding:12px 22px;
+  border-radius:10px;
   background:white;
   color:black;
-  padding:12px 20px;
-  border-radius:10px;
-  text-decoration:none;
   font-weight:700;
+  text-decoration:none;
 }
 
 /* FOOTER */
@@ -252,6 +319,10 @@ footer{
   .grid{
     grid-template-columns:1fr;
   }
+
+  .hero h1{
+    font-size:38px;
+  }
 }
 </style>
 </head>
@@ -259,30 +330,27 @@ footer{
 <body>
 
 <nav>
-  <!-- logo -->
   <div class="logo">
-    <img src="RepLogHeader.png">
+    <img src="RepLogHeader.png" alt="RepLog Logo">
     <span>RepLog</span>
   </div>
 
-  <!-- desktop links -->
   <div class="nav-links">
     <a href="PushUpChallenge.html">Push</a>
     <a href="CoreChallenge.html">Core</a>
     <a href="CardioChallenge.html">Cardio</a>
   </div>
 
-  <!-- profile -->
   <a class="profile-btn" href="profile.html">Profile</a>
 
-  <!-- hamburger -->
+  <!-- HAMBURGER -->
   <div class="menu-btn" onclick="toggleMenu()">
     <span></span>
     <span></span>
     <span></span>
   </div>
 
-  <!-- mobile dropdown -->
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="PushUpChallenge.html">Push</a>
     <a href="CoreChallenge.html">Core</a>
@@ -292,7 +360,7 @@ footer{
 </nav>
 
 <section class="hero">
-  <img src="RepLogHeader.png">
+  <img src="RepLogHeader.png" alt="RepLog">
   <div class="HeaderBox"></div>
   <p>Track. Train. Transform.</p>
 
@@ -303,19 +371,78 @@ footer{
   </div>
 </section>
 
+<section class="feature">
+  <div class="feature-card">
+    <img src="RepLogHeader.png" alt="RepAnt">
+    <div class="feature-content">
+      <h2>RepAnt System</h2>
+      <p>Every rep builds your colony. Progress is earned, not given.</p>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="grid">
-    <div class="card"><img src="RepLogHeader.png"><div class="card-content"><h3>Push</h3></div></div>
-    <div class="card"><img src="RepLogHeader.png"><div class="card-content"><h3>Core</h3></div></div>
-    <div class="card"><img src="RepLogHeader.png"><div class="card-content"><h3>Cardio</h3></div></div>
+
+    <div class="card">
+      <img src="RepLogHeader.png">
+      <div class="card-content">
+        <h3>Push Day</h3>
+        <p>Chest, shoulders, triceps strength training.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="RepLogHeader.png">
+      <div class="card-content">
+        <h3>Core</h3>
+        <p>Stability, abs, endurance building.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="RepLogHeader.png">
+      <div class="card-content">
+        <h3>Cardio</h3>
+        <p>Speed and stamina conditioning.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="RepLogHeader.png">
+      <div class="card-content">
+        <h3>Progress</h3>
+        <p>Track every improvement over time.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="RepLogHeader.png">
+      <div class="card-content">
+        <h3>Streaks</h3>
+        <p>Stay consistent and build momentum.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="RepLogHeader.png">
+      <div class="card-content">
+        <h3>RepAnt</h3>
+        <p>Your identity inside the colony.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
 <section class="final-cta">
+  <h2>Enter the Colony</h2>
   <a href="UpdLog.html">Update Log</a>
 </section>
 
-<footer>RepLog • Colony Training System</footer>
+<footer>
+  RepLog • Colony Training System
+</footer>
 
 <script>
 function toggleMenu(){
