@@ -30,7 +30,7 @@ body{
   overflow-x:hidden;
 }
 
-/* subtle background glow */
+/* background glow */
 body::before{
   content:"";
   position:fixed;
@@ -46,24 +46,54 @@ nav{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:20px 40px;
+  padding:18px 40px;
 }
 
-nav .logo{
+/* LOGO */
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
   font-weight:700;
   color:var(--accent);
   letter-spacing:1px;
 }
 
-nav a{
-  color:var(--muted);
-  text-decoration:none;
-  margin-left:20px;
-  font-size:14px;
+.logo img{
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  object-fit:cover;
 }
 
-nav a:hover{
+/* LINKS */
+.nav-links a{
+  color:var(--muted);
+  text-decoration:none;
+  margin:0 12px;
+  font-size:14px;
+  transition:0.2s;
+}
+
+.nav-links a:hover{
   color:white;
+}
+
+/* PROFILE BUTTON */
+.profile-btn{
+  padding:8px 14px;
+  border-radius:10px;
+  background:rgba(214,161,95,0.15);
+  border:1px solid rgba(214,161,95,0.4);
+  color:var(--accent);
+  font-size:13px;
+  text-decoration:none;
+  transition:0.2s;
+}
+
+.profile-btn:hover{
+  transform:translateY(-2px);
+  background:rgba(214,161,95,0.25);
 }
 
 /* HERO */
@@ -76,21 +106,18 @@ nav a:hover{
   width:300px;
   margin-bottom:20px;
   filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6));
-  border-radius: 25px;
-  z-index: 10;
+  border-radius:25px;
 }
 
 .HeaderBox {
   height: 50px;
   width: 100%;
   background-color: black;
-  z-index: 5;
 }
 
 .hero h1{
   font-size:54px;
   color:var(--accent);
-  letter-spacing:1px;
 }
 
 .hero p{
@@ -98,7 +125,7 @@ nav a:hover{
   color:var(--muted);
 }
 
-/* CTA BUTTONS */
+/* CTA */
 .cta-buttons{
   margin-top:25px;
   display:flex;
@@ -251,18 +278,26 @@ footer{
 <body>
 
 <nav>
-  <div class="logo">RepLog</div>
-  <div>
+  <!-- LOGO -->
+  <div class="logo">
+    <img src="RepLogHeader.png" alt="RepLog Logo">
+    <span>RepLog</span>
+  </div>
+
+  <!-- LINKS -->
+  <div class="nav-links">
     <a href="PushUpChallenge.html">Push</a>
     <a href="CoreChallenge.html">Core</a>
     <a href="CardioChallenge.html">Cardio</a>
   </div>
+
+  <!-- PROFILE -->
+  <a class="profile-btn" href="profile.html">Profile</a>
 </nav>
 
 <section class="hero">
   <img src="RepLogHeader.png" alt="RepLog">
   <div class="HeaderBox"></div>
- <!-- <h1>RepLog</h1> -->
   <p>Track. Train. Transform.</p>
 
   <div class="cta-buttons">
