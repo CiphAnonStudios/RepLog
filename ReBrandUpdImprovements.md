@@ -30,8 +30,8 @@
 # Loading Page_______________________________________[v7.#.#]
 # UI
 - better background color
-# Push Up Challenge_____________________________[v7.#.#]
-#UI
+# Push Up Challenge________________________________[v7.#.#]
+# UI
 - better background color
 
 
