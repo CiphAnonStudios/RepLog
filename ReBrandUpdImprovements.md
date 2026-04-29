@@ -28,6 +28,7 @@
 - username settings
 - saves to local storage
 # Loading Page_______________________________________[v7.#.#]
+# UI
 - new background
 
 
