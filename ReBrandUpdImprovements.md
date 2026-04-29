@@ -27,7 +27,7 @@
 - Pfp icons
 - username settings
 - saves to local storage
-# Loading Page______________________________________[v7.#.#]
+# Loading Page_______________________________________[v7.#.#]
 - new background
 
 
