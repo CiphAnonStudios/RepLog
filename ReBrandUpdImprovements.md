@@ -27,6 +27,8 @@
 - Pfp icons
 - username settings
 - saves to local storage
+# UI
+- better background color
 # Loading Page_______________________________________[v7.#.#]
 # UI
 - better background color
