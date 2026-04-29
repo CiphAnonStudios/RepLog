@@ -35,6 +35,11 @@
 # Push Up Challenge__________________________________[v7.#.#]
 # UI
 - better background color
-
+# Core Challenge_____________________________________[v7.#.#]
+# UI
+- better background color
+# Cardio Challenge___________________________________[v7.#.#]
+# UI
+- better background color
 
 
