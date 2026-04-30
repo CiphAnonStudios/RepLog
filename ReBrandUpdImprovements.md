@@ -23,6 +23,7 @@
 - improvements to cards
 - more descriptions and captions
 - tail header
+- even more improvements to button ui
 # Profile Page________________________________________[v7.#.#]
 - Pfp icons
 - username settings
