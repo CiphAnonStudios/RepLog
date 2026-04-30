@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RepLog Fitness</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f0f0f;
+  color: white;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.card {
+  background: #1c1c1c;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  background: #4CAF50;
+  color: white;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #3e9e45;
+}
+
+.exercise {
+  display: flex;
+  gap: 10px;
+  background: #262626;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.exercise img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🏋️ RepLog System</h1>
+
+<div class="card">
+<div id="stats"></div>
+</div>
+
+<div class="card">
+<form id="form">
+
+<input type="number" id="age" placeholder="Age" required>
+<input type="number" id="weight" placeholder="Bodyweight" required>
+
+<select id="goal">
+  <option value="push">Push (Chest/Arms)</option>
+  <option value="core">Core</option>
+  <option value="legs">Legs</option>
+  <option value="full">Full Body</option>
+</select>
+
+<select id="level">
+  <option value="beginner">Beginner</option>
+  <option value="intermediate">Intermediate</option>
+  <option value="pro">Pro</option>
+  <option value="intense">Intense</option>
+  <option value="elite">Elite</option>
+</select>
+
+<button type="submit">Generate Workout</button>
+
+</form>
+</div>
+
+<div class="card">
+<h3>Workout</h3>
+<div id="output"></div>
+
+<button onclick="makeHarder()">🔥 Make Harder (+XP)</button>
+<button onclick="saveWorkout()">💾 Save Workout (+XP)</button>
+</div>
+
+<div class="card">
+<h3>Saved Workouts</h3>
+<div id="saved"></div>
+</div>
+
+</div>
+
+<script>
+
+// 🧠 BIG WORKOUT DATABASE (with images)
+const workouts = {
+  push: {
+    beginner: [
+      {name:"Knee Push-ups", sets:3, reps:10, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"},
+      {name:"Wall Push-ups", sets:3, reps:12, img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"}
+    ],
+    intermediate: [
+      {name:"Push-ups", sets:4, reps:15, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"},
+      {name:"Diamond Push-ups", sets:3, reps:10, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"}
+    ],
+    pro: [
+      {name:"Decline Push-ups", sets:4, reps:20, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"},
+      {name:"Explosive Push-ups", sets:3, reps:12, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"}
+    ],
+    intense: [
+      {name:"Clap Push-ups", sets:5, reps:15, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"},
+      {name:"Archer Push-ups", sets:4, reps:12, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"}
+    ],
+    elite: [
+      {name:"One Arm Push-ups", sets:5, reps:8, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"},
+      {name:"Planche Push-ups", sets:4, reps:6, img:"https://images.unsplash.com/photo-1598971639058-b3e5b3c0f2e3"}
+    ]
+  },
+
+  core: {
+    beginner: [
+      {name:"Crunches", sets:3, reps:15, img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"},
+      {name:"Plank", sets:3, reps:"20 sec", img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"}
+    ],
+    intermediate: [
+      {name:"Leg Raises", sets:4, reps:15, img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"},
+      {name:"Plank", sets:3, reps:"40 sec", img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"}
+    ],
+    pro: [
+      {name:"Russian Twists", sets:4, reps:25, img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"},
+      {name:"Hanging Raises", sets:3, reps:12, img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"}
+    ],
+    intense: [
+      {name:"Dragon Flags", sets:5, reps:8, img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"},
+      {name:"V-Ups", sets:4, reps:20, img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"}
+    ],
+    elite: [
+      {name:"L-Sit Hold", sets:5, reps:"30 sec", img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"},
+      {name:"Full Dragon Flags", sets:5, reps:10, img:"https://images.unsplash.com/photo-1599058917212-d750089bc07e"}
+    ]
+  },
+
+  legs: {
+    beginner: [
+      {name:"Bodyweight Squats", sets:3, reps:15, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"},
+      {name:"Lunges", sets:3, reps:10, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"}
+    ],
+    intermediate: [
+      {name:"Jump Squats", sets:4, reps:15, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"},
+      {name:"Walking Lunges", sets:4, reps:12, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"}
+    ],
+    pro: [
+      {name:"Bulgarian Split Squats", sets:4, reps:12, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"},
+      {name:"Pistol Squats", sets:3, reps:8, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"}
+    ],
+    intense: [
+      {name:"Weighted Squats", sets:5, reps:12, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"},
+      {name:"Jump Lunges", sets:5, reps:15, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"}
+    ],
+    elite: [
+      {name:"Explosive Pistol Squats", sets:5, reps:10, img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"},
+      {name:"Sprint Sets", sets:6, reps:"30 sec", img:"https://images.unsplash.com/photo-1571019613914-85f342c2c0b3"}
+    ]
+  }
+};
+
+// 🧠 SYSTEM
+let currentWorkout = [];
+let saved = JSON.parse(localStorage.getItem("saved")) || [];
+let xp = parseInt(localStorage.getItem("xp")) || 0;
+
+function addXP(amount){
+  xp += amount;
+  localStorage.setItem("xp", xp);
+  updateStats();
+}
+
+function level(){
+  if(xp < 100) return "Beginner";
+  if(xp < 300) return "Intermediate";
+  if(xp < 600) return "Pro";
+  if(xp < 1000) return "Intense";
+  return "Elite";
+}
+
+function updateStats(){
+  document.getElementById("stats").innerHTML = `
+    <h3>🔥 XP: ${xp}</h3>
+    <div class="small">Level: ${level()}</div>
+    <div class="small">Saved: ${saved.length}</div>
+  `;
+}
+
+// GENERATE
+document.getElementById("form").addEventListener("submit",(e)=>{
+  e.preventDefault();
+
+  const goal = document.getElementById("goal").value;
+  const lvl = document.getElementById("level").value;
+
+  currentWorkout = JSON.parse(JSON.stringify(workouts[goal][lvl]));
+
+  addXP(10);
+  renderWorkout();
+});
+
+function renderWorkout(){
+  const out = document.getElementById("output");
+  out.innerHTML = "";
+
+  currentWorkout.forEach(ex=>{
+    out.innerHTML += `
+      <div class="exercise">
+        <img src="${ex.img}">
+        <div>
+          <b>${ex.name}</b><br>
+          ${ex.sets} x ${ex.reps}
+        </div>
+      </div>
+    `;
+  });
+}
+
+// HARDER
+function makeHarder(){
+  currentWorkout = currentWorkout.map(ex=>{
+    return {
+      ...ex,
+      sets: ex.sets + 1,
+      reps: typeof ex.reps === "number" ? ex.reps + 5 : ex.reps
+    };
+  });
+
+  addXP(15);
+  renderWorkout();
+}
+
+// SAVE MULTIPLE
+function saveWorkout(){
+  saved.push(currentWorkout);
+  localStorage.setItem("saved", JSON.stringify(saved));
+  addXP(25);
+  renderSaved();
+}
+
+function renderSaved(){
+  const box = document.getElementById("saved");
+  box.innerHTML = "";
+
+  saved.forEach((w,i)=>{
+    box.innerHTML += `
+      <div class="card">
+        <b>Workout ${i+1}</b>
+        ${w.map(x=>`<div>${x.name} ${x.sets}x${x.reps}</div>`).join("")}
+      </div>
+    `;
+  });
+}
+
+updateStats();
+renderSaved();
+
+</script>
+
+</body>
+</html>
