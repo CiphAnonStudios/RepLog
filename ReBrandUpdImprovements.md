@@ -7,13 +7,20 @@
 - logo and name
 - Push, core, cardio button
 - profile button
+- display cards
+- social media buttons
 # UI
 - better background color
 - More Buttons to other pages
 - Ui improvements for buttons
 - logo
+- more descriptions and captions
+- tail header
+- even more improvements to button ui
+- improvements to social media buttons
+# Cards
 - images and descriptive context cards
-- RepAnt System card
+- RepAnt System card (main card)
 - Challenges card
 - Blank card
 - Blank card
@@ -21,9 +28,7 @@
 - Streaks card
 - RepAnt card
 - improvements to cards
-- more descriptions and captions
-- tail header
-- even more improvements to button ui
+- Workout Generator card (main card)
 # Profile Page________________________________________[v7.#.#]
 - Pfp icons
 - username settings
@@ -42,5 +47,6 @@
 # Cardio Challenge___________________________________[v7.#.#]
 # UI
 - better background color
+# workout generator___________________________________[v7.#.#]
 
 
