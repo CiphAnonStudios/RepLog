@@ -4,6 +4,7 @@
 # HOME PAGE_______________________________________[v7.#.#]
 # Header
 - header bar
+- fixed header bar design
 - logo and name
 - Push, core, cardio button
 - profile button
