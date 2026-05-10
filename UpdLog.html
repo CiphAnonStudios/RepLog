@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>RepLog</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RepLog Update Log</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- ICONS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 
@@ -17,9 +18,9 @@
   --card:rgba(255,255,255,0.06);
   --stroke:rgba(255,255,255,0.08);
   --text:#ffffff;
-  --muted:rgba(255,255,255,0.65);
+  --muted:rgba(255,255,255,0.6);
   --accent:#d6a15f;
-  --accent2:#8f5cff;
+  --green:#22c55e;
 }
 
 *{
@@ -29,121 +30,68 @@
 }
 
 body{
-  font-family:Poppins,sans-serif;
+  font-family:'Poppins',sans-serif;
   background:
-    radial-gradient(circle at top left,#2a1a12,#0b0705 60%);
+    radial-gradient(circle at top left,#2a1a12,#0b0705 65%);
   color:var(--text);
+  min-height:100vh;
   overflow-x:hidden;
   padding-bottom:90px;
 }
 
-/* background glow */
+/* glow */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(214,161,95,0.10), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(143,92,255,0.10), transparent 35%);
+    radial-gradient(circle at 20% 20%,
+    rgba(214,161,95,0.12), transparent 40%);
   z-index:-1;
 }
 
-/* NAV */
-nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:18px;
+/* TOP */
+.top{
+  padding:30px 20px 20px;
 }
 
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:20px;
-  font-weight:700;
-  color:var(--accent);
-}
-
-.logo img{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-}
-
-.menu-btn{
-  font-size:22px;
-  color:white;
-}
-
-/* HERO */
-.hero{
-  padding:10px 20px 40px;
-}
-
-.hero-card{
-  background:linear-gradient(145deg,
+.title-card{
+  background:linear-gradient(
+  145deg,
   rgba(255,255,255,0.08),
   rgba(255,255,255,0.03));
-  
+
   border:1px solid var(--stroke);
   border-radius:28px;
-  padding:28px 22px;
+  padding:28px 24px;
   position:relative;
   overflow:hidden;
 }
 
-.hero-card::before{
+.title-card::before{
   content:"";
   position:absolute;
   width:220px;
   height:220px;
-  background:rgba(214,161,95,0.12);
+  background:rgba(214,161,95,0.10);
   border-radius:50%;
   top:-120px;
   right:-80px;
 }
 
-.hero h1{
-  font-size:42px;
+.title-card h1{
+  font-size:38px;
   line-height:1;
-  margin-bottom:12px;
 }
 
-.hero h1 span{
+.title-card span{
   color:var(--accent);
 }
 
-.hero p{
+.title-card p{
   color:var(--muted);
-  font-size:15px;
-  max-width:300px;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:12px;
-  margin-top:25px;
-}
-
-.hero-btn{
-  flex:1;
-  text-align:center;
-  padding:14px;
-  border-radius:16px;
-  text-decoration:none;
-  font-weight:600;
-}
-
-.primary{
-  background:var(--accent);
-  color:black;
-}
-
-.secondary{
-  background:rgba(255,255,255,0.07);
-  color:white;
-  border:1px solid var(--stroke);
+  margin-top:10px;
+  font-size:14px;
 }
 
 /* STATS */
@@ -152,31 +100,37 @@ nav{
   grid-template-columns:repeat(3,1fr);
   gap:12px;
   padding:0 20px;
-  margin-top:-15px;
+  margin-top:-8px;
 }
 
-.stat-card{
+.stat{
   background:var(--card);
   border:1px solid var(--stroke);
   border-radius:20px;
   padding:18px 12px;
   text-align:center;
-  backdrop-filter:blur(12px);
+  backdrop-filter:blur(10px);
 }
 
-.stat-card h2{
+.stat i{
   color:var(--accent);
-  font-size:22px;
+  font-size:20px;
+  margin-bottom:8px;
 }
 
-.stat-card p{
+.stat h2{
+  font-size:20px;
+}
+
+.stat p{
   color:var(--muted);
-  font-size:12px;
+  font-size:11px;
+  margin-top:2px;
 }
 
 /* SECTION */
 .section{
-  padding:35px 20px 0;
+  padding:35px 20px 10px;
 }
 
 .section-title{
@@ -195,14 +149,14 @@ nav{
   font-size:13px;
 }
 
-/* CHALLENGE CARDS */
-.challenge-grid{
+/* UPDATE CARD */
+.update-grid{
   display:flex;
   flex-direction:column;
   gap:16px;
 }
 
-.challenge-card{
+.update-card{
   background:linear-gradient(
   145deg,
   rgba(255,255,255,0.08),
@@ -210,110 +164,85 @@ nav{
 
   border:1px solid var(--stroke);
   border-radius:24px;
-  padding:20px;
-  position:relative;
   overflow:hidden;
   transition:0.25s;
 }
 
-.challenge-card:hover{
-  transform:translateY(-3px);
+.update-card:hover{
+  transform:translateY(-2px);
 }
 
-.challenge-top{
+.update-header{
+  padding:20px;
+  cursor:pointer;
+}
+
+.update-top{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.challenge-icon{
-  width:58px;
-  height:58px;
-  border-radius:18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  color:white;
-}
-
-.push{
-  background:linear-gradient(135deg,#ff9966,#ff5e62);
-}
-
-.core{
-  background:linear-gradient(135deg,#36d1dc,#5b86e5);
-}
-
-.cardio{
-  background:linear-gradient(135deg,#8e2de2,#4a00e0);
-}
-
-.challenge-level{
-  background:rgba(255,255,255,0.08);
-  padding:6px 10px;
-  border-radius:10px;
+.version-tag{
+  background:rgba(214,161,95,0.15);
+  border:1px solid rgba(214,161,95,0.25);
+  color:var(--accent);
+  padding:7px 12px;
+  border-radius:12px;
   font-size:12px;
-  color:var(--muted);
-}
-
-.challenge-card h3{
-  margin-top:18px;
-  font-size:24px;
-}
-
-.challenge-card p{
-  color:var(--muted);
-  margin-top:6px;
-  font-size:14px;
-  line-height:1.5;
-}
-
-.challenge-btn{
-  display:inline-block;
-  margin-top:18px;
-  padding:12px 18px;
-  border-radius:14px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid var(--stroke);
-  color:white;
-  text-decoration:none;
-  font-size:14px;
-}
-
-/* FEATURE CARD */
-.feature{
-  padding:35px 20px;
-}
-
-.feature-card{
-  background:linear-gradient(145deg,
-  rgba(143,92,255,0.18),
-  rgba(255,255,255,0.04));
-
-  border:1px solid rgba(143,92,255,0.2);
-  border-radius:28px;
-  padding:24px;
-}
-
-.feature-card h2{
-  font-size:28px;
-}
-
-.feature-card p{
-  margin-top:8px;
-  color:rgba(255,255,255,0.75);
-}
-
-.feature-card a{
-  display:inline-block;
-  margin-top:18px;
-  text-decoration:none;
-  background:white;
-  color:black;
-  padding:12px 18px;
-  border-radius:14px;
   font-weight:600;
+}
+
+.arrow{
+  transition:0.25s;
+  color:var(--muted);
+}
+
+.update-card.active .arrow{
+  transform:rotate(180deg);
+}
+
+.update-header h3{
+  margin-top:14px;
+  font-size:22px;
+}
+
+.date{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:6px;
+}
+
+/* CHANGE LIST */
+.changes{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.35s ease;
+}
+
+.update-card.active .changes{
+  max-height:700px;
+}
+
+.change-list{
+  padding:0 20px 20px 20px;
+  list-style:none;
+}
+
+.change-list li{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  margin-top:12px;
+  color:rgba(255,255,255,0.82);
+  line-height:1.5;
+  font-size:14px;
+}
+
+.change-list li i{
+  color:var(--green);
+  margin-top:3px;
+  font-size:13px;
 }
 
 /* BOTTOM NAV */
@@ -328,7 +257,6 @@ nav{
   display:flex;
   justify-content:space-around;
   padding:12px 0;
-  z-index:999;
 }
 
 .bottom-nav a{
@@ -342,7 +270,7 @@ nav{
 }
 
 .bottom-nav i{
-  font-size:20px;
+  font-size:18px;
 }
 
 .bottom-nav a.active{
@@ -352,8 +280,8 @@ nav{
 /* footer */
 footer{
   text-align:center;
-  color:rgba(255,255,255,0.35);
   padding:30px 20px;
+  color:rgba(255,255,255,0.35);
   font-size:12px;
 }
 
@@ -362,182 +290,65 @@ footer{
 
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="logo">
-    <img src="RepLogHeader.png">
-    <span>RepLog</span>
-  </div>
+<!-- TOP -->
+<section class="top">
 
-  <div class="menu-btn">
-    <i class="fa-solid fa-bars"></i>
-  </div>
-</nav>
+  <div class="title-card">
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-card">
-
-    <h1>Build Your <span>Colony</span></h1>
+    <h1>RepLog <span>Updates</span></h1>
 
     <p>
-      Complete challenges, earn XP, unlock ants,
-      and evolve your progression journey.
+      Track new features, UI upgrades,
+      fixes, and challenge improvements.
     </p>
 
-    <div class="hero-buttons">
-      <a class="hero-btn primary" href="profile.html">
-        Profile
-      </a>
-
-      <a class="hero-btn secondary" href="UpdLog.html">
-        Updates
-      </a>
-    </div>
-
   </div>
+
 </section>
 
 <!-- STATS -->
 <section class="stats">
 
-  <div class="stat-card">
-    <h2>12</h2>
-    <p>LEVEL</p>
+  <div class="stat">
+    <i class="fa-solid fa-code"></i>
+    <h2>8</h2>
+    <p>UPDATES</p>
   </div>
 
-  <div class="stat-card">
-    <h2>4</h2>
-    <p>ANTS</p>
+  <div class="stat">
+    <i class="fa-solid fa-bolt"></i>
+    <h2>v6.3.2</h2>
+    <p>LATEST</p>
   </div>
 
-  <div class="stat-card">
-    <h2>89%</h2>
-    <p>STREAK</p>
+  <div class="stat">
+    <i class="fa-solid fa-wrench"></i>
+    <h2>40+</h2>
+    <p>CHANGES</p>
   </div>
 
 </section>
 
-<!-- CHALLENGES -->
+<!-- UPDATE SECTION -->
 <section class="section">
 
   <div class="section-title">
-    <h2>Challenges</h2>
-    <span>3 Active</span>
+    <h2>Patch Notes</h2>
+    <span>Tap To Expand</span>
   </div>
 
-  <div class="challenge-grid">
-
-    <!-- PUSH -->
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-        <div class="challenge-icon push">
-          <i class="fa-solid fa-dumbbell"></i>
-        </div>
-
-        <div class="challenge-level">
-          Beginner
-        </div>
-      </div>
-
-      <h3>Push Challenge</h3>
-
-      <p>
-        Increase reps, gain XP, and level up your
-        strength progression.
-      </p>
-
-      <a class="challenge-btn" href="PushUpChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
-
-    <!-- CORE -->
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-        <div class="challenge-icon core">
-          <i class="fa-solid fa-fire"></i>
-        </div>
-
-        <div class="challenge-level">
-          Intermediate
-        </div>
-      </div>
-
-      <h3>Core Challenge</h3>
-
-      <p>
-        Train consistency and improve your endurance
-        through core progression.
-      </p>
-
-      <a class="challenge-btn" href="CoreChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
-
-    <!-- CARDIO -->
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-        <div class="challenge-icon cardio">
-          <i class="fa-solid fa-bolt"></i>
-        </div>
-
-        <div class="challenge-level">
-          Advanced
-        </div>
-      </div>
-
-      <h3>Cardio Challenge</h3>
-
-      <p>
-        Push your stamina, maintain streaks,
-        and unlock higher XP tiers.
-      </p>
-
-      <a class="challenge-btn" href="CardioChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- FEATURE -->
-<section class="feature">
-
-  <div class="feature-card">
-
-    <h2>Workout Generator</h2>
-
-    <p>
-      Generate randomized workouts based on
-      your level, streaks, and unlocked ants.
-    </p>
-
-    <a href="ComingSoonPage.html">
-      Coming Soon
-    </a>
-
-  </div>
+  <div class="update-grid" id="updates"></div>
 
 </section>
 
 <footer>
-  RepLog • Colony Training System [V1.0.0]
+  RepLog • Colony Training System
 </footer>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
 
-  <a class="active" href="index.html">
+  <a href="index.html">
     <i class="fa-solid fa-house"></i>
     Home
   </a>
@@ -557,12 +368,183 @@ footer{
     Cardio
   </a>
 
-  <a href="profile.html">
-    <i class="fa-solid fa-user"></i>
-    Profile
+  <a class="active" href="UpdLog.html">
+    <i class="fa-solid fa-clock-rotate-left"></i>
+    Updates
   </a>
 
 </div>
+
+<script>
+
+const updates = [
+
+{
+version:"v6.3.2",
+title:"Cardio Rework",
+date:"4/23/26",
+changes:[
+"Run tracking now saves even if page reloads",
+"Cardio progress no longer resets accidentally",
+"New description cards for Core Challenge",
+"New description cards for Cardio Challenge",
+"Updated UI for Update Log button",
+"Spacing fixes for challenge pages"
+]
+},
+
+{
+version:"v6.2.2",
+title:"Home Page Redesign",
+date:"4/17/26",
+changes:[
+"Completely redesigned homepage",
+"Added QR code section",
+"Added new icons",
+"Improved mobile layout",
+"Cleaner navigation system"
+]
+},
+
+{
+version:"v6.1.2",
+title:"Cardio Rework",
+date:"4/13/26",
+changes:[
+"Changed cardio goal from 5mi to 4mi",
+"Added Push Challenge description card",
+"Improved challenge descriptions"
+]
+},
+
+{
+version:"v6.0.2",
+title:"Bug Fixes",
+date:"4/10/26",
+changes:[
+"Fixed text issues in Cardio Challenge",
+"Fixed CSS problems on Update Log button"
+]
+},
+
+{
+version:"v6.0.1",
+title:"Home Improvements",
+date:"4/09/26",
+changes:[
+"Updated descriptions and captions",
+"Cardio calendar now shows days of month"
+]
+},
+
+{
+version:"v6",
+title:"Cardio Challenge Release",
+date:"4/09/26",
+changes:[
+"Added Cardio Challenge page",
+"Added distance tracking",
+"Added pace tracker",
+"Added calorie calculations",
+"Phone vibrates after reaching goal",
+"Added Update Log page",
+"Added collapsible update sections"
+]
+},
+
+{
+version:"v5",
+title:"Core Challenge Release",
+date:"4/08/26",
+changes:[
+"Added Core Challenge",
+"Added local storage saving",
+"Added working calendar",
+"Added XP, levels, and streak system"
+]
+},
+
+{
+version:"v4",
+title:"RepLog Initial Release",
+date:"4/02/26",
+changes:[
+"Added homepage",
+"Added Push Challenge",
+"Added profile system",
+"Added XP and streak tracking",
+"Added working calendar",
+"Added Coming Soon page"
+]
+}
+
+];
+
+const container = document.getElementById("updates");
+
+updates.forEach((u,index)=>{
+
+const card = document.createElement("div");
+card.className = "update-card";
+
+if(index === 0){
+card.classList.add("active");
+}
+
+card.innerHTML = `
+
+<div class="update-header">
+
+<div class="update-top">
+
+<div class="version-tag">
+${u.version}
+</div>
+
+<div class="arrow">
+<i class="fa-solid fa-chevron-down"></i>
+</div>
+
+</div>
+
+<h3>${u.title}</h3>
+
+<div class="date">
+${u.date}
+</div>
+
+</div>
+
+<div class="changes">
+
+<ul class="change-list">
+
+${u.changes.map(change => `
+<li>
+<i class="fa-solid fa-circle-check"></i>
+<span>${change}</span>
+</li>
+`).join("")}
+
+</ul>
+
+</div>
+
+`;
+
+container.appendChild(card);
+
+const header = card.querySelector(".update-header");
+
+header.addEventListener("click",()=>{
+
+card.classList.toggle("active");
+
+});
+
+});
+
+</script>
 
 </body>
 </html>
