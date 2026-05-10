@@ -28,9 +28,9 @@ body{
   background: radial-gradient(circle at top, #2b1b12, #0b0705);
   color:var(--text);
   overflow-x:hidden;
+  padding-bottom:70px;
 }
 
-/* background glow */
 body::before{
   content:"";
   position:fixed;
@@ -46,62 +46,48 @@ nav{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:18px 40px;
+  padding:14px 18px;
   position:relative;
 }
 
-/* LOGO */
 .logo{
   display:flex;
   align-items:center;
   gap:10px;
   font-weight:700;
   color:var(--accent);
-  letter-spacing:1px;
 }
 
 .logo img{
-  width:34px;
-  height:34px;
+  width:32px;
+  height:32px;
   border-radius:8px;
-  object-fit:cover;
 }
 
-/* LINKS */
+/* desktop links */
 .nav-links{
   display:flex;
+  gap:12px;
 }
 
 .nav-links a{
   color:var(--muted);
   text-decoration:none;
-  margin:0 12px;
   font-size:14px;
-  transition:0.2s;
 }
 
-.nav-links a:hover{
-  color:white;
-}
-
-/* PROFILE BUTTON */
+/* profile */
 .profile-btn{
-  padding:8px 14px;
+  padding:8px 12px;
   border-radius:10px;
   background:rgba(214,161,95,0.15);
   border:1px solid rgba(214,161,95,0.4);
   color:var(--accent);
-  font-size:13px;
   text-decoration:none;
-  transition:0.2s;
+  font-size:13px;
 }
 
-.profile-btn:hover{
-  transform:translateY(-2px);
-  background:rgba(214,161,95,0.25);
-}
-
-/* ====== ADDED: HAMBURGER MENU ====== */
+/* hamburger */
 .menu-btn{
   display:none;
   flex-direction:column;
@@ -110,28 +96,35 @@ nav{
 }
 
 .menu-btn span{
-  width:25px;
+  width:24px;
   height:2px;
   background:var(--accent);
-  border-radius:2px;
 }
 
-/* dropdown */
+/* mobile menu */
 .mobile-menu{
-  display:none;
   position:absolute;
-  top:70px;
-  right:20px;
-  background:rgba(0,0,0,0.7);
-  border:2px solid var(--stroke);
+  top:60px;
+  right:10px;
+  width:200px;
+  background:rgba(0,0,0,0.85);
+  border:1px solid var(--stroke);
   border-radius:12px;
-  padding:15px;
+  padding:12px;
+  display:flex;
   flex-direction:column;
-  gap:40px;
-  min-width:160px;
-  z-index:100;
-  height: 250px;
-  width: 345px;
+  gap:10px;
+
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-10px);
+  transition:0.2s ease;
+}
+
+.mobile-menu.show{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
 }
 
 .mobile-menu a{
@@ -140,173 +133,121 @@ nav{
   font-size:14px;
 }
 
-.mobile-menu a:hover{
-  color:white;
-}
-
 /* HERO */
 .hero{
   text-align:center;
-  padding:80px 20px 40px;
+  padding:50px 16px 30px;
 }
 
 .hero img{
-  width:300px;
-  margin-bottom:20px;
-  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.6));
-  border-radius:25px;
-}
-
-.HeaderBox {
-  height: 50px;
-  width: 100%;
-  background-color: #0000008f;
-  position: absolute;
-  top: 170px;
-  z-index: -1;
-  border-radius: 10px;
+  width:260px;
+  border-radius:20px;
 }
 
 .hero h1{
-  font-size:54px;
+  font-size:42px;
   color:var(--accent);
 }
 
 .hero p{
-  margin-top:10px;
   color:var(--muted);
+  margin-top:8px;
 }
 
-/* CTA */
+/* buttons */
 .cta-buttons{
-  margin-top:25px;
+  margin-top:20px;
   display:flex;
-  justify-content:center;
-  gap:12px;
   flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
 }
 
-  .btn{
-  padding: 15px 100px;
-  margin:10px 4px;
-  color: #fff;
-  font-family: sans-serif;
-  text-transform: uppercase;
-  text-align: center;
-  position: relative;
-  text-decoration: none;
-  display:inline-block;
+.btn{
+  padding:12px 18px;
+  border-radius:12px;
+  background:#000;
+  color:#fff;
+  text-decoration:none;
+  min-width:120px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
 }
 
-  .btn::before{
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-color: #000;
-  -webkit-transform: scaleX(.3);
-  transform: scaleX(.3);
-  opacity: 0;
-  transition: all .3s
+.btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--accent);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:0.3s;
+  z-index:-1;
 }
+
 .btn:hover::before{
-  opacity: 1;
-  background-color: #6098FF;
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
-  transition: -webkit-transform .6s cubic-bezier(.08, .35, .13, 1.02), opacity .4s;
-  transition: transform .6s cubic-bezier(.08, .35, .13, 1.02), opacity
+  transform:scaleX(1);
 }
 
 /* FEATURE */
 .feature{
-  max-width:1000px;
-  margin:50px auto;
-  padding:20px;
+  padding:30px 16px;
 }
 
 .feature-card{
   background:var(--card);
   border:1px solid var(--stroke);
-  border-radius:20px;
+  border-radius:18px;
   overflow:hidden;
-  display:flex;
-  flex-direction:column;
 }
 
 .feature-card img{
   width:100%;
-  height:320px;
+  height:220px;
   object-fit:cover;
 }
 
 .feature-content{
-  padding:20px;
+  padding:16px;
 }
 
 .feature-content h2{
   color:var(--accent);
 }
 
-.feature-content p{
-  color:var(--muted);
-  margin-top:8px;
-}
-
 /* GRID */
 .section{
-  max-width:1100px;
-  margin:60px auto;
-  padding:0 20px;
+  padding:30px 16px;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
+  grid-template-columns:1fr;
+  gap:14px;
 }
 
 .card{
   background:var(--card);
   border:1px solid var(--stroke);
-  border-radius:18px;
+  border-radius:16px;
   overflow:hidden;
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:translateY(-6px);
-  border-color:rgba(214,161,95,0.3);
 }
 
 .card img{
   width:100%;
-  height:160px;
+  height:140px;
   object-fit:cover;
 }
 
 .card-content{
-  padding:14px;
+  padding:12px;
 }
 
-.card-content h3{
-  color:white;
-}
-
-.card-content p{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:6px;
-}
-
-/* CTA */
+/* FINAL */
 .final-cta{
   text-align:center;
-  padding:60px 20px;
+  padding:40px 16px;
 }
 
 .final-cta h2{
@@ -315,13 +256,13 @@ nav{
 
 .final-cta a{
   display:inline-block;
-  margin-top:15px;
-  padding:12px 22px;
-  border-radius:10px;
+  margin-top:12px;
+  padding:10px 18px;
   background:white;
   color:black;
-  font-weight:700;
+  border-radius:10px;
   text-decoration:none;
+  font-weight:700;
 }
 
 /* FOOTER */
@@ -332,9 +273,29 @@ footer{
   color:rgba(255,255,255,0.4);
 }
 
+/* BOTTOM NAV (APP FEEL) */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  display:flex;
+  justify-content:space-around;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--stroke);
+  padding:10px 0;
+  z-index:999;
+}
+
+.bottom-nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:12px;
+}
+
 /* RESPONSIVE */
 @media(max-width:900px){
-
   .nav-links,
   .profile-btn{
     display:none;
@@ -342,27 +303,6 @@ footer{
 
   .menu-btn{
     display:flex;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .hero h1{
-    font-size:38px;
-  }
-.OverlayImage {
-  position: absolute;
-}
-  #Ant1 {
-    height: 125px;
-  top: 625px;
-  right: 25px;
-  }
-   #Logo1 {
-    height: 125px;
-  top: 0px;
-  right: 0px;
   }
 }
 </style>
@@ -372,7 +312,7 @@ footer{
 
 <nav>
   <div class="logo">
-    <img src="RepLogHeader.png" alt="RepLog Logo">
+    <img src="RepLogHeader.png">
     <span>RepLog</span>
   </div>
 
@@ -384,14 +324,10 @@ footer{
 
   <a class="profile-btn" href="profile.html">Profile</a>
 
-  <!-- HAMBURGER -->
   <div class="menu-btn" onclick="toggleMenu()">
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span><span></span><span></span>
   </div>
 
-  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="PushUpChallenge.html">Push</a>
     <a href="CoreChallenge.html">Core</a>
@@ -400,28 +336,25 @@ footer{
   </div>
 </nav>
 
-<img src="Ant(1).png" Class="OverlayImage" id="Ant1" alt="Ant1">
-<!--<img src="Logo(1).png" Class="OverlayImage" id="Logo1" alt="logo1"> -->
-  
 <section class="hero">
-  <img src="RepLogHeader.png" alt="RepLog">
-  <div class="HeaderBox"></div>
+  <img src="RepLogHeader.png">
+  <h1>RepLog</h1>
   <p>Track. Train. Transform.</p>
 
   <div class="cta-buttons">
-    <a class="btn" href="PushUpChallenge.html">Push Day</a>
+    <a class="btn" href="PushUpChallenge.html">Push</a>
     <a class="btn" href="CoreChallenge.html">Core</a>
     <a class="btn" href="CardioChallenge.html">Cardio</a>
-    <a class="btn" href="Profile.html">Profile</a>
+    <a class="btn" href="profile.html">Profile</a>
   </div>
 </section>
 
 <section class="feature">
   <div class="feature-card">
-    <img src="RepLogHeader.png" alt="RepAnt">
+    <img src="RepLogHeader.png">
     <div class="feature-content">
       <h2>RepAnt System</h2>
-      <p>Workout And Complete Challenges for XP and track your workouts daily. earn xp to unlock tiers and new ants, which unlock new icons and features.</p>
+      <p>Earn XP, complete workouts, and unlock new tiers.</p>
     </div>
   </div>
 </section>
@@ -433,23 +366,7 @@ footer{
       <img src="RepLogHeader.png">
       <div class="card-content">
         <h3>Challenges</h3>
-        <p>Three Challenges that push you and help you grow stronger. Push-Up Challenge, Core Challenge, Cardio Challenge.</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="RepLogHeader.png">
-      <div class="card-content">
-        <h3>Blank</h3>
-        <p>Blank</p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img src="RepLogHeader.png">
-      <div class="card-content">
-        <h3>Blank</h3>
-        <p>Blank</p>
+        <p>Push, Core, Cardio training paths.</p>
       </div>
     </div>
 
@@ -457,7 +374,7 @@ footer{
       <img src="RepLogHeader.png">
       <div class="card-content">
         <h3>Progress</h3>
-        <p>Track every improvement over time. and gain XP</p>
+        <p>Track improvements and XP gains.</p>
       </div>
     </div>
 
@@ -465,51 +382,44 @@ footer{
       <img src="RepLogHeader.png">
       <div class="card-content">
         <h3>Streaks</h3>
-        <p>Stay consistent and build momentum.</p>
+        <p>Stay consistent every day.</p>
       </div>
     </div>
 
-    <div class="card">
-      <img src="RepLogHeader.png">
-      <div class="card-content">
-        <h3>RepAnt</h3>
-        <p>Earn new ants to your workout journey</p>
-      </div>
-    </div>
-    
-  </div>
-</section>
-  <section class="feature">
-  <div class="feature-card">
-    <img src="RepLogHeader.png" alt="RepAnt">
-    <div class="feature-content">
-      <h2>Workout Generator</h2>
-      <p>Coming Soon! <a href="ComingSoonPage.html">Generate</a></p>
-    </div>
-  </div>
-</section>
-
-<section class="hero">
-  <div class="cta-buttons">
-    <a class="btn" href="">TikTok</a>
-    <a class="btn" href="">SnapChat</a>
-    <a class="btn" href="">YouTube</a>
   </div>
 </section>
 
 <section class="final-cta">
-  <h2>Enter the Colony And Start Growing!</h2>
+  <h2>Enter the Colony</h2>
   <a href="UpdLog.html">Update Log</a>
 </section>
+
 <footer>
-  RepLog • Colony Training System [V#.#.#]
+  RepLog • Colony Training System
 </footer>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <a href="index.html">Home</a>
+  <a href="PushUpChallenge.html">Push</a>
+  <a href="CoreChallenge.html">Core</a>
+  <a href="CardioChallenge.html">Cardio</a>
+  <a href="profile.html">Profile</a>
+</div>
 
 <script>
 function toggleMenu(){
-  const menu = document.getElementById("mobileMenu");
-  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+  document.getElementById("mobileMenu").classList.toggle("show");
 }
+
+document.addEventListener("click", (e) => {
+  const menu = document.getElementById("mobileMenu");
+  const btn = document.querySelector(".menu-btn");
+
+  if (!menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.remove("show");
+  }
+});
 </script>
 
 </body>
