@@ -31,7 +31,7 @@
 body{
   font-family:Poppins,sans-serif;
   background:
-  radial-gradient(circle at top left,#2a1a12,#0b0705 60%);
+    radial-gradient(circle at top left,#2a1a12,#0b0705 60%);
   color:var(--text);
   overflow-x:hidden;
   padding-bottom:100px;
@@ -165,7 +165,7 @@ nav{
   font-weight:700;
 }
 
-/* MAIN CARD */
+/* CHALLENGE CARD */
 
 .challenge-card{
   margin:16px 20px;
@@ -211,9 +211,12 @@ nav{
   align-items:center;
   justify-content:center;
 
-  background:linear-gradient(135deg,#ff9966,#ff5e62);
-
   font-size:24px;
+  color:white;
+}
+
+.push{
+  background:linear-gradient(135deg,#ff9966,#ff5e62);
 }
 
 .challenge-level{
@@ -442,7 +445,7 @@ footer{
 
   <div class="challenge-top">
 
-    <div class="challenge-icon">
+    <div class="challenge-icon push">
       <i class="fa-solid fa-dumbbell"></i>
     </div>
 
@@ -473,12 +476,12 @@ footer{
 <!-- INFO -->
 
 <div class="info-card">
-  green = completed once (100 reps)<br>
-  purple = completed multiple times
+  <p>green = completed once (100 push-ups)</p>
+  <p>purple = completed multiple times</p>
 </div>
 
 <footer>
-RepLog • Push Challenge [V1.0.0]
+  RepLog • Push Challenge [V1.0.0]
 </footer>
 
 <!-- BOTTOM NAV -->
@@ -490,7 +493,7 @@ RepLog • Push Challenge [V1.0.0]
     Home
   </a>
 
-  <a class="active" href="#">
+  <a class="active" href="PushUpChallenge.html">
     <i class="fa-solid fa-dumbbell"></i>
     Push
   </a>
@@ -517,6 +520,7 @@ RepLog • Push Challenge [V1.0.0]
 document.addEventListener("DOMContentLoaded",()=>{
 
 const workout=[
+
 ["Normal Push-ups",10],
 ["Wide Push-ups",10],
 ["Diamond Push-ups",10],
@@ -527,13 +531,17 @@ const workout=[
 ["Explosive Push-ups",10],
 ["Spiderman Push-ups",10],
 ["Slow Push-ups",10]
+
 ];
 
-let i=0;
-let total=0;
+let i = 0;
+let total = 0;
 
-let xp=+localStorage.getItem("push_xp")||0;
-let done=JSON.parse(localStorage.getItem("push_done")||"{}");
+let xp =
++localStorage.getItem("push_xp") || 0;
+
+let completedDays =
+JSON.parse(localStorage.getItem("push_completedDays") || "{}");
 
 const xpEl=document.getElementById("xp");
 const levelEl=document.getElementById("level");
@@ -542,105 +550,162 @@ const streakEl=document.getElementById("streak");
 const circle=document.getElementById("circle");
 const percent=document.getElementById("percent");
 
-function date(){
+function getDate(){
+
 let d=new Date();
+
 return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+
 }
 
-function update(){
+function updateStats(){
+
 xpEl.innerText=xp;
-levelEl.innerText=Math.floor(xp/100)+1;
-streakEl.innerText=Object.keys(done).length;
+
+levelEl.innerText=
+Math.floor(xp/100)+1;
+
+streakEl.innerText=
+Object.keys(completedDays).length;
+
 }
 
-function circleUpdate(){
+function updateCircle(){
+
 let p=Math.min(total,100)/100;
+
 circle.style.background=
 `conic-gradient(#22c55e ${p*360}deg,#1e293b ${p*360}deg)`;
 
-percent.innerText=`${total}/100`;
+percent.innerText=
+`${total}/100`;
+
 }
+
+/* CALENDAR */
 
 function renderCalendar(){
 
 let cal=document.getElementById("calendar");
+
 cal.innerHTML="";
 
 let now=new Date();
-let y=now.getFullYear();
-let m=now.getMonth();
+
+let year=now.getFullYear();
+let month=now.getMonth();
 
 document.getElementById("month").innerText=
-now.toLocaleString("default",{month:"long"})+" "+y;
+now.toLocaleString("default",{month:"long"})+
+" "+
+year;
 
-["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d=>{
+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+.forEach(day=>{
+
 let div=document.createElement("div");
+
 div.className="day-name";
-div.innerText=d;
+
+div.innerText=day;
+
 cal.appendChild(div);
+
 });
 
-let first=new Date(y,m,1).getDay();
-let days=new Date(y,m+1,0).getDate();
+let firstDay=
+new Date(year,month,1).getDay();
 
-for(let i=0;i<first;i++){
+let days=
+new Date(year,month+1,0).getDate();
+
+for(let i=0;i<firstDay;i++){
+
 cal.appendChild(document.createElement("div"));
+
 }
 
-let today=date();
+let today=getDate();
 
 for(let d=1;d<=days;d++){
 
 let key=
-`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+`${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
 
 let div=document.createElement("div");
 
 div.className="day";
 
 if(key===today){
+
 div.classList.add("today");
+
 }
 
-if(done[key]){
-div.classList.add(done[key]>1?"multi":"done");
-div.innerText=done[key];
+if(completedDays[key]){
+
+div.classList.add(
+completedDays[key]>1 ? "multi" : "done"
+);
+
+div.innerText=
+completedDays[key];
+
 }else{
+
 div.innerText=d;
+
 }
 
 cal.appendChild(div);
+
 }
+
 }
+
+/* WORKOUT */
 
 function render(){
 
 if(i>=workout.length){
 
-let t=date();
+let today=getDate();
 
-done[t]=(done[t]||0)+1;
+completedDays[today]=
+(completedDays[today]||0)+1;
 
-localStorage.setItem("push_done",JSON.stringify(done));
+localStorage.setItem(
+"push_completedDays",
+JSON.stringify(completedDays)
+);
 
 xp+=50;
 
 localStorage.setItem("push_xp",xp);
 
-update();
+updateStats();
 
 renderCalendar();
 
 total=100;
 
-circleUpdate();
+updateCircle();
 
-document.getElementById("exercise").innerText="Workout Complete!";
+document.getElementById("exercise").innerText=
+"Workout Complete!";
+
+document.getElementById("reps").innerText=
+"+50 XP earned";
+
+document.getElementById("setinfo").innerText=
+"Come back tomorrow";
 
 return;
+
 }
 
-document.getElementById("exercise").innerText=workout[i][0];
+document.getElementById("exercise").innerText=
+workout[i][0];
 
 document.getElementById("reps").innerText=
 workout[i][1]+" reps";
@@ -648,23 +713,38 @@ workout[i][1]+" reps";
 document.getElementById("setinfo").innerText=
 `Set ${i+1}/${workout.length}`;
 
-circleUpdate();
+updateCircle();
+
 }
 
+/* BUTTONS */
+
 document.getElementById("btn").onclick=()=>{
+
 total+=10;
+
 i++;
+
 render();
+
 };
 
 document.getElementById("resetBtn").onclick=()=>{
+
 i=0;
+
 total=0;
+
 render();
+
 };
 
-update();
+/* INIT */
+
+updateStats();
+
 render();
+
 renderCalendar();
 
 });
