@@ -1,73 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RepQuest Cardio</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RepLog Cardio Challenge</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-:root {
-  --navy: #120b08;
-  --green:#22c55e;
-  --white:#fff;
+
+:root{
+  --bg:#0f0a07;
+  --card:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.08);
+  --text:#ffffff;
+  --muted:rgba(255,255,255,0.65);
+  --accent:#ff5e62;
+  --accent2:#ff9966;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:var(--navy);
-  color:white;
+  font-family:Poppins,sans-serif;
+  background:
+  radial-gradient(circle at top left,#2a1a12,#0b0705 60%);
+  color:var(--text);
+  overflow-x:hidden;
+  padding-bottom:100px;
 }
 
-.container{max-width:500px;margin:auto;padding:15px;}
-
-.glass{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:20px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+  radial-gradient(circle at 20% 20%, rgba(255,94,98,0.12), transparent 40%),
+  radial-gradient(circle at 80% 30%, rgba(255,153,102,0.12), transparent 35%);
+  z-index:-1;
 }
 
-.top{
+/* NAV */
+nav{
   display:flex;
   justify-content:space-between;
-  padding:12px;
-  margin-bottom:10px;
+  align-items:center;
+  padding:18px;
 }
 
-.card{padding:20px;text-align:center;}
-
-.big{
-  font-size:2.5rem;
-  font-weight:600;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:20px;
+  font-weight:700;
+  color:var(--accent);
 }
 
-.stat{opacity:0.7;margin-top:5px;}
-
-button{
-  margin-top:10px;
-  margin-bottom:10px;
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:15px;
-  background:var(--green);
-  font-weight:600;
-  cursor:pointer;
+.logo img{
+  width:38px;
+  height:38px;
+  border-radius:12px;
 }
 
-.secondary{
-  background:#334155;
-  color:white;
+/* HERO */
+.hero{
+  padding:10px 20px 20px;
+}
+
+.hero-card{
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+  border:1px solid var(--stroke);
+  border-radius:28px;
+  padding:28px 22px;
+}
+
+.hero h1{
+  font-size:38px;
+}
+
+.hero h1 span{
+  color:var(--accent);
+}
+
+.hero p{
+  color:var(--muted);
+  margin-top:8px;
+}
+
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  padding:0 20px;
+}
+
+.stat-card{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  padding:18px 12px;
+  text-align:center;
+}
+
+.stat-card h2{
+  color:var(--accent);
+}
+
+/* SECTION */
+.section{
+  padding:30px 20px 0;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+/* CALENDAR */
+.calendar-card{
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+  border:1px solid var(--stroke);
+  border-radius:24px;
+  padding:20px;
+}
+
+#month{
+  font-size:20px;
+  font-weight:700;
+  color:var(--accent);
+  margin-bottom:15px;
 }
 
 #calendar{
   display:grid;
   grid-template-columns:repeat(7,1fr);
-  gap:6px;
-  margin-bottom:15px;
+  gap:8px;
 }
 
 .day{
@@ -75,264 +150,308 @@ button{
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:10px;
-  font-size:0.75rem;
+  border-radius:14px;
+  background:rgba(255,255,255,0.05);
 }
 
-.done{background:var(--green);color:black;}
-.today{border:2px solid var(--green);}
+.today{
+  border:2px solid var(--accent);
+}
+
+.done{
+  background:linear-gradient(135deg,#ff5e62,#ff9966);
+  color:white;
+}
+
+/* WORKOUT */
+.workout-card{
+  margin-top:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+  border:1px solid var(--stroke);
+  border-radius:28px;
+  padding:28px 22px;
+  text-align:center;
+}
+
+.circle{
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:conic-gradient(var(--accent) 0deg,#1b1b1b 0deg);
+}
+
+.inner{
+  width:135px;
+  height:135px;
+  border-radius:50%;
+  background:#0f1115;
+  border:1px solid var(--stroke);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:700;
+}
+
+.exercise{
+  font-size:28px;
+  margin-top:24px;
+}
+
+.reps,.setinfo{
+  color:var(--muted);
+  margin-top:6px;
+}
+
+/* BUTTONS */
+.btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:18px;
+  font-weight:600;
+  margin-top:14px;
+  cursor:pointer;
+}
+
+.primary-btn{
+  background:linear-gradient(135deg,#ff5e62,#ff9966);
+  color:white;
+}
+
+.secondary-btn{
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--stroke);
+  color:white;
+}
+
+/* PROFILE */
+.profile-card{
+  margin:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+  border:1px solid var(--stroke);
+  border-radius:24px;
+  padding:24px;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--stroke);
+  display:flex;
+  justify-content:space-around;
+  padding:12px 0;
+}
+
+.bottom-nav a{
+  color:var(--muted);
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:11px;
+}
+
+.bottom-nav i{
+  font-size:20px;
+}
+
+.bottom-nav a.active{
+  color:var(--accent);
+}
+
 </style>
 </head>
 
 <body>
-<div class="container">
 
-<div class="top glass">
-<div>XP: <span id="xp">0</span></div>
-<div>Lvl: <span id="level">1</span></div>
-<div>🔥 <span id="streak">0</span></div>
+<nav>
+  <div class="logo">
+    <img src="RepLogHeader.png">
+    <span>RepLog</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-card">
+    <h1>Cardio <span>Challenge</span></h1>
+    <p>Run, walk, and build endurance over time.</p>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat-card"><h2 id="xp">0</h2><p>XP</p></div>
+  <div class="stat-card"><h2 id="level">1</h2><p>LEVEL</p></div>
+  <div class="stat-card"><h2 id="streak">0</h2><p>STREAK</p></div>
+</section>
+
+<section class="section">
+  <div class="section-title">
+    <h2>Calendar</h2>
+    <span>Progress</span>
+  </div>
+
+  <div class="calendar-card">
+    <div id="month"></div>
+    <div id="calendar"></div>
+  </div>
+</section>
+
+<section class="section">
+
+  <div class="section-title">
+    <h2>Workout</h2>
+    <span>Distance Goal</span>
+  </div>
+
+  <div class="workout-card">
+
+    <div class="circle" id="circle">
+      <div class="inner" id="percent">0%</div>
+    </div>
+
+    <div class="exercise">Cardio Run</div>
+    <div class="reps">Goal: 2 miles</div>
+    <div class="setinfo" id="setinfo"></div>
+
+    <button class="btn primary-btn" id="btn">Start Run</button>
+    <button class="btn secondary-btn" id="resetBtn">Reset</button>
+
+  </div>
+
+</section>
+
+<section class="profile-card">
+
+  <h2>Profile</h2>
+  <p>XP: <span id="p_xp"></span></p>
+  <p>Level: <span id="p_level"></span></p>
+  <p>Days: <span id="p_days"></span></p>
+  <p>Streak: <span id="p_streak"></span></p>
+
+</section>
+
+<div class="bottom-nav">
+
+<a href="index.html"><i class="fa-solid fa-house"></i>Home</a>
+<a href="PushUpChallenge.html"><i class="fa-solid fa-dumbbell"></i>Push</a>
+<a href="CoreChallenge.html"><i class="fa-solid fa-fire"></i>Core</a>
+<a class="active"><i class="fa-solid fa-bolt"></i>Cardio</a>
+<a href="profile.html"><i class="fa-solid fa-user"></i>Profile</a>
+
 </div>
 
-<div id="month"></div>
-<div id="calendar"></div>
-
-<div class="card glass">
-
-<div class="big" id="distance">0.00 mi</div>
-<div class="stat" id="pace">Pace: 0:00 /mi</div>
-<div class="stat" id="calories">Calories: 0</div>
-
-<br>
-
-<div id="status">Ready to Walk</div>
-
-<button id="btn">Start Walk</button>
-<button class="secondary" id="resetBtn">Reset</button>
-
-</div>
-
-</div>
-
- <div class="card glass">
-   <p>navy - unfinished</p>
-   <p>green - finished once(100+ pushups)</p>
-   <p>purple - finished more than once (200+ pushups)</p>
- </div>
-  
 <script>
 document.addEventListener("DOMContentLoaded",()=>{
 
-// STORAGE
-let xp = +localStorage.getItem("cardio_xp") || 0;
-let days = JSON.parse(localStorage.getItem("cardio_days") || "{}");
-
-// 🔥 NEW: restore session state
-let walking = JSON.parse(localStorage.getItem("cardio_walking")) || false;
-let startTime = +localStorage.getItem("cardio_startTime") || null;
-let distance = +localStorage.getItem("cardio_distance") || 0;
-
-let watchId;
-let lastPos = JSON.parse(localStorage.getItem("cardio_lastPos")) || null;
-
-// ELEMENTS
-const xpEl = document.getElementById("xp");
-const levelEl = document.getElementById("level");
-const streakEl = document.getElementById("streak");
-
-const distanceEl = document.getElementById("distance");
-const paceEl = document.getElementById("pace");
-const caloriesEl = document.getElementById("calories");
-const statusEl = document.getElementById("status");
-
-// UTILS
-function getDate(){
-  let d=new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+function date(){
+let d=new Date();
+return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-function updateStats(){
-  xpEl.innerText = xp;
-  levelEl.innerText = Math.floor(xp/100)+1;
-  streakEl.innerText = Object.keys(days).length;
+let xp=+localStorage.getItem("cardio_xp")||0;
+let done=JSON.parse(localStorage.getItem("cardio_done")||"{}");
+
+let progress=0;
+
+const circle=document.getElementById("circle");
+const percent=document.getElementById("percent");
+
+function update(){
+document.getElementById("xp").innerText=xp;
+document.getElementById("level").innerText=Math.floor(xp/100)+1;
+document.getElementById("streak").innerText=Object.keys(done).length;
 }
 
-// DISTANCE
-function getDistance(lat1,lon1,lat2,lon2){
-  const R = 6371;
-  const dLat = (lat2-lat1)*Math.PI/180;
-  const dLon = (lon2-lon1)*Math.PI/180;
-
-  const a =
-    Math.sin(dLat/2)**2 +
-    Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
-    Math.sin(dLon/2)**2;
-
-  const c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-  return R*c * 0.621371;
+function circleUpdate(){
+let p=progress/100;
+circle.style.background=`conic-gradient(#ff5e62 ${p*360}deg,#1a1a1a ${p*360}deg)`;
+percent.innerText=Math.floor(progress)+"%";
 }
 
-// UPDATE UI
-function updateUI(){
-  distanceEl.innerText = distance.toFixed(2)+" mi";
+function finish(){
+let t=date();
+done[t]=(done[t]||0)+1;
 
-  let time = (Date.now() - startTime)/60000;
-  let pace = distance > 0 ? time / distance : 0;
+xp+=100;
 
-  let paceMin = Math.floor(pace);
-  let paceSec = Math.floor((pace - paceMin)*60);
+localStorage.setItem("cardio_done",JSON.stringify(done));
+localStorage.setItem("cardio_xp",xp);
 
-  paceEl.innerText = `Pace: ${paceMin}:${String(paceSec).padStart(2,'0')} /mi`;
+progress=100;
 
-  let calories = distance * 100;
-  caloriesEl.innerText = "Calories: " + Math.floor(calories);
-
-  if(distance >= 4){
-    finishWalk();
-  }
-
-  saveState();
+update();
+renderCalendar();
+circleUpdate();
 }
 
-// 💾 SAVE STATE (NEW CORE FIX)
-function saveState(){
-  localStorage.setItem("cardio_xp", xp);
-  localStorage.setItem("cardio_days", JSON.stringify(days));
-  localStorage.setItem("cardio_walking", walking);
-  localStorage.setItem("cardio_startTime", startTime);
-  localStorage.setItem("cardio_distance", distance);
-  localStorage.setItem("cardio_lastPos", JSON.stringify(lastPos));
-}
-
-// START
-function startWalk(){
-  if(!navigator.geolocation){
-    alert("GPS not supported");
-    return;
-  }
-
-  walking = true;
-
-  // 🔥 FIX: resume-safe startTime
-  if(!startTime){
-    startTime = Date.now();
-  }
-
-  document.getElementById("btn").innerText = "Stop Walk";
-  statusEl.innerText = "Tracking...";
-
-  watchId = navigator.geolocation.watchPosition(pos=>{
-    let {latitude,longitude} = pos.coords;
-
-    if(lastPos){
-      distance += getDistance(
-        lastPos.lat,lastPos.lon,
-        latitude,longitude
-      );
-    }
-
-    lastPos = {lat:latitude, lon:longitude};
-
-    updateUI();
-
-  }, err=>{
-    alert("Location error");
-  }, {enableHighAccuracy:true});
-
-  saveState();
-}
-
-// STOP
-function stopWalk(){
-  walking = false;
-  navigator.geolocation.clearWatch(watchId);
-  document.getElementById("btn").innerText = "Start Walk";
-  statusEl.innerText = "Paused";
-  saveState();
-}
-
-// FINISH
-function finishWalk(){
-  stopWalk();
-
-  if(navigator.vibrate){
-    navigator.vibrate([300,100,300]);
-  }
-
-  statusEl.innerText = "4 Miles Complete 🎉";
-
-  let today = getDate();
-  days[today] = (days[today]||0)+1;
-
-  xp += 100;
-
-  saveState();
-  updateStats();
-  renderCalendar();
-}
-
-// BUTTONS
 document.getElementById("btn").onclick=()=>{
-  walking ? stopWalk() : startWalk();
+progress+=20;
+
+if(progress>=100){
+finish();
+return;
+}
+
+circleUpdate();
 };
 
 document.getElementById("resetBtn").onclick=()=>{
-  stopWalk();
-  distance = 0;
-  lastPos = null;
-  startTime = null;
-
-  saveState();
-
-  distanceEl.innerText = "0.00 mi";
-  paceEl.innerText = "Pace: 0:00 /mi";
-  caloriesEl.innerText = "Calories: 0";
+progress=0;
+circleUpdate();
 };
 
-// CALENDAR
+/* CALENDAR */
 function renderCalendar(){
-  const cal = document.getElementById("calendar");
-  cal.innerHTML="";
+const cal=document.getElementById("calendar");
+cal.innerHTML="";
 
-  let now=new Date();
-  let year=now.getFullYear();
-  let month=now.getMonth();
+let now=new Date();
+let y=now.getFullYear();
+let m=now.getMonth();
 
-  document.getElementById("month").innerText =
-    now.toLocaleString("default",{month:"long"})+" "+year;
+document.getElementById("month").innerText=
+now.toLocaleString("default",{month:"long"})+" "+y;
 
-  let firstDay=new Date(year,month,1).getDay();
-  let total=new Date(year,month+1,0).getDate();
+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d=>{
+let div=document.createElement("div");
+div.className="day";
+div.innerText=d;
+cal.appendChild(div);
+});
 
-  for(let i=0;i<firstDay;i++) cal.appendChild(document.createElement("div"));
+let first=new Date(y,m,1).getDay();
+let days=new Date(y,m+1,0).getDate();
 
-  let today=getDate();
+for(let i=0;i<first;i++) cal.appendChild(document.createElement("div"));
 
-  for(let d=1; d<=total; d++){
-    let dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    let div=document.createElement("div");
-    div.className="day glass";
+let today=date();
 
-    if(dateStr===today) div.classList.add("today");
+for(let d=1;d<=days;d++){
+let key=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+let div=document.createElement("div");
+div.className="day";
 
-    if(days[dateStr]){
-      div.classList.add("done");
-      div.innerText="✓";
-    } else {
-      div.innerText=d;
-    }
+if(key===today) div.classList.add("today");
+if(done[key]) div.classList.add("done");
 
-    cal.appendChild(div);
-  }
+div.innerText=d;
+cal.appendChild(div);
+}
 }
 
-// 🔥 RESTORE ON LOAD
-if(walking && startTime){
-  statusEl.innerText = "Resuming...";
-  startWalk();
-}
-
-updateStats();
+update();
 renderCalendar();
+circleUpdate();
 
 });
 </script>
