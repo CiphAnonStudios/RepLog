@@ -3,25 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RepLog - Push Challenge</title>
+<title>RepLog</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
-  --bg:#0f0a07;
-  --card:rgba(255,255,255,0.06);
-  --stroke:rgba(255,255,255,0.08);
+  --bg:#0b0705;
+  --glass:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.1);
   --text:#fff;
   --muted:rgba(255,255,255,0.6);
-
-  --green:#22c55e;
-  --yellow:#eab308;
-  --red:#ef4444;
+  --green:#00FF7F;
   --purple:#a855f7;
-  --black:#0a0a0a;
 }
 
 *{
@@ -34,14 +28,29 @@ body{
   font-family:Poppins,sans-serif;
   background:radial-gradient(circle at top,#2a1a12,#0b0705 70%);
   color:var(--text);
-  padding-bottom:80px;
 }
 
-/* HEADER */
+.container{
+  max-width:520px;
+  margin:auto;
+  padding:15px;
+}
+
+/* GLASS */
+.glass{
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  border:1px solid var(--stroke);
+  border-radius:22px;
+  box-shadow:0 10px 35px rgba(0,0,0,0.4);
+}
+
+/* TOP BAR */
 .top{
   display:flex;
   justify-content:space-between;
   padding:14px 16px;
+  margin-bottom:12px;
   font-size:13px;
   color:var(--muted);
 }
@@ -50,30 +59,70 @@ body{
 .nav{
   display:flex;
   gap:10px;
-  padding:0 16px;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .nav button{
   flex:1;
   padding:10px;
   border:none;
-  border-radius:12px;
-  background:var(--card);
+  border-radius:14px;
+  background:var(--glass);
   color:white;
   font-weight:600;
 }
 
-/* MAIN CARD */
-.card{
-  margin:15px;
-  padding:20px;
-  border-radius:24px;
-  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
-  border:1px solid var(--stroke);
+/* CALENDAR */
+#calendar{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+  margin-bottom:15px;
 }
 
-/* CIRCLE BASE */
+.day-name{
+  font-size:10px;
+  opacity:0.6;
+  text-align:center;
+}
+
+.day{
+  aspect-ratio:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  font-size:12px;
+  background:var(--glass);
+  transition:0.2s;
+}
+
+.day:hover{
+  transform:scale(1.05);
+}
+
+.today{
+  border:2px solid var(--green);
+}
+
+.done{
+  background:var(--green);
+  color:black;
+}
+
+.multi{
+  background:var(--purple);
+  color:white;
+}
+
+/* MAIN CARD */
+.card{
+  padding:22px;
+  text-align:center;
+  margin-bottom:10px;
+}
+
+/* CIRCLE */
 .circle{
   width:170px;
   height:170px;
@@ -82,11 +131,9 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  transition:0.3s;
-  background:conic-gradient(#22c55e 0deg,#1e293b 0deg);
+  background:conic-gradient(var(--green) 0deg,#1e293b 0deg);
 }
 
-/* INNER */
 .inner{
   width:125px;
   height:125px;
@@ -101,16 +148,19 @@ body{
 
 /* TEXT */
 .exercise{
-  text-align:center;
-  font-size:22px;
-  margin-top:15px;
+  font-size:20px;
   font-weight:600;
+  margin-top:12px;
 }
 
 .reps,.setinfo{
-  text-align:center;
-  color:var(--muted);
   font-size:13px;
+  opacity:0.6;
+}
+
+.timer{
+  font-size:28px;
+  margin-top:8px;
 }
 
 /* BUTTONS */
@@ -129,31 +179,26 @@ button{
   color:white;
 }
 
-/* TIER TEXT */
-.tierText{
-  text-align:center;
-  margin-top:10px;
-  font-weight:700;
-  letter-spacing:1px;
+/* PROFILE */
+.screen{display:none;}
+.active{display:block;}
+
+.profile{
+  margin-top:15px;
+  padding:20px;
 }
-
-/* ===== TIER COLORS ===== */
-.beginner .circle { background:conic-gradient(var(--green) var(--p), #1e293b 0); }
-.intermediate .circle { background:conic-gradient(var(--yellow) var(--p), #1e293b 0); }
-.professional .circle { background:conic-gradient(var(--red) var(--p), #1e293b 0); }
-.intense .circle { background:conic-gradient(var(--purple) var(--p), #1e293b 0); }
-.elite .circle { background:conic-gradient(var(--black) var(--p), #1e293b 0); }
-
 </style>
 </head>
 
 <body>
 
-<!-- TOP STATS -->
-<div class="top">
-<div><i class="fa-solid fa-bolt"></i> XP: <span id="xp">0</span></div>
-<div><i class="fa-solid fa-layer-group"></i> Lv: <span id="level">1</span></div>
-<div><i class="fa-solid fa-fire"></i> <span id="streak">0</span></div>
+<div class="container">
+
+<!-- TOP -->
+<div class="top glass">
+<div>XP: <span id="xp">0</span></div>
+<div>Lvl: <span id="level">1</span></div>
+<div>🔥 <span id="streak">0</span></div>
 </div>
 
 <!-- NAV -->
@@ -165,31 +210,30 @@ button{
 <!-- MAIN -->
 <div id="main" class="screen active">
 
-<div class="card">
+<div id="month"></div>
+<div id="calendar"></div>
 
-<div id="tierWrap" class="beginner">
+<div class="card glass">
 
 <div class="circle" id="circle">
 <div class="inner" id="percent">0/100</div>
 </div>
-
-</div>
-
-<div class="tierText" id="tierText">BEGINNER</div>
 
 <div class="exercise" id="exercise">Ready?</div>
 <div class="reps" id="reps"></div>
 <div class="setinfo" id="setinfo"></div>
 
 <button id="btn">Start</button>
-<button class="secondary" id="resetBtn">Reset Set</button>
+<button class="secondary" id="resetBtn">Reset</button>
 
 </div>
+
+<button class="secondary" id="resetProgressBtn">Reset Progress</button>
 
 </div>
 
 <!-- PROFILE -->
-<div id="profile" class="screen" style="display:none;padding:15px;">
+<div id="profile" class="screen glass card profile">
 <h2>Profile</h2>
 <p>XP: <span id="p_xp"></span></p>
 <p>Level: <span id="p_level"></span></p>
@@ -197,13 +241,10 @@ button{
 <p>Streak: <span id="p_streak"></span></p>
 </div>
 
+</div>
+
 <script>
-
-let i=0;
-let totalReps=0;
-
-let xp=+localStorage.getItem("xp")||0;
-let completedDays=JSON.parse(localStorage.getItem("completedDays")||"{}");
+document.addEventListener("DOMContentLoaded",()=>{
 
 const workout=[
 ["Normal Push-ups",10],
@@ -218,97 +259,139 @@ const workout=[
 ["Slow Push-ups",10]
 ];
 
+let i=0,totalReps=0;
+
+let xp=+localStorage.getItem("xp")||0;
+let completedDays=JSON.parse(localStorage.getItem("completedDays")||"{}");
+
+const xpEl=document.getElementById("xp");
+const levelEl=document.getElementById("level");
+const streakEl=document.getElementById("streak");
+
+const exercise=document.getElementById("exercise");
+const reps=document.getElementById("reps");
+const setinfo=document.getElementById("setinfo");
 const circle=document.getElementById("circle");
 const percent=document.getElementById("percent");
-const tierText=document.getElementById("tierText");
+const calendar=document.getElementById("calendar");
 
-function getTier(){
+const p_xp=document.getElementById("p_xp");
+const p_level=document.getElementById("p_level");
+const p_days=document.getElementById("p_days");
+const p_streak=document.getElementById("p_streak");
 
-if(xp < 100) return "beginner";
-if(xp < 250) return "intermediate";
-if(xp < 500) return "professional";
-if(xp < 1000) return "intense";
-return "elite";
+function date(){
+let d=new Date();
+return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
 
+function updateStats(){
+xpEl.innerText=xp;
+levelEl.innerText=Math.floor(xp/100)+1;
+streakEl.innerText=Object.keys(completedDays).length;
+}
+
+function updateProfile(){
+p_xp.innerText=xp;
+p_level.innerText=Math.floor(xp/100)+1;
+p_days.innerText=Object.keys(completedDays).length;
+p_streak.innerText=Object.keys(completedDays).length;
 }
 
 function updateCircle(){
-
-let p = Math.min(totalReps,100)/100;
-circle.style.setProperty("--p", `${p*360}deg`);
-
-percent.innerText = totalReps + "/100";
-
-let tier = getTier();
-
-document.body.className = tier;
-tierText.innerText = tier.toUpperCase();
-
+let p=Math.min(totalReps,100)/100;
+circle.style.background=`conic-gradient(#00FF7F ${p*360}deg,#1e293b ${p*360}deg)`;
+percent.innerText=totalReps+"/100";
 }
 
-/* RENDER */
 function render(){
-
-if(i >= workout.length){
-
-let today = new Date().toISOString().split("T")[0];
-completedDays[today] = (completedDays[today]||0)+1;
-
-localStorage.setItem("completedDays", JSON.stringify(completedDays));
-
-xp += 50;
-localStorage.setItem("xp", xp);
-
-document.getElementById("xp").innerText = xp;
-document.getElementById("level").innerText = Math.floor(xp/100)+1;
-document.getElementById("streak").innerText = Object.keys(completedDays).length;
-
-totalReps = 100;
+if(i>=workout.length){
+let t=date();
+completedDays[t]=(completedDays[t]||0)+1;
+localStorage.setItem("completedDays",JSON.stringify(completedDays));
+xp+=50;
+localStorage.setItem("xp",xp);
+updateStats();
+renderCalendar();
+exercise.innerText="Complete!";
+totalReps=100;
 updateCircle();
-
-document.getElementById("exercise").innerText = "Complete!";
 return;
 }
 
-document.getElementById("exercise").innerText = workout[i][0];
-document.getElementById("reps").innerText = workout[i][1] + " reps";
-document.getElementById("setinfo").innerText = `Set ${i+1}/${workout.length}`;
-
+exercise.innerText=workout[i][0];
+reps.innerText=workout[i][1]+" reps";
+setinfo.innerText=`Set ${i+1}/${workout.length}`;
 updateCircle();
-
 }
 
-/* BUTTONS */
-document.getElementById("btn").onclick = ()=>{
-totalReps += 10;
+document.getElementById("btn").onclick=()=>{
+totalReps+=10;
 i++;
 render();
 };
 
-document.getElementById("resetBtn").onclick = ()=>{
+document.getElementById("resetBtn").onclick=()=>{
 i=0;
 totalReps=0;
 render();
 };
 
-/* PROFILE + NAV */
-window.showScreen = (id)=>{
+function renderCalendar(){
+calendar.innerHTML="";
+let now=new Date();
+let y=now.getFullYear();
+let m=now.getMonth();
+
+document.getElementById("month").innerText=
+now.toLocaleString("default",{month:"long"})+" "+y;
+
+let first=new Date(y,m,1).getDay();
+let days=new Date(y,m+1,0).getDate();
+
+for(let i=0;i<first;i++)calendar.appendChild(document.createElement("div"));
+
+let today=date();
+
+for(let d=1;d<=days;d++){
+let dStr=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+let div=document.createElement("div");
+div.className="day";
+
+if(dStr===today)div.classList.add("today");
+if(completedDays[dStr]){
+div.classList.add(completedDays[dStr]>1?"multi":"done");
+div.innerText=completedDays[dStr];
+}else div.innerText=d;
+
+calendar.appendChild(div);
+}
+}
+
+window.showScreen=(id)=>{
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).style.display = id==="profile" ? "block" : "";
+document.getElementById(id).classList.add("active");
 updateProfile();
 };
 
-function updateProfile(){
-document.getElementById("p_xp").innerText = xp;
-document.getElementById("p_level").innerText = Math.floor(xp/100)+1;
-document.getElementById("p_days").innerText = Object.keys(completedDays).length;
-document.getElementById("p_streak").innerText = Object.keys(completedDays).length;
-}
-
-/* INIT */
+document.getElementById("resetProgressBtn").onclick=()=>{
+if(confirm("Reset all progress?")){
+localStorage.clear();
+xp=0;
+completedDays={};
+i=0;
+totalReps=0;
+updateStats();
 render();
-updateCircle();
+renderCalendar();
+}
+};
 
+updateStats();
+render();
+renderCalendar();
+
+});
 </script>
 
 </body>
