@@ -11,12 +11,14 @@
 <style>
 
 :root{
-  --bg:#0b0705;
+  --bg:#0f0a07;
   --card:rgba(255,255,255,0.06);
   --stroke:rgba(255,255,255,0.08);
   --text:#fff;
   --muted:rgba(255,255,255,0.6);
-  --green:#00FF7F;
+  --accent:#d6a15f;
+  --green:#22c55e;
+  --purple:#a855f7;
 }
 
 *{
@@ -28,10 +30,21 @@
 body{
   font-family:Poppins,sans-serif;
   background:radial-gradient(circle at top,#2a1a12,#0b0705 70%);
-  color:white;
+  color:var(--text);
+  padding-bottom:90px;
 }
 
-/* TOP BAR */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(214,161,95,0.10), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(143,92,255,0.10), transparent 35%);
+  z-index:-1;
+}
+
+/* TOP */
 .top{
   display:flex;
   justify-content:space-between;
@@ -40,21 +53,11 @@ body{
   color:var(--muted);
 }
 
-/* NAV */
-.nav{
-  display:flex;
-  gap:10px;
+/* MONTH */
+#month{
   padding:0 16px;
-}
-
-.nav button{
-  flex:1;
-  padding:10px;
-  border-radius:14px;
-  border:1px solid var(--stroke);
-  background:var(--card);
-  color:white;
   font-weight:600;
+  font-size:18px;
 }
 
 /* CALENDAR */
@@ -63,6 +66,12 @@ body{
   grid-template-columns:repeat(7,1fr);
   gap:6px;
   padding:10px 16px;
+}
+
+.day-name{
+  font-size:10px;
+  text-align:center;
+  opacity:0.5;
 }
 
 .day{
@@ -75,15 +84,15 @@ body{
   font-size:12px;
 }
 
-.today{border:2px solid var(--green);}
+.today{border:1px solid var(--green);}
 .done{background:var(--green); color:black;}
-.multi{background:#a855f7;color:white;}
+.multi{background:var(--purple); color:white;}
 
 /* MAIN CARD */
 .card{
-  margin:15px;
+  margin:16px;
   padding:22px;
-  border-radius:24px;
+  border-radius:26px;
   background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
   border:1px solid var(--stroke);
   text-align:center;
@@ -102,21 +111,22 @@ body{
 }
 
 .inner{
-  width:120px;
-  height:120px;
+  width:125px;
+  height:125px;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
   background:rgba(0,0,0,0.35);
   border:1px solid var(--stroke);
+  font-weight:600;
 }
 
 /* TEXT */
 .exercise{
   font-size:20px;
-  margin-top:12px;
   font-weight:600;
+  margin-top:12px;
 }
 
 .reps,.setinfo{
@@ -127,8 +137,8 @@ body{
 /* BUTTONS */
 button{
   width:100%;
-  padding:14px;
   margin-top:10px;
+  padding:14px;
   border:none;
   border-radius:14px;
   background:var(--green);
@@ -141,13 +151,43 @@ button{
   border:1px solid var(--stroke);
 }
 
-/* PROFILE */
-.screen{display:none;}
-.active{display:block;}
+/* LEGEND */
+.legend{
+  margin:16px;
+  padding:16px;
+  border-radius:20px;
+  background:var(--card);
+  border:1px solid var(--stroke);
+  font-size:13px;
+  color:var(--muted);
+}
 
-.profile{
-  margin:15px;
-  padding:20px;
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--stroke);
+  display:flex;
+  justify-content:space-around;
+  padding:12px 0;
+}
+
+.bottom-nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+}
+
+.bottom-nav a.active{
+  color:var(--accent);
 }
 
 </style>
@@ -157,23 +197,16 @@ button{
 
 <!-- TOP -->
 <div class="top">
-<div><i class="fa-solid fa-bolt"></i> XP: <span id="xp">0</span></div>
-<div><i class="fa-solid fa-layer-group"></i> LVL: <span id="level">1</span></div>
-<div><i class="fa-solid fa-fire"></i> <span id="streak">0</span></div>
+<div>XP: <span id="xp">0</span></div>
+<div>Lvl: <span id="level">1</span></div>
+<div>🔥 <span id="streak">0</span></div>
 </div>
 
-<!-- NAV -->
-<div class="nav">
-<button onclick="showScreen('main')">Workout</button>
-<button onclick="showScreen('profile')">Profile</button>
-</div>
-
-<!-- MAIN -->
-<div id="main" class="screen active">
-
+<!-- MONTH -->
 <div id="month"></div>
 <div id="calendar"></div>
 
+<!-- WORKOUT -->
 <div class="card">
 
 <div class="circle" id="circle">
@@ -189,21 +222,22 @@ button{
 
 </div>
 
-<button class="secondary" id="resetProgressBtn">Reset Progress</button>
-
+<!-- LEGEND -->
+<div class="legend">
+green = finished once (100+ reps)<br>
+purple = finished multiple days<br>
 </div>
 
-<!-- PROFILE -->
-<div id="profile" class="screen card profile">
-<h2>Profile</h2>
-<p>XP: <span id="p_xp"></span></p>
-<p>Level: <span id="p_level"></span></p>
-<p>Days: <span id="p_days"></span></p>
-<p>Streak: <span id="p_streak"></span></p>
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+<a href="index.html"><i class="fa-solid fa-house"></i>Home</a>
+<a class="active" href="#"><i class="fa-solid fa-dumbbell"></i>Push</a>
+<a href="#"><i class="fa-solid fa-fire"></i>Core</a>
+<a href="#"><i class="fa-solid fa-bolt"></i>Cardio</a>
+<a href="#"><i class="fa-solid fa-user"></i>Profile</a>
 </div>
 
 <script>
-
 document.addEventListener("DOMContentLoaded",()=>{
 
 const workout=[
@@ -219,7 +253,8 @@ const workout=[
 ["Slow Push-ups",10]
 ];
 
-let i=0,totalReps=0;
+let i=0;
+let totalReps=0;
 
 let xp=+localStorage.getItem("xp")||0;
 let completedDays=JSON.parse(localStorage.getItem("completedDays")||"{}");
@@ -234,11 +269,6 @@ const setinfo=document.getElementById("setinfo");
 const circle=document.getElementById("circle");
 const percent=document.getElementById("percent");
 
-const p_xp=document.getElementById("p_xp");
-const p_level=document.getElementById("p_level");
-const p_days=document.getElementById("p_days");
-const p_streak=document.getElementById("p_streak");
-
 function date(){
 let d=new Date();
 return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
@@ -250,30 +280,23 @@ levelEl.innerText=Math.floor(xp/100)+1;
 streakEl.innerText=Object.keys(completedDays).length;
 }
 
-function updateProfile(){
-p_xp.innerText=xp;
-p_level.innerText=Math.floor(xp/100)+1;
-p_days.innerText=Object.keys(completedDays).length;
-p_streak.innerText=Object.keys(completedDays).length;
-}
-
 function updateCircle(){
 let p=Math.min(totalReps,100)/100;
-circle.style.background=`conic-gradient(#00FF7F ${p*360}deg,#1e293b ${p*360}deg)`;
-percent.innerText=totalReps+"/100";
+circle.style.background=`conic-gradient(#22c55e ${p*360}deg,#1e293b ${p*360}deg)`;
+percent.innerText=`${totalReps}/100`;
 }
 
 function render(){
+
 if(i>=workout.length){
-let t=date();
-completedDays[t]=(completedDays[t]||0)+1;
+let today=date();
+completedDays[today]=(completedDays[today]||0)+1;
 localStorage.setItem("completedDays",JSON.stringify(completedDays));
 
 xp+=50;
 localStorage.setItem("xp",xp);
 
 updateStats();
-renderCalendar();
 
 exercise.innerText="Complete!";
 totalReps=100;
@@ -284,6 +307,7 @@ return;
 exercise.innerText=workout[i][0];
 reps.innerText=workout[i][1]+" reps";
 setinfo.innerText=`Set ${i+1}/${workout.length}`;
+
 updateCircle();
 }
 
@@ -313,51 +337,37 @@ now.toLocaleString("default",{month:"long"})+" "+y;
 let first=new Date(y,m,1).getDay();
 let days=new Date(y,m+1,0).getDate();
 
-for(let i=0;i<first;i++)cal.appendChild(document.createElement("div"));
+["S","M","T","W","T","F","S"].forEach(d=>{
+let div=document.createElement("div");
+div.className="day-name";
+div.innerText=d;
+cal.appendChild(div);
+});
+
+for(let i=0;i<first;i++) cal.appendChild(document.createElement("div"));
 
 let today=date();
 
 for(let d=1;d<=days;d++){
-let ds=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+let key=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
 let div=document.createElement("div");
 div.className="day";
 
-if(ds===today)div.classList.add("today");
-
-if(completedDays[ds]){
-div.classList.add(completedDays[ds]>1?"multi":"done");
-div.innerText=completedDays[ds];
+if(key===today) div.classList.add("today");
+if(completedDays[key]){
+div.classList.add(completedDays[key]>1?"multi":"done");
+div.innerText=completedDays[key];
 }else div.innerText=d;
 
 cal.appendChild(div);
 }
 }
 
-window.showScreen=(id)=>{
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-updateProfile();
-};
-
-document.getElementById("resetProgressBtn").onclick=()=>{
-if(confirm("Reset all progress?")){
-localStorage.clear();
-xp=0;
-completedDays={};
-i=0;
-totalReps=0;
-updateStats();
-render();
-renderCalendar();
-}
-};
-
 updateStats();
 render();
 renderCalendar();
 
 });
-
 </script>
 
 </body>
