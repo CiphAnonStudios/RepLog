@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>RepLog - Push Challenge</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +22,7 @@
   --yellow:#eab308;
   --red:#ef4444;
   --purple:#a855f7;
-  --black:#0a0a0a;
+  --black:#111;
 }
 
 *{
@@ -37,7 +38,7 @@ body{
   padding-bottom:80px;
 }
 
-/* TOP */
+/* TOP BAR */
 .top{
   display:flex;
   justify-content:space-between;
@@ -51,6 +52,7 @@ body{
   display:flex;
   gap:10px;
   padding:0 16px;
+  margin-bottom:10px;
 }
 
 .nav button{
@@ -63,38 +65,31 @@ body{
   font-weight:600;
 }
 
-/* MAIN CARD */
+/* CARD (MATCH OTHER PAGES) */
 .card{
   margin:15px;
   padding:22px;
-  border-radius:28px;
+  border-radius:26px;
   background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
   border:1px solid var(--stroke);
 }
 
-/* TIER BAR */
-.tier{
-  text-align:center;
-  margin-top:10px;
-  font-weight:700;
-  letter-spacing:1px;
-}
-
 /* CIRCLE */
 .circle{
-  width:180px;
-  height:180px;
+  width:170px;
+  height:170px;
   border-radius:50%;
   margin:auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  transition:0.4s;
+  transition:0.3s;
+  background:conic-gradient(var(--green) 0deg,#1e293b 0deg);
 }
 
 .inner{
-  width:130px;
-  height:130px;
+  width:125px;
+  height:125px;
   border-radius:50%;
   display:flex;
   align-items:center;
@@ -108,7 +103,7 @@ body{
 .exercise{
   text-align:center;
   font-size:22px;
-  margin-top:14px;
+  margin-top:15px;
 }
 
 .reps,.setinfo{
@@ -117,26 +112,35 @@ body{
   font-size:13px;
 }
 
+/* BUTTONS */
 button{
   width:100%;
   padding:14px;
   margin-top:10px;
   border:none;
   border-radius:14px;
-  background:var(--green);
   font-weight:700;
+  background:var(--green);
 }
 
 .secondary{
   background:#334155;
 }
 
-/* COLORS (tier system) */
-.beginner{ background:conic-gradient(var(--green) var(--p),#1e293b 0); }
-.intermediate{ background:conic-gradient(var(--yellow) var(--p),#1e293b 0); }
-.professional{ background:conic-gradient(var(--red) var(--p),#1e293b 0); }
-.intense{ background:conic-gradient(var(--purple) var(--p),#1e293b 0); }
-.elite{ background:conic-gradient(var(--black) var(--p),#1e293b 0); }
+/* TIER TEXT */
+.tier{
+  text-align:center;
+  margin-top:10px;
+  font-weight:700;
+  letter-spacing:1px;
+}
+
+/* TIER COLORS (ONLY VISUAL CHANGE) */
+.beginner .circle{ background:conic-gradient(var(--green) var(--p,0deg),#1e293b 0);}
+.intermediate .circle{ background:conic-gradient(var(--yellow) var(--p,0deg),#1e293b 0);}
+.professional .circle{ background:conic-gradient(var(--red) var(--p,0deg),#1e293b 0);}
+.intense .circle{ background:conic-gradient(var(--purple) var(--p,0deg),#1e293b 0);}
+.elite .circle{ background:conic-gradient(var(--black) var(--p,0deg),#1e293b 0);}
 
 </style>
 </head>
@@ -158,8 +162,12 @@ button{
 
 <div class="card">
 
-<div class="circle beginner" id="circle">
+<div id="tierWrap" class="beginner">
+
+<div class="circle" id="circle">
 <div class="inner" id="percent">0/100</div>
+</div>
+
 </div>
 
 <div class="tier" id="tierText">BEGINNER</div>
@@ -169,7 +177,7 @@ button{
 <div class="setinfo" id="setinfo"></div>
 
 <button id="btn">Start</button>
-<button class="secondary" id="resetBtn">Reset</button>
+<button class="secondary" id="resetBtn">Reset Set</button>
 
 </div>
 
@@ -185,10 +193,10 @@ button{
 <script>
 
 let i=0;
-let repsDone=0;
+let reps=0;
 
 let xp=+localStorage.getItem("xp")||0;
-let completed=JSON.parse(localStorage.getItem("days")||"{}");
+let days=JSON.parse(localStorage.getItem("days")||"{}");
 
 const workout=[
 ["Normal Push-ups",10],
@@ -203,31 +211,31 @@ const workout=[
 ["Slow Push-ups",10]
 ];
 
-const circle=document.getElementById("circle");
-const percent=document.getElementById("percent");
-const tierText=document.getElementById("tierText");
-
 function getTier(){
 
-if(xp<100) return ["beginner","BEGINNER",getComputedStyle(document.documentElement).getPropertyValue('--green')];
-if(xp<250) return ["intermediate","INTERMEDIATE",getComputedStyle(document.documentElement).getPropertyValue('--yellow')];
-if(xp<500) return ["professional","PROFESSIONAL",getComputedStyle(document.documentElement).getPropertyValue('--red')];
-if(xp<1000) return ["intense","INTENSE",getComputedStyle(document.documentElement).getPropertyValue('--purple')];
-return ["elite","ELITE",getComputedStyle(document.documentElement).getPropertyValue('--black')];
+if(xp<100) return "beginner";
+if(xp<250) return "intermediate";
+if(xp<500) return "professional";
+if(xp<1000) return "intense";
+return "elite";
 
 }
 
 function updateCircle(){
 
-let p=Math.min(repsDone,100)/100;
-circle.style.setProperty("--p",`${p*360}deg`);
+let p=Math.min(reps,100)/100;
+document.getElementById("circle")
+.style.setProperty("--p",`${p*360}deg`);
 
 let tier=getTier();
 
-circle.className="circle "+tier[0];
-tierText.innerText=tier[1];
+document.getElementById("tierWrap").className=tier;
 
-percent.innerText=repsDone+"/100";
+document.getElementById("percent").innerText=reps+"/100";
+
+document.getElementById("tierText").innerText=
+tier.toUpperCase();
+
 }
 
 function render(){
@@ -235,18 +243,17 @@ function render(){
 if(i>=workout.length){
 
 let today=new Date().toISOString().split("T")[0];
-completed[today]=(completed[today]||0)+1;
-
-localStorage.setItem("days",JSON.stringify(completed));
+days[today]=(days[today]||0)+1;
+localStorage.setItem("days",JSON.stringify(days));
 
 xp+=50;
 localStorage.setItem("xp",xp);
 
 document.getElementById("xp").innerText=xp;
 document.getElementById("level").innerText=Math.floor(xp/100)+1;
-document.getElementById("streak").innerText=Object.keys(completed).length;
+document.getElementById("streak").innerText=Object.keys(days).length;
 
-repsDone=100;
+reps=100;
 updateCircle();
 
 document.getElementById("exercise").innerText="Complete!";
@@ -262,14 +269,14 @@ updateCircle();
 }
 
 document.getElementById("btn").onclick=()=>{
-repsDone+=10;
+reps+=10;
 i++;
 render();
 };
 
 document.getElementById("resetBtn").onclick=()=>{
 i=0;
-repsDone=0;
+reps=0;
 render();
 };
 
