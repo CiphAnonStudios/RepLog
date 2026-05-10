@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>RepLog - Push Challenge</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -22,7 +21,7 @@
   --yellow:#eab308;
   --red:#ef4444;
   --purple:#a855f7;
-  --black:#111;
+  --black:#0a0a0a;
 }
 
 *{
@@ -38,7 +37,7 @@ body{
   padding-bottom:80px;
 }
 
-/* TOP BAR */
+/* HEADER */
 .top{
   display:flex;
   justify-content:space-between;
@@ -58,23 +57,23 @@ body{
 .nav button{
   flex:1;
   padding:10px;
+  border:none;
   border-radius:12px;
-  border:1px solid var(--stroke);
   background:var(--card);
   color:white;
   font-weight:600;
 }
 
-/* CARD (MATCH OTHER PAGES) */
+/* MAIN CARD */
 .card{
   margin:15px;
-  padding:22px;
-  border-radius:26px;
+  padding:20px;
+  border-radius:24px;
   background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
   border:1px solid var(--stroke);
 }
 
-/* CIRCLE */
+/* CIRCLE BASE */
 .circle{
   width:170px;
   height:170px;
@@ -84,9 +83,10 @@ body{
   align-items:center;
   justify-content:center;
   transition:0.3s;
-  background:conic-gradient(var(--green) 0deg,#1e293b 0deg);
+  background:conic-gradient(#22c55e 0deg,#1e293b 0deg);
 }
 
+/* INNER */
 .inner{
   width:125px;
   height:125px;
@@ -94,7 +94,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:rgba(0,0,0,0.35);
+  background:rgba(0,0,0,0.3);
   border:1px solid var(--stroke);
   font-weight:600;
 }
@@ -104,6 +104,7 @@ body{
   text-align:center;
   font-size:22px;
   margin-top:15px;
+  font-weight:600;
 }
 
 .reps,.setinfo{
@@ -119,46 +120,50 @@ button{
   margin-top:10px;
   border:none;
   border-radius:14px;
-  font-weight:700;
   background:var(--green);
+  font-weight:700;
 }
 
 .secondary{
   background:#334155;
+  color:white;
 }
 
 /* TIER TEXT */
-.tier{
+.tierText{
   text-align:center;
   margin-top:10px;
   font-weight:700;
   letter-spacing:1px;
 }
 
-/* TIER COLORS (ONLY VISUAL CHANGE) */
-.beginner .circle{ background:conic-gradient(var(--green) var(--p,0deg),#1e293b 0);}
-.intermediate .circle{ background:conic-gradient(var(--yellow) var(--p,0deg),#1e293b 0);}
-.professional .circle{ background:conic-gradient(var(--red) var(--p,0deg),#1e293b 0);}
-.intense .circle{ background:conic-gradient(var(--purple) var(--p,0deg),#1e293b 0);}
-.elite .circle{ background:conic-gradient(var(--black) var(--p,0deg),#1e293b 0);}
+/* ===== TIER COLORS ===== */
+.beginner .circle { background:conic-gradient(var(--green) var(--p), #1e293b 0); }
+.intermediate .circle { background:conic-gradient(var(--yellow) var(--p), #1e293b 0); }
+.professional .circle { background:conic-gradient(var(--red) var(--p), #1e293b 0); }
+.intense .circle { background:conic-gradient(var(--purple) var(--p), #1e293b 0); }
+.elite .circle { background:conic-gradient(var(--black) var(--p), #1e293b 0); }
 
 </style>
 </head>
 
 <body>
 
+<!-- TOP STATS -->
 <div class="top">
-<div>XP: <span id="xp">0</span></div>
-<div>Lvl: <span id="level">1</span></div>
-<div>🔥 <span id="streak">0</span></div>
+<div><i class="fa-solid fa-bolt"></i> XP: <span id="xp">0</span></div>
+<div><i class="fa-solid fa-layer-group"></i> Lv: <span id="level">1</span></div>
+<div><i class="fa-solid fa-fire"></i> <span id="streak">0</span></div>
 </div>
 
+<!-- NAV -->
 <div class="nav">
-<button onclick="show('main')">Workout</button>
-<button onclick="show('profile')">Profile</button>
+<button onclick="showScreen('main')">Workout</button>
+<button onclick="showScreen('profile')">Profile</button>
 </div>
 
-<div id="main">
+<!-- MAIN -->
+<div id="main" class="screen active">
 
 <div class="card">
 
@@ -170,7 +175,7 @@ button{
 
 </div>
 
-<div class="tier" id="tierText">BEGINNER</div>
+<div class="tierText" id="tierText">BEGINNER</div>
 
 <div class="exercise" id="exercise">Ready?</div>
 <div class="reps" id="reps"></div>
@@ -183,20 +188,22 @@ button{
 
 </div>
 
-<div id="profile" style="display:none;padding:15px;">
+<!-- PROFILE -->
+<div id="profile" class="screen" style="display:none;padding:15px;">
 <h2>Profile</h2>
 <p>XP: <span id="p_xp"></span></p>
 <p>Level: <span id="p_level"></span></p>
 <p>Days: <span id="p_days"></span></p>
+<p>Streak: <span id="p_streak"></span></p>
 </div>
 
 <script>
 
 let i=0;
-let reps=0;
+let totalReps=0;
 
 let xp=+localStorage.getItem("xp")||0;
-let days=JSON.parse(localStorage.getItem("days")||"{}");
+let completedDays=JSON.parse(localStorage.getItem("completedDays")||"{}");
 
 const workout=[
 ["Normal Push-ups",10],
@@ -211,82 +218,96 @@ const workout=[
 ["Slow Push-ups",10]
 ];
 
+const circle=document.getElementById("circle");
+const percent=document.getElementById("percent");
+const tierText=document.getElementById("tierText");
+
 function getTier(){
 
-if(xp<100) return "beginner";
-if(xp<250) return "intermediate";
-if(xp<500) return "professional";
-if(xp<1000) return "intense";
+if(xp < 100) return "beginner";
+if(xp < 250) return "intermediate";
+if(xp < 500) return "professional";
+if(xp < 1000) return "intense";
 return "elite";
 
 }
 
 function updateCircle(){
 
-let p=Math.min(reps,100)/100;
-document.getElementById("circle")
-.style.setProperty("--p",`${p*360}deg`);
+let p = Math.min(totalReps,100)/100;
+circle.style.setProperty("--p", `${p*360}deg`);
 
-let tier=getTier();
+percent.innerText = totalReps + "/100";
 
-document.getElementById("tierWrap").className=tier;
+let tier = getTier();
 
-document.getElementById("percent").innerText=reps+"/100";
-
-document.getElementById("tierText").innerText=
-tier.toUpperCase();
+document.body.className = tier;
+tierText.innerText = tier.toUpperCase();
 
 }
 
+/* RENDER */
 function render(){
 
-if(i>=workout.length){
+if(i >= workout.length){
 
-let today=new Date().toISOString().split("T")[0];
-days[today]=(days[today]||0)+1;
-localStorage.setItem("days",JSON.stringify(days));
+let today = new Date().toISOString().split("T")[0];
+completedDays[today] = (completedDays[today]||0)+1;
 
-xp+=50;
-localStorage.setItem("xp",xp);
+localStorage.setItem("completedDays", JSON.stringify(completedDays));
 
-document.getElementById("xp").innerText=xp;
-document.getElementById("level").innerText=Math.floor(xp/100)+1;
-document.getElementById("streak").innerText=Object.keys(days).length;
+xp += 50;
+localStorage.setItem("xp", xp);
 
-reps=100;
+document.getElementById("xp").innerText = xp;
+document.getElementById("level").innerText = Math.floor(xp/100)+1;
+document.getElementById("streak").innerText = Object.keys(completedDays).length;
+
+totalReps = 100;
 updateCircle();
 
-document.getElementById("exercise").innerText="Complete!";
+document.getElementById("exercise").innerText = "Complete!";
 return;
 }
 
-document.getElementById("exercise").innerText=workout[i][0];
-document.getElementById("reps").innerText=workout[i][1]+" reps";
-document.getElementById("setinfo").innerText=`Set ${i+1}/${workout.length}`;
+document.getElementById("exercise").innerText = workout[i][0];
+document.getElementById("reps").innerText = workout[i][1] + " reps";
+document.getElementById("setinfo").innerText = `Set ${i+1}/${workout.length}`;
 
 updateCircle();
 
 }
 
-document.getElementById("btn").onclick=()=>{
-reps+=10;
+/* BUTTONS */
+document.getElementById("btn").onclick = ()=>{
+totalReps += 10;
 i++;
 render();
 };
 
-document.getElementById("resetBtn").onclick=()=>{
+document.getElementById("resetBtn").onclick = ()=>{
 i=0;
-reps=0;
+totalReps=0;
 render();
 };
 
-function show(id){
-document.getElementById("main").style.display=id==="main"?"block":"none";
-document.getElementById("profile").style.display=id==="profile"?"block":"none";
+/* PROFILE + NAV */
+window.showScreen = (id)=>{
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).style.display = id==="profile" ? "block" : "";
+updateProfile();
+};
+
+function updateProfile(){
+document.getElementById("p_xp").innerText = xp;
+document.getElementById("p_level").innerText = Math.floor(xp/100)+1;
+document.getElementById("p_days").innerText = Object.keys(completedDays).length;
+document.getElementById("p_streak").innerText = Object.keys(completedDays).length;
 }
 
-updateCircle();
+/* INIT */
 render();
+updateCircle();
 
 </script>
 
