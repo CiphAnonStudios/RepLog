@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>RepLog - Push Challenge</title>
+<title>RepLog Push Challenge</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -16,10 +16,8 @@
   --stroke:rgba(255,255,255,0.08);
   --text:#ffffff;
   --muted:rgba(255,255,255,0.65);
-  --accent:#d6a15f;
-  --accent2:#8f5cff;
-  --green:#22c55e;
-  --purple:#a855f7;
+  --accent:#ff5e62;
+  --accent2:#ff9966;
 }
 
 *{
@@ -31,7 +29,7 @@
 body{
   font-family:Poppins,sans-serif;
   background:
-    radial-gradient(circle at top left,#2a1a12,#0b0705 60%);
+  radial-gradient(circle at top left,#2a1a12,#0b0705 60%);
   color:var(--text);
   overflow-x:hidden;
   padding-bottom:100px;
@@ -42,13 +40,12 @@ body::before{
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(214,161,95,0.10), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(143,92,255,0.10), transparent 35%);
+  radial-gradient(circle at 20% 20%, rgba(255,94,98,0.12), transparent 40%),
+  radial-gradient(circle at 80% 30%, rgba(255,153,102,0.12), transparent 35%);
   z-index:-1;
 }
 
 /* NAV */
-
 nav{
   display:flex;
   justify-content:space-between;
@@ -71,18 +68,54 @@ nav{
   border-radius:12px;
 }
 
-.menu-btn{
-  font-size:22px;
-  color:white;
+/* HERO */
+.hero{
+  padding:10px 20px 20px;
+}
+
+.hero-card{
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+  border:1px solid var(--stroke);
+  border-radius:28px;
+  padding:28px 22px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-card::before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  background:rgba(255,94,98,0.12);
+  border-radius:50%;
+  top:-120px;
+  right:-80px;
+}
+
+.hero h1{
+  font-size:38px;
+  line-height:1;
+  margin-bottom:12px;
+}
+
+.hero h1 span{
+  color:var(--accent);
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:15px;
+  max-width:320px;
 }
 
 /* STATS */
-
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
   padding:0 20px;
+  margin-top:10px;
 }
 
 .stat-card{
@@ -104,286 +137,188 @@ nav{
   font-size:12px;
 }
 
-/* MONTH */
+/* SECTION */
+.section{
+  padding:30px 20px 0;
+}
 
-#month{
-  padding:25px 20px 10px;
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.section-title h2{
   font-size:22px;
-  font-weight:700;
+}
+
+.section-title span{
+  color:var(--muted);
+  font-size:13px;
 }
 
 /* CALENDAR */
+.calendar-card{
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+  border:1px solid var(--stroke);
+  border-radius:24px;
+  padding:20px;
+}
+
+#month{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:18px;
+  color:var(--accent);
+}
 
 #calendar{
   display:grid;
   grid-template-columns:repeat(7,1fr);
   gap:8px;
-  padding:0 20px 10px;
 }
 
 .day-name{
   text-align:center;
-  color:var(--muted);
   font-size:11px;
-  padding-bottom:5px;
+  color:var(--muted);
+  font-weight:600;
 }
 
 .day{
   aspect-ratio:1;
-  border-radius:16px;
-  background:var(--card);
-  border:1px solid var(--stroke);
-
+  border-radius:14px;
   display:flex;
   align-items:center;
   justify-content:center;
-
+  background:rgba(255,255,255,0.05);
   font-size:13px;
-
-  backdrop-filter:blur(12px);
-
-  transition:0.2s;
-}
-
-.day:hover{
-  transform:scale(1.06);
 }
 
 .today{
-  border:1px solid var(--green);
+  border:2px solid var(--accent);
 }
 
 .done{
-  background:var(--green);
-  color:black;
+  background:linear-gradient(135deg,#ff9966,#ff5e62);
+  color:white;
   font-weight:700;
 }
 
 .multi{
-  background:var(--purple);
+  background:linear-gradient(135deg,#ff5e62,#ff9966);
   color:white;
   font-weight:700;
 }
 
-/* CHALLENGE CARD */
-
-.challenge-card{
-  margin:16px 20px;
-
-  background:linear-gradient(
-  145deg,
-  rgba(255,255,255,0.08),
-  rgba(255,255,255,0.03));
-
+/* WORKOUT */
+.workout-card{
+  margin-top:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
   border:1px solid var(--stroke);
-
   border-radius:28px;
-
-  padding:24px;
-
-  position:relative;
-  overflow:hidden;
+  padding:28px 22px;
+  text-align:center;
 }
-
-.challenge-card::before{
-  content:"";
-  position:absolute;
-  width:220px;
-  height:220px;
-  background:rgba(255,153,102,0.12);
-  border-radius:50%;
-  top:-120px;
-  right:-80px;
-}
-
-.challenge-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.challenge-icon{
-  width:60px;
-  height:60px;
-  border-radius:18px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-size:24px;
-  color:white;
-}
-
-.push{
-  background:linear-gradient(135deg,#ff9966,#ff5e62);
-}
-
-.challenge-level{
-  background:rgba(255,255,255,0.08);
-  border:1px solid var(--stroke);
-
-  padding:8px 12px;
-
-  border-radius:12px;
-
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* CIRCLE */
 
 .circle{
   width:180px;
   height:180px;
   border-radius:50%;
-  margin:25px auto;
-
+  margin:auto;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  background:
-  conic-gradient(var(--green) 0deg,#1e293b 0deg);
-
-  transition:0.5s ease;
+  transition:0.4s;
+  background:conic-gradient(var(--accent) 0deg,#1b1b1b 0deg);
 }
 
 .inner{
-  width:130px;
-  height:130px;
+  width:135px;
+  height:135px;
   border-radius:50%;
-
-  background:rgba(0,0,0,0.35);
-
+  background:#0f1115;
   border:1px solid var(--stroke);
-
   display:flex;
   align-items:center;
   justify-content:center;
-
-  font-size:22px;
+  font-size:28px;
   font-weight:700;
-
-  backdrop-filter:blur(10px);
 }
 
-/* TEXT */
-
 .exercise{
-  font-size:24px;
+  font-size:28px;
+  margin-top:24px;
   font-weight:700;
-  text-align:center;
 }
 
 .reps{
-  margin-top:8px;
-  text-align:center;
   color:var(--muted);
+  margin-top:6px;
+  font-size:15px;
 }
 
 .setinfo{
-  margin-top:4px;
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
+  margin-top:10px;
+  color:var(--accent);
+  font-size:14px;
+  font-weight:600;
 }
 
 /* BUTTONS */
-
-button{
+.btn{
   width:100%;
-  padding:15px;
   border:none;
-  border-radius:16px;
-
-  font-weight:700;
+  padding:16px;
+  border-radius:18px;
   font-size:15px;
-
+  font-weight:600;
   cursor:pointer;
-
-  margin-top:12px;
-
-  transition:0.25s;
-}
-
-button:hover{
-  transform:translateY(-2px);
+  margin-top:14px;
 }
 
 .primary-btn{
-  background:var(--green);
+  background:linear-gradient(135deg,#ff9966,#ff5e62);
   color:white;
 }
 
 .secondary-btn{
-  background:rgba(255,255,255,0.07);
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--stroke);
   color:white;
-  border:1px solid var(--stroke);
 }
 
-/* INFO CARD */
-
-.info-card{
-  margin:0 20px;
-  padding:22px;
-
+/* PROFILE */
+.profile-card{
+  margin-top:20px;
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+  border:1px solid var(--stroke);
   border-radius:24px;
-
-  background:linear-gradient(
-  145deg,
-  rgba(255,255,255,0.08),
-  rgba(255,255,255,0.03));
-
-  border:1px solid var(--stroke);
-
-  color:var(--muted);
-
-  line-height:1.8;
-  font-size:14px;
-}
-
-/* FOOTER */
-
-footer{
-  text-align:center;
-  color:rgba(255,255,255,0.35);
-  padding:30px 20px;
-  font-size:12px;
+  padding:24px;
 }
 
 /* BOTTOM NAV */
-
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-
   background:rgba(10,10,10,0.92);
-
   backdrop-filter:blur(20px);
-
   border-top:1px solid var(--stroke);
-
   display:flex;
   justify-content:space-around;
-
   padding:12px 0;
-
-  z-index:999;
 }
 
 .bottom-nav a{
   color:var(--muted);
   text-decoration:none;
-
   display:flex;
   flex-direction:column;
   align-items:center;
-
   gap:5px;
-
   font-size:11px;
 }
 
@@ -395,123 +330,98 @@ footer{
   color:var(--accent);
 }
 
+footer{
+  text-align:center;
+  color:rgba(255,255,255,0.35);
+  padding:35px 20px;
+  font-size:12px;
+}
+
 </style>
 </head>
 
 <body>
-
-<!-- NAV -->
 
 <nav>
   <div class="logo">
     <img src="RepLogHeader.png">
     <span>RepLog</span>
   </div>
-
-  <div class="menu-btn">
-    <i class="fa-solid fa-bars"></i>
-  </div>
 </nav>
 
-<!-- STATS -->
+<section class="hero">
+  <div class="hero-card">
+    <h1>Push <span>Challenge</span></h1>
+    <p>Build upper body strength, endurance, and explosive power.</p>
+  </div>
+</section>
 
 <section class="stats">
+  <div class="stat-card"><h2 id="xp">0</h2><p>XP</p></div>
+  <div class="stat-card"><h2 id="level">1</h2><p>LEVEL</p></div>
+  <div class="stat-card"><h2 id="streak">0</h2><p>STREAK</p></div>
+</section>
 
-  <div class="stat-card">
-    <h2 id="xp">0</h2>
-    <p>XP</p>
+<section class="section">
+
+  <div class="section-title">
+    <h2>Calendar</h2>
+    <span>Track Progress</span>
   </div>
 
-  <div class="stat-card">
-    <h2 id="level">1</h2>
-    <p>LEVEL</p>
-  </div>
-
-  <div class="stat-card">
-    <h2 id="streak">0</h2>
-    <p>STREAK</p>
+  <div class="calendar-card">
+    <div id="month"></div>
+    <div id="calendar"></div>
   </div>
 
 </section>
 
-<!-- CALENDAR -->
+<section class="section">
 
-<div id="month"></div>
-<div id="calendar"></div>
+  <div class="section-title">
+    <h2>Workout</h2>
+    <span>10 Sets</span>
+  </div>
 
-<!-- CHALLENGE -->
+  <div class="workout-card">
 
-<div class="challenge-card">
-
-  <div class="challenge-top">
-
-    <div class="challenge-icon push">
-      <i class="fa-solid fa-dumbbell"></i>
+    <div class="circle" id="circle">
+      <div class="inner" id="percent">0/100</div>
     </div>
 
-    <div class="challenge-level">
-      Beginner
-    </div>
+    <div class="exercise" id="exercise">Ready?</div>
+    <div class="reps" id="reps"></div>
+    <div class="setinfo" id="setinfo"></div>
+
+    <button class="btn primary-btn" id="btn">Complete Set</button>
+    <button class="btn secondary-btn" id="resetBtn">Reset</button>
+    <button class="btn secondary-btn" id="resetProgressBtn">Reset Progress</button>
 
   </div>
 
-  <div class="circle" id="circle">
-    <div class="inner" id="percent">0/100</div>
+</section>
+
+<section class="section">
+
+  <div class="profile-card">
+    <h2>Profile</h2>
+    <p>XP: <span id="p_xp"></span></p>
+    <p>Level: <span id="p_level"></span></p>
+    <p>Days: <span id="p_days"></span></p>
+    <p>Streak: <span id="p_streak"></span></p>
   </div>
 
-  <div class="exercise" id="exercise">Ready?</div>
-  <div class="reps" id="reps"></div>
-  <div class="setinfo" id="setinfo"></div>
+</section>
 
-  <button class="primary-btn" id="btn">
-    Complete Set
-  </button>
-
-  <button class="secondary-btn" id="resetBtn">
-    Reset Workout
-  </button>
-
-</div>
-
-<!-- INFO -->
-
-<div class="info-card">
-  <p>green = completed once (100 push-ups)</p>
-  <p>purple = completed multiple times</p>
-</div>
-
-<footer>
-  RepLog • Push Challenge [V1.0.0]
-</footer>
-
-<!-- BOTTOM NAV -->
+<footer>RepLog • Push System</footer>
 
 <div class="bottom-nav">
 
-  <a href="index.html">
-    <i class="fa-solid fa-house"></i>
-    Home
-  </a>
-
-  <a class="active" href="PushUpChallenge.html">
-    <i class="fa-solid fa-dumbbell"></i>
-    Push
-  </a>
-
-  <a href="CoreChallenge.html">
-    <i class="fa-solid fa-fire"></i>
-    Core
-  </a>
-
-  <a href="CardioChallenge.html">
-    <i class="fa-solid fa-bolt"></i>
-    Cardio
-  </a>
-
-  <a href="profile.html">
-    <i class="fa-solid fa-user"></i>
-    Profile
-  </a>
+<a href="index.html"><i class="fa-solid fa-house"></i>Home</a>
+<a class="active"><i class="fa-solid fa-dumbbell"></i>Push</a>
+<a href="CoreChallenge.html"><i class="fa-solid fa-fire"></i>Core</a>
+<a href="CardioChallenge.html"><i class="fa-solid fa-bolt"></i>Cardio</a>
+<a href="profile.html"><i class="fa-solid fa-user"></i>Profile</a>
 
 </div>
 
@@ -519,29 +429,29 @@ footer{
 
 document.addEventListener("DOMContentLoaded",()=>{
 
-const workout=[
+function getLocalDate(){
+let d=new Date();
+return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
 
-["Normal Push-ups",10],
+const workout=[
+["Push-ups",10],
 ["Wide Push-ups",10],
 ["Diamond Push-ups",10],
-["Reverse Push-ups",10],
-["Pike Push-ups",10],
+["Incline Push-ups",10],
 ["Decline Push-ups",10],
-["Archer Push-ups",10],
 ["Explosive Push-ups",10],
+["Archer Push-ups",10],
+["Slow Push-ups",10],
 ["Spiderman Push-ups",10],
-["Slow Push-ups",10]
-
+["Hold Push-up",10]
 ];
 
-let i = 0;
-let total = 0;
+let i=0;
+let total=0;
 
-let xp =
-+localStorage.getItem("push_xp") || 0;
-
-let completedDays =
-JSON.parse(localStorage.getItem("push_completedDays") || "{}");
+let xp=+localStorage.getItem("push_xp")||0;
+let done=JSON.parse(localStorage.getItem("push_done")||"{}");
 
 const xpEl=document.getElementById("xp");
 const levelEl=document.getElementById("level");
@@ -550,205 +460,120 @@ const streakEl=document.getElementById("streak");
 const circle=document.getElementById("circle");
 const percent=document.getElementById("percent");
 
-function getDate(){
+const p_xp=document.getElementById("p_xp");
+const p_level=document.getElementById("p_level");
+const p_days=document.getElementById("p_days");
+const p_streak=document.getElementById("p_streak");
 
-let d=new Date();
-
-return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-
+function updateProfile(){
+p_xp.innerText=xp;
+p_level.innerText=Math.floor(xp/100)+1;
+p_days.innerText=Object.keys(done).length;
+p_streak.innerText=Object.keys(done).length;
 }
 
-function updateStats(){
-
+function update(){
 xpEl.innerText=xp;
-
-levelEl.innerText=
-Math.floor(xp/100)+1;
-
-streakEl.innerText=
-Object.keys(completedDays).length;
-
+levelEl.innerText=Math.floor(xp/100)+1;
+streakEl.innerText=Object.keys(done).length;
+updateProfile();
 }
 
-function updateCircle(){
-
+function circleUpdate(){
 let p=Math.min(total,100)/100;
-
-circle.style.background=
-`conic-gradient(#22c55e ${p*360}deg,#1e293b ${p*360}deg)`;
-
-percent.innerText=
-`${total}/100`;
-
+circle.style.background=`conic-gradient(#ff5e62 ${p*360}deg,#1a1a1a ${p*360}deg)`;
+percent.innerText=`${total}/100`;
 }
-
-/* CALENDAR */
 
 function renderCalendar(){
-
 let cal=document.getElementById("calendar");
-
 cal.innerHTML="";
 
 let now=new Date();
-
-let year=now.getFullYear();
-let month=now.getMonth();
+let y=now.getFullYear();
+let m=now.getMonth();
 
 document.getElementById("month").innerText=
-now.toLocaleString("default",{month:"long"})+
-" "+
-year;
+now.toLocaleString("default",{month:"long"})+" "+y;
 
-["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
-.forEach(day=>{
-
+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d=>{
 let div=document.createElement("div");
-
 div.className="day-name";
-
-div.innerText=day;
-
+div.innerText=d;
 cal.appendChild(div);
-
 });
 
-let firstDay=
-new Date(year,month,1).getDay();
+let first=new Date(y,m,1).getDay();
+let days=new Date(y,m+1,0).getDate();
 
-let days=
-new Date(year,month+1,0).getDate();
+for(let i=0;i<first;i++) cal.appendChild(document.createElement("div"));
 
-for(let i=0;i<firstDay;i++){
-
-cal.appendChild(document.createElement("div"));
-
-}
-
-let today=getDate();
+let today=getLocalDate();
 
 for(let d=1;d<=days;d++){
 
-let key=
-`${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+let key=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
 
 let div=document.createElement("div");
-
 div.className="day";
 
-if(key===today){
+if(key===today) div.classList.add("today");
 
-div.classList.add("today");
-
-}
-
-if(completedDays[key]){
-
-div.classList.add(
-completedDays[key]>1 ? "multi" : "done"
-);
-
-div.innerText=
-completedDays[key];
-
-}else{
-
-div.innerText=d;
-
-}
+if(done[key]){
+div.classList.add(done[key]>1?"multi":"done");
+div.innerText=done[key];
+}else div.innerText=d;
 
 cal.appendChild(div);
-
 }
-
 }
-
-/* WORKOUT */
 
 function render(){
 
 if(i>=workout.length){
 
-let today=getDate();
+let t=getLocalDate();
+done[t]=(done[t]||0)+1;
 
-completedDays[today]=
-(completedDays[today]||0)+1;
-
-localStorage.setItem(
-"push_completedDays",
-JSON.stringify(completedDays)
-);
+localStorage.setItem("push_done",JSON.stringify(done));
 
 xp+=50;
-
 localStorage.setItem("push_xp",xp);
 
-updateStats();
-
+update();
 renderCalendar();
 
 total=100;
+circleUpdate();
 
-updateCircle();
-
-document.getElementById("exercise").innerText=
-"Workout Complete!";
-
-document.getElementById("reps").innerText=
-"+50 XP earned";
-
-document.getElementById("setinfo").innerText=
-"Come back tomorrow";
-
+document.getElementById("exercise").innerText="Complete!";
 return;
-
 }
 
-document.getElementById("exercise").innerText=
-workout[i][0];
+document.getElementById("exercise").innerText=workout[i][0];
+document.getElementById("reps").innerText=workout[i][1]+" reps";
+document.getElementById("setinfo").innerText=`Set ${i+1}/${workout.length}`;
 
-document.getElementById("reps").innerText=
-workout[i][1]+" reps";
-
-document.getElementById("setinfo").innerText=
-`Set ${i+1}/${workout.length}`;
-
-updateCircle();
-
+circleUpdate();
 }
-
-/* BUTTONS */
 
 document.getElementById("btn").onclick=()=>{
-
 total+=10;
-
 i++;
-
 render();
-
 };
 
 document.getElementById("resetBtn").onclick=()=>{
-
 i=0;
-
 total=0;
-
 render();
-
 };
 
-/* INIT */
-
-updateStats();
-
+update();
 render();
-
 renderCalendar();
 
 });
-
 </script>
 
 </body>
