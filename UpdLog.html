@@ -1,269 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RepLog Update Log</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RepLog</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ICONS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-:root {
-  --navy:#0B1F3F;
-  --green:#22c55e;
-  --white:#fff;
+
+:root{
+  --bg:#0f0a07;
+  --card:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.08);
+  --text:#ffffff;
+  --muted:rgba(255,255,255,0.65);
+  --accent:#d6a15f;
+  --accent2:#8f5cff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:var(--navy);
+  font-family:Poppins,sans-serif;
+  background:
+    radial-gradient(circle at top left,#2a1a12,#0b0705 60%);
+  color:var(--text);
+  overflow-x:hidden;
+  padding-bottom:90px;
+}
+
+/* background glow */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(214,161,95,0.10), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(143,92,255,0.10), transparent 35%);
+  z-index:-1;
+}
+
+/* NAV */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:20px;
+  font-weight:700;
+  color:var(--accent);
+}
+
+.logo img{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+}
+
+.menu-btn{
+  font-size:22px;
   color:white;
 }
 
-.container{
-  max-width:500px;
-  margin:auto;
-  padding:15px;
+/* HERO */
+.hero{
+  padding:10px 20px 40px;
 }
 
-h1{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.glass{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:20px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.4);
-  margin-bottom:15px;
+.hero-card{
+  background:linear-gradient(145deg,
+  rgba(255,255,255,0.08),
+  rgba(255,255,255,0.03));
+  
+  border:1px solid var(--stroke);
+  border-radius:28px;
+  padding:28px 22px;
+  position:relative;
   overflow:hidden;
-  cursor:pointer;
-  transition:0.3s;
 }
 
-.header{
-  padding:15px;
+.hero-card::before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  background:rgba(214,161,95,0.12);
+  border-radius:50%;
+  top:-120px;
+  right:-80px;
 }
 
-.header:hover{
-  background:rgba(255,255,255,0.1);
+.hero h1{
+  font-size:42px;
+  line-height:1;
+  margin-bottom:12px;
 }
 
-.version{
+.hero h1 span{
+  color:var(--accent);
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:15px;
+  max-width:300px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:12px;
+  margin-top:25px;
+}
+
+.hero-btn{
+  flex:1;
+  text-align:center;
+  padding:14px;
+  border-radius:16px;
+  text-decoration:none;
   font-weight:600;
-  color:var(--green);
 }
 
-.date{
-  opacity:0.6;
-  font-size:0.85rem;
-  margin-top:3px;
+.primary{
+  background:var(--accent);
+  color:black;
 }
 
-.changes{
-  margin-left:10px;
-  margin-top:5px;
-  list-style:none;
-  padding-left:0;
-  display:none; /* collapsed by default */
+.secondary{
+  background:rgba(255,255,255,0.07);
+  color:white;
+  border:1px solid var(--stroke);
 }
 
-.changes li::before{
-  content:"[v] ";
-  color:var(--green);
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  padding:0 20px;
+  margin-top:-15px;
+}
+
+.stat-card{
+  background:var(--card);
+  border:1px solid var(--stroke);
+  border-radius:20px;
+  padding:18px 12px;
+  text-align:center;
+  backdrop-filter:blur(12px);
+}
+
+.stat-card h2{
+  color:var(--accent);
+  font-size:22px;
+}
+
+.stat-card p{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* SECTION */
+.section{
+  padding:35px 20px 0;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.section-title h2{
+  font-size:22px;
+}
+
+.section-title span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* CHALLENGE CARDS */
+.challenge-grid{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.challenge-card{
+  background:linear-gradient(
+  145deg,
+  rgba(255,255,255,0.08),
+  rgba(255,255,255,0.03));
+
+  border:1px solid var(--stroke);
+  border-radius:24px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+  transition:0.25s;
+}
+
+.challenge-card:hover{
+  transform:translateY(-3px);
+}
+
+.challenge-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.challenge-icon{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  color:white;
+}
+
+.push{
+  background:linear-gradient(135deg,#ff9966,#ff5e62);
+}
+
+.core{
+  background:linear-gradient(135deg,#36d1dc,#5b86e5);
+}
+
+.cardio{
+  background:linear-gradient(135deg,#8e2de2,#4a00e0);
+}
+
+.challenge-level{
+  background:rgba(255,255,255,0.08);
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.challenge-card h3{
+  margin-top:18px;
+  font-size:24px;
+}
+
+.challenge-card p{
+  color:var(--muted);
+  margin-top:6px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.challenge-btn{
+  display:inline-block;
+  margin-top:18px;
+  padding:12px 18px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid var(--stroke);
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+}
+
+/* FEATURE CARD */
+.feature{
+  padding:35px 20px;
+}
+
+.feature-card{
+  background:linear-gradient(145deg,
+  rgba(143,92,255,0.18),
+  rgba(255,255,255,0.04));
+
+  border:1px solid rgba(143,92,255,0.2);
+  border-radius:28px;
+  padding:24px;
+}
+
+.feature-card h2{
+  font-size:28px;
+}
+
+.feature-card p{
+  margin-top:8px;
+  color:rgba(255,255,255,0.75);
+}
+
+.feature-card a{
+  display:inline-block;
+  margin-top:18px;
+  text-decoration:none;
+  background:white;
+  color:black;
+  padding:12px 18px;
+  border-radius:14px;
   font-weight:600;
 }
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--stroke);
+  display:flex;
+  justify-content:space-around;
+  padding:12px 0;
+  z-index:999;
+}
+
+.bottom-nav a{
+  color:var(--muted);
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+}
+
+.bottom-nav i{
+  font-size:20px;
+}
+
+.bottom-nav a.active{
+  color:var(--accent);
+}
+
+/* footer */
+footer{
+  text-align:center;
+  color:rgba(255,255,255,0.35);
+  padding:30px 20px;
+  font-size:12px;
+}
+
 </style>
 </head>
+
 <body>
 
-<div class="container">
-<h1>RepLog Update Log</h1>
-<div id="updates"></div>
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <img src="RepLogHeader.png">
+    <span>RepLog</span>
+  </div>
+
+  <div class="menu-btn">
+    <i class="fa-solid fa-bars"></i>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-card">
+
+    <h1>Build Your <span>Colony</span></h1>
+
+    <p>
+      Complete challenges, earn XP, unlock ants,
+      and evolve your progression journey.
+    </p>
+
+    <div class="hero-buttons">
+      <a class="hero-btn primary" href="profile.html">
+        Profile
+      </a>
+
+      <a class="hero-btn secondary" href="UpdLog.html">
+        Updates
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+
+  <div class="stat-card">
+    <h2>12</h2>
+    <p>LEVEL</p>
+  </div>
+
+  <div class="stat-card">
+    <h2>4</h2>
+    <p>ANTS</p>
+  </div>
+
+  <div class="stat-card">
+    <h2>89%</h2>
+    <p>STREAK</p>
+  </div>
+
+</section>
+
+<!-- CHALLENGES -->
+<section class="section">
+
+  <div class="section-title">
+    <h2>Challenges</h2>
+    <span>3 Active</span>
+  </div>
+
+  <div class="challenge-grid">
+
+    <!-- PUSH -->
+    <div class="challenge-card">
+
+      <div class="challenge-top">
+        <div class="challenge-icon push">
+          <i class="fa-solid fa-dumbbell"></i>
+        </div>
+
+        <div class="challenge-level">
+          Beginner
+        </div>
+      </div>
+
+      <h3>Push Challenge</h3>
+
+      <p>
+        Increase reps, gain XP, and level up your
+        strength progression.
+      </p>
+
+      <a class="challenge-btn" href="PushUpChallenge.html">
+        Enter Challenge
+      </a>
+
+    </div>
+
+    <!-- CORE -->
+    <div class="challenge-card">
+
+      <div class="challenge-top">
+        <div class="challenge-icon core">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+
+        <div class="challenge-level">
+          Intermediate
+        </div>
+      </div>
+
+      <h3>Core Challenge</h3>
+
+      <p>
+        Train consistency and improve your endurance
+        through core progression.
+      </p>
+
+      <a class="challenge-btn" href="CoreChallenge.html">
+        Enter Challenge
+      </a>
+
+    </div>
+
+    <!-- CARDIO -->
+    <div class="challenge-card">
+
+      <div class="challenge-top">
+        <div class="challenge-icon cardio">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+
+        <div class="challenge-level">
+          Advanced
+        </div>
+      </div>
+
+      <h3>Cardio Challenge</h3>
+
+      <p>
+        Push your stamina, maintain streaks,
+        and unlock higher XP tiers.
+      </p>
+
+      <a class="challenge-btn" href="CardioChallenge.html">
+        Enter Challenge
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FEATURE -->
+<section class="feature">
+
+  <div class="feature-card">
+
+    <h2>Workout Generator</h2>
+
+    <p>
+      Generate randomized workouts based on
+      your level, streaks, and unlocked ants.
+    </p>
+
+    <a href="ComingSoonPage.html">
+      Coming Soon
+    </a>
+
+  </div>
+
+</section>
+
+<footer>
+  RepLog • Colony Training System [V1.0.0]
+</footer>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+
+  <a class="active" href="index.html">
+    <i class="fa-solid fa-house"></i>
+    Home
+  </a>
+
+  <a href="PushUpChallenge.html">
+    <i class="fa-solid fa-dumbbell"></i>
+    Push
+  </a>
+
+  <a href="CoreChallenge.html">
+    <i class="fa-solid fa-fire"></i>
+    Core
+  </a>
+
+  <a href="CardioChallenge.html">
+    <i class="fa-solid fa-bolt"></i>
+    Cardio
+  </a>
+
+  <a href="profile.html">
+    <i class="fa-solid fa-user"></i>
+    Profile
+  </a>
+
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded",()=>{
-
-const updates = [
-  {
-    version: "RepQuest v4",
-    date: "Release - 4/02/26",
-    changes: [
-      "Loading page",
-      "Logo",
-      "Home page",
-      "- Push-up Challenge",
-      "- what is repquest",
-      "- about me",
-      "- socials",
-      "--- snapchat",
-      "Push-up Challenge Page",
-      "- Normal Push-ups",
-      "- Wide Push-ups",
-      "- Diamond Push-ups",
-      "- Reverse Push-ups",
-      "- Pike Push-ups",
-      "- Decline Push-ups",
-      "- Archer Push-ups",
-      "- Explosive Push-ups",
-      "- Spiderman Push-ups",
-      "- Slow Push-ups",
-      "Profile section",
-      "- xp",
-      "- level",
-      "- streak",
-      "Working Calendar",
-      "- 100 push ups = green on calendar",
-      "- 200+ push ups = purple on calendar",
-      "Coming Soon Page/character image"
-    ]
-  },
-  {
-    version: "Corechallenge v5",
-    date: "1:28PM, 4/08/26",
-    changes: [
-      "New local storage",
-      "Core Challenge",
-      "Core Challenge page",
-      "- Sit-Ups",
-      "- Hollow Hold (10s)",
-      "- Russian Twists (per side)",
-      "- Leg Raises",
-      "- Plank Shoulder Taps (per side)",
-      "- Bicycle Crunches (per side)",
-      "- V-Ups",
-      "- Flutter Kicks (per side)",
-      "- Side Plank Hip Dips (per side)",
-      "- Mountain Climbers (per side)",
-      "- working calendar",
-      "Profile section",
-      "- xp",
-      "- level",
-      "- streak"
-    ]
-  },
-  {
-    version: "CardioChallenge/ UpdLog v6",
-    date: "8:00AM, 4/09/26",
-    changes: [
-      "Cardio Challenge Button",
-      "Cardio Challenge Page",
-      "- 5 mile run",
-      "- tracking walking/running distance",
-      "- stops automatically at 5 miles",
-      "- shows pace, calories burned",
-      "- vibrates when hitting 5 miles",
-      "Calendar",
-      "- xp",
-      "- level",
-      "- streak",
-      "Update Log button",
-      "Update Log Page",
-      "- Collapsible update sections",
-    ]
-  },
-  {
-  version: "Home Page/ CardioChallenge v6.0.1",
-    date: "10:08AM, 4/09/26",
-    changes: [
-      "Description And Caption Changes",
-      "CardioChallenge Calendar shows days of the month",
-    ]
-  },
-   {
-  version: "Text/ UpdateLogButton v6.0.2",
-    date: "9:11AM, 4/10/26",
-    changes: [
-      "Fixed Text in CardioChallenge",
-      "Fixed CSS on UpdateLogButton",
-    ]
-  },
-   {
-  version: "Re-done CardioChallenge v6.1.2",
-    date: "12:36PM, 4/13/26",
-    changes: [
-      "Changed CardioChallenge from 5mi to 4mi run",
-      "Description Card in PushupChallenge",
-      "- description text"
-    ]
-  },
-  {
-  version: "Home Page Update v6.2.2",
-    date: "1:00PM, 4/17/26",
-    changes: [
-      "New Home Page",
-      "- works every where car",
-      "- QR code card",
-      "fixed layout",
-      "added icons"
-    ]
-  },
-  {
-  version: "Cardio Rework/Disciption Cards v6.3.2",
-    date: "11:40AM, 4/23/26",
-    changes: [
-      "New Rework for Cardio Runs",
-      "- saves runs and doesnt reset if page reloaded or phone turns off",
-      "Discription Card in CoreChallenge",
-      "- description text",
-      "Discription Card in CardioChallenge",
-      "- description text",
-      "New UI for UpdLog Button",
-      "Margin fix for CardioChallenge & CoreChallenge"
-    ]
-  },
-  {
-  version: "Full ReBrand(Coming Soon) v7.3.2",
-    date: "(Time), (Date)",
-    changes: [
-      "Blank",
-      ""
-    ]
-  }
-];
-
-// Render updates
-const container = document.getElementById("updates");
-
-updates.forEach((u,i)=>{
-  const card = document.createElement("div");
-  card.className="glass";
-
-  const header = document.createElement("div");
-  header.className="header";
-  header.innerHTML = `<div class="version">${u.version}</div>
-                      <div class="date">${u.date}</div>`;
-
-  const list = document.createElement("ul");
-  list.className="changes";
-  u.changes.forEach(c=>{
-    const li = document.createElement("li");
-    li.innerText = c;
-    list.appendChild(li);
-  });
-
-  card.appendChild(header);
-  card.appendChild(list);
-  container.appendChild(card);
-
-  // Toggle collapsible
-  header.addEventListener("click",()=>{
-    list.style.display = list.style.display === "block" ? "none" : "block";
-  });
-
-  // First card expanded by default
-  if(i===0){
-    list.style.display="block";
-  }
-});
-});
-</script>
 
 </body>
 </html>
-
-<!-- update goes up by 1 when a big update happens -->
-<!-- update goes up by .1 when a small update happens, so like bug fixes for small add-ons and fixes -->
