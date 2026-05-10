@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RepLog</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RepLog - Push Challenge</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+
 :root{
   --bg:#0b0705;
-  --glass:rgba(255,255,255,0.06);
-  --stroke:rgba(255,255,255,0.1);
+  --card:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.08);
   --text:#fff;
   --muted:rgba(255,255,255,0.6);
   --green:#00FF7F;
-  --purple:#a855f7;
 }
 
 *{
@@ -27,30 +28,14 @@
 body{
   font-family:Poppins,sans-serif;
   background:radial-gradient(circle at top,#2a1a12,#0b0705 70%);
-  color:var(--text);
-}
-
-.container{
-  max-width:520px;
-  margin:auto;
-  padding:15px;
-}
-
-/* GLASS */
-.glass{
-  background:var(--glass);
-  backdrop-filter:blur(18px);
-  border:1px solid var(--stroke);
-  border-radius:22px;
-  box-shadow:0 10px 35px rgba(0,0,0,0.4);
+  color:white;
 }
 
 /* TOP BAR */
 .top{
   display:flex;
   justify-content:space-between;
-  padding:14px 16px;
-  margin-bottom:12px;
+  padding:16px;
   font-size:13px;
   color:var(--muted);
 }
@@ -59,15 +44,15 @@ body{
 .nav{
   display:flex;
   gap:10px;
-  margin-bottom:12px;
+  padding:0 16px;
 }
 
 .nav button{
   flex:1;
   padding:10px;
-  border:none;
   border-radius:14px;
-  background:var(--glass);
+  border:1px solid var(--stroke);
+  background:var(--card);
   color:white;
   font-weight:600;
 }
@@ -77,13 +62,7 @@ body{
   display:grid;
   grid-template-columns:repeat(7,1fr);
   gap:6px;
-  margin-bottom:15px;
-}
-
-.day-name{
-  font-size:10px;
-  opacity:0.6;
-  text-align:center;
+  padding:10px 16px;
 }
 
 .day{
@@ -92,34 +71,22 @@ body{
   align-items:center;
   justify-content:center;
   border-radius:10px;
+  background:var(--card);
   font-size:12px;
-  background:var(--glass);
-  transition:0.2s;
 }
 
-.day:hover{
-  transform:scale(1.05);
-}
-
-.today{
-  border:2px solid var(--green);
-}
-
-.done{
-  background:var(--green);
-  color:black;
-}
-
-.multi{
-  background:var(--purple);
-  color:white;
-}
+.today{border:2px solid var(--green);}
+.done{background:var(--green); color:black;}
+.multi{background:#a855f7;color:white;}
 
 /* MAIN CARD */
 .card{
+  margin:15px;
   padding:22px;
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03));
+  border:1px solid var(--stroke);
   text-align:center;
-  margin-bottom:10px;
 }
 
 /* CIRCLE */
@@ -135,32 +102,26 @@ body{
 }
 
 .inner{
-  width:125px;
-  height:125px;
+  width:120px;
+  height:120px;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:rgba(0,0,0,0.3);
+  background:rgba(0,0,0,0.35);
   border:1px solid var(--stroke);
-  font-weight:600;
 }
 
 /* TEXT */
 .exercise{
   font-size:20px;
-  font-weight:600;
   margin-top:12px;
+  font-weight:600;
 }
 
 .reps,.setinfo{
   font-size:13px;
-  opacity:0.6;
-}
-
-.timer{
-  font-size:28px;
-  margin-top:8px;
+  color:var(--muted);
 }
 
 /* BUTTONS */
@@ -175,8 +136,9 @@ button{
 }
 
 .secondary{
-  background:#334155;
+  background:rgba(255,255,255,0.08);
   color:white;
+  border:1px solid var(--stroke);
 }
 
 /* PROFILE */
@@ -184,21 +146,20 @@ button{
 .active{display:block;}
 
 .profile{
-  margin-top:15px;
+  margin:15px;
   padding:20px;
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
 <!-- TOP -->
-<div class="top glass">
-<div>XP: <span id="xp">0</span></div>
-<div>Lvl: <span id="level">1</span></div>
-<div>🔥 <span id="streak">0</span></div>
+<div class="top">
+<div><i class="fa-solid fa-bolt"></i> XP: <span id="xp">0</span></div>
+<div><i class="fa-solid fa-layer-group"></i> LVL: <span id="level">1</span></div>
+<div><i class="fa-solid fa-fire"></i> <span id="streak">0</span></div>
 </div>
 
 <!-- NAV -->
@@ -213,7 +174,7 @@ button{
 <div id="month"></div>
 <div id="calendar"></div>
 
-<div class="card glass">
+<div class="card">
 
 <div class="circle" id="circle">
 <div class="inner" id="percent">0/100</div>
@@ -233,7 +194,7 @@ button{
 </div>
 
 <!-- PROFILE -->
-<div id="profile" class="screen glass card profile">
+<div id="profile" class="screen card profile">
 <h2>Profile</h2>
 <p>XP: <span id="p_xp"></span></p>
 <p>Level: <span id="p_level"></span></p>
@@ -241,9 +202,8 @@ button{
 <p>Streak: <span id="p_streak"></span></p>
 </div>
 
-</div>
-
 <script>
+
 document.addEventListener("DOMContentLoaded",()=>{
 
 const workout=[
@@ -273,7 +233,6 @@ const reps=document.getElementById("reps");
 const setinfo=document.getElementById("setinfo");
 const circle=document.getElementById("circle");
 const percent=document.getElementById("percent");
-const calendar=document.getElementById("calendar");
 
 const p_xp=document.getElementById("p_xp");
 const p_level=document.getElementById("p_level");
@@ -309,10 +268,13 @@ if(i>=workout.length){
 let t=date();
 completedDays[t]=(completedDays[t]||0)+1;
 localStorage.setItem("completedDays",JSON.stringify(completedDays));
+
 xp+=50;
 localStorage.setItem("xp",xp);
+
 updateStats();
 renderCalendar();
+
 exercise.innerText="Complete!";
 totalReps=100;
 updateCircle();
@@ -338,7 +300,9 @@ render();
 };
 
 function renderCalendar(){
-calendar.innerHTML="";
+const cal=document.getElementById("calendar");
+cal.innerHTML="";
+
 let now=new Date();
 let y=now.getFullYear();
 let m=now.getMonth();
@@ -349,22 +313,23 @@ now.toLocaleString("default",{month:"long"})+" "+y;
 let first=new Date(y,m,1).getDay();
 let days=new Date(y,m+1,0).getDate();
 
-for(let i=0;i<first;i++)calendar.appendChild(document.createElement("div"));
+for(let i=0;i<first;i++)cal.appendChild(document.createElement("div"));
 
 let today=date();
 
 for(let d=1;d<=days;d++){
-let dStr=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+let ds=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
 let div=document.createElement("div");
 div.className="day";
 
-if(dStr===today)div.classList.add("today");
-if(completedDays[dStr]){
-div.classList.add(completedDays[dStr]>1?"multi":"done");
-div.innerText=completedDays[dStr];
+if(ds===today)div.classList.add("today");
+
+if(completedDays[ds]){
+div.classList.add(completedDays[ds]>1?"multi":"done");
+div.innerText=completedDays[ds];
 }else div.innerText=d;
 
-calendar.appendChild(div);
+cal.appendChild(div);
 }
 }
 
@@ -392,6 +357,7 @@ render();
 renderCalendar();
 
 });
+
 </script>
 
 </body>
