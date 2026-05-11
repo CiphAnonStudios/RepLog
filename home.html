@@ -6,8 +6,6 @@
 <title>RepLog</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- ICONS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
@@ -37,7 +35,6 @@ body{
   padding-bottom:90px;
 }
 
-/* background glow */
 body::before{
   content:"";
   position:fixed;
@@ -83,9 +80,9 @@ nav{
 
 .hero-card{
   background:linear-gradient(145deg,
-  rgba(255,255,255,0.08),
-  rgba(255,255,255,0.03));
-  
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.03));
+
   border:1px solid var(--stroke);
   border-radius:28px;
   padding:28px 22px;
@@ -93,32 +90,8 @@ nav{
   overflow:hidden;
 }
 
-.hero-card::before{
-  content:"";
-  position:absolute;
-  width:220px;
-  height:220px;
-  background:rgba(214,161,95,0.12);
-  border-radius:50%;
-  top:-120px;
-  right:-80px;
-}
-
-.hero-card::after{
-  content:"";
-  position:absolute;
-  width:100px;
-  height:100px;
-  background:rgba(214,161,95,0.12);
-  border-radius:50%;
-  top:150px;
-  right:225px;
-}
-
 .hero h1{
   font-size:42px;
-  line-height:1;
-  margin-bottom:12px;
 }
 
 .hero h1 span{
@@ -129,32 +102,6 @@ nav{
   color:var(--muted);
   font-size:15px;
   max-width:300px;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:12px;
-  margin-top:25px;
-}
-
-.hero-btn{
-  flex:1;
-  text-align:center;
-  padding:14px;
-  border-radius:16px;
-  text-decoration:none;
-  font-weight:600;
-}
-
-.primary{
-  background:var(--accent);
-  color:black;
-}
-
-.secondary{
-  background:rgba(255,255,255,0.07);
-  color:white;
-  border:1px solid var(--stroke);
 }
 
 /* STATS */
@@ -190,150 +137,55 @@ nav{
   padding:35px 20px 0;
 }
 
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
-}
-
-.section-title h2{
-  font-size:22px;
-}
-
-.section-title span{
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* CHALLENGE CARDS */
-.challenge-grid{
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-
+/* CHALLENGES */
 .challenge-card{
   background:linear-gradient(
-  145deg,
-  rgba(255,255,255,0.08),
-  rgba(255,255,255,0.03));
-
+    145deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.03)
+  );
   border:1px solid var(--stroke);
   border-radius:24px;
   padding:20px;
+  margin-bottom:16px;
+}
+
+/* COMING SOON */
+.coming-banner{
+  margin:55px 20px 20px;
+  border-radius:30px;
+
+  background:
+    linear-gradient(145deg,
+      rgba(143,92,255,0.30),
+      rgba(74,0,224,0.18),
+      rgba(255,255,255,0.04)
+    );
+
+  border:1px solid rgba(143,92,255,0.25);
+  padding:34px 24px;
   position:relative;
   overflow:hidden;
-  transition:0.25s;
 }
 
-.challenge-card:hover{
-  transform:translateY(-3px);
+/* SOCIALS */
+.social-section{
+  padding:18px 20px;
 }
 
-.challenge-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.social-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
 
-.challenge-icon{
-  width:58px;
-  height:58px;
-  border-radius:18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  color:white;
-}
-
-.push{
-  background:linear-gradient(135deg,#ff9966,#ff5e62);
-}
-
-.core{
-  background:linear-gradient(135deg,#36d1dc,#5b86e5);
-}
-
-.cardio{
-  background:linear-gradient(135deg,#8e2de2,#4a00e0);
-}
-
-.challenge-level{
-  background:rgba(255,255,255,0.08);
-  padding:6px 10px;
-  border-radius:10px;
-  font-size:12px;
-  color:var(--muted);
-}
-
-.challenge-card h3{
-  margin-top:18px;
-  font-size:24px;
-}
-
-.challenge-card p{
-  color:var(--muted);
-  margin-top:6px;
-  font-size:14px;
-  line-height:1.5;
-}
-
-.challenge-btn{
-  display:inline-block;
-  margin-top:18px;
-  padding:12px 18px;
-  border-radius:14px;
-  background:rgba(255,255,255,0.08);
-  border:1px solid var(--stroke);
-  color:white;
+.social-card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:22px;
+  padding:18px;
   text-decoration:none;
-  font-size:14px;
-}
-
-/* PURPLE SECTION */
-.purple-section{
-  background:
-  radial-gradient(circle at top,
-  rgba(143,92,255,0.18),
-  #12081f 65%);
-  padding-top: 10px;
-}
-
-/* FEATURE CARD */
-.feature{
-  padding:35px 20px;
-}
-
-.feature-card{
-  background:linear-gradient(145deg,
-  rgba(143,92,255,0.18),
-  rgba(255,255,255,0.04));
-
-  border:1px solid rgba(143,92,255,0.2);
-  border-radius:28px;
-  padding:24px;
-}
-
-.feature-card h2{
-  font-size:28px;
-}
-
-.feature-card p{
-  margin-top:8px;
-  color:rgba(255,255,255,0.75);
-}
-
-.feature-card a{
-  display:inline-block;
-  margin-top:18px;
-  text-decoration:none;
-  background:white;
-  color:black;
-  padding:12px 18px;
-  border-radius:14px;
-  font-weight:600;
+  color:white;
 }
 
 /* BOTTOM NAV */
@@ -348,7 +200,6 @@ nav{
   display:flex;
   justify-content:space-around;
   padding:12px 0;
-  z-index:999;
 }
 
 .bottom-nav a{
@@ -357,238 +208,125 @@ nav{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:5px;
   font-size:11px;
-}
-
-.bottom-nav i{
-  font-size:20px;
 }
 
 .bottom-nav a.active{
   color:var(--accent);
 }
 
-/* footer */
-footer{
-  text-align:center;
-  color:rgba(255,255,255,0.35);
-  padding:30px 20px;
-  font-size:12px;
-}
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="logo">
     <img src="RepLogHeader.png">
     <span>RepLog</span>
   </div>
-
-  <div class="menu-btn">
-    <i class="fa-solid fa-bars"></i>
-  </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-card">
-
     <h1>Build Your <span>Colony</span></h1>
-
-    <p>
-      Complete challenges, earn XP, unlock ants,
-      and evolve your progression journey.
-    </p>
-
-    <div class="hero-buttons">
-      <a class="hero-btn primary" href="profile.html">
-        Profile
-      </a>
-
-      <a class="hero-btn secondary" href="UpdLog.html">
-        Updates
-      </a>
-    </div>
-
+    <p>Complete challenges, earn XP, unlock ants.</p>
   </div>
 </section>
 
-<!-- STATS -->
+<!-- STATS (UPDATED WITH DATA TARGETS) -->
 <section class="stats">
 
   <div class="stat-card">
-    <h2>12</h2>
+    <h2 class="count" data-target="12">0</h2>
     <p>LEVEL</p>
   </div>
 
   <div class="stat-card">
-    <h2>4</h2>
+    <h2 class="count" data-target="4">0</h2>
     <p>ANTS</p>
   </div>
 
   <div class="stat-card">
-    <h2>89%</h2>
+    <h2 class="count" data-target="89">0</h2>
     <p>STREAK</p>
   </div>
 
 </section>
 
-<!-- CHALLENGES -->
-<section class="section">
+<!-- COMING SOON -->
+<section class="coming-banner">
+  <h2>Workout Generator</h2>
+  <p>Coming soon system upgrade.</p>
+</section>
 
-  <div class="section-title">
-    <h2>Challenges</h2>
-    <span>3 Active</span>
-  </div>
+<!-- SOCIALS -->
+<section class="social-section">
 
-  <div class="challenge-grid">
+  <div class="social-grid">
 
-    <!-- PUSH -->
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-        <div class="challenge-icon push">
-          <i class="fa-solid fa-dumbbell"></i>
-        </div>
-
-        <div class="challenge-level">
-          Beginner
-        </div>
-      </div>
-
-      <h3>Push Challenge</h3>
-
-      <p>
-        Increase reps, gain XP, and level up your
-        strength progression.
-      </p>
-
-      <a class="challenge-btn" href="PushUpChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
-
-    <!-- CORE -->
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-        <div class="challenge-icon core">
-          <i class="fa-solid fa-fire"></i>
-        </div>
-
-        <div class="challenge-level">
-          Intermediate
-        </div>
-      </div>
-
-      <h3>Core Challenge</h3>
-
-      <p>
-        Train consistency and improve your endurance
-        through core progression.
-      </p>
-
-      <a class="challenge-btn" href="CoreChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
-
-    <!-- CARDIO -->
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-        <div class="challenge-icon cardio">
-          <i class="fa-solid fa-bolt"></i>
-        </div>
-
-        <div class="challenge-level">
-          Advanced
-        </div>
-      </div>
-
-      <h3>Cardio Challenge</h3>
-
-      <p>
-        Push your stamina, maintain streaks,
-        and unlock higher XP tiers.
-      </p>
-
-      <a class="challenge-btn" href="CardioChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
+    <div class="social-card">TikTok</div>
+    <div class="social-card">YouTube</div>
+    <div class="social-card">Discord</div>
+    <div class="social-card">Instagram</div>
 
   </div>
 
 </section>
-
-<br>
-<hr>
-
-<div class="purple-section">
-
-<!-- FEATURE -->
-<section class="feature">
-
-  <div class="feature-card">
-
-    <h2>Workout Generator</h2>
-
-    <p>
-      Generate randomized workouts based on
-      your level, streaks, and unlocked ants.
-    </p>
-
-    <a href="ComingSoonPage.html">
-      Coming Soon
-    </a>
-
-  </div>
-
-</section>
-
-<footer>
-  RepLog • Colony Training System [V1.0.0]
-</footer>
-
-</div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
 
-  <a class="active" href="index.html">
+  <a class="active" href="#">
     <i class="fa-solid fa-house"></i>
     Home
   </a>
 
-  <a href="PushUpChallenge.html">
+  <a href="#">
     <i class="fa-solid fa-dumbbell"></i>
     Push
   </a>
 
-  <a href="CoreChallenge.html">
+  <a href="#">
     <i class="fa-solid fa-fire"></i>
     Core
   </a>
 
-  <a href="CardioChallenge.html">
+  <a href="#">
     <i class="fa-solid fa-bolt"></i>
     Cardio
   </a>
 
-  <a href="profile.html">
-    <i class="fa-solid fa-user"></i>
-    Profile
-  </a>
-
 </div>
+
+<!-- COUNT UP SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const counters = document.querySelectorAll(".count");
+
+  counters.forEach(counter => {
+    const target = +counter.getAttribute("data-target");
+    let count = 0;
+
+    const speed = target / 60; // animation speed
+
+    function update(){
+      count += speed;
+
+      if(count < target){
+        counter.innerText = Math.floor(count);
+        requestAnimationFrame(update);
+      } else {
+        counter.innerText = target;
+      }
+    }
+
+    update();
+  });
+
+});
+</script>
 
 </body>
 </html>
