@@ -10,6 +10,11 @@
 - profile button
 - display cards
 - social media buttons
+- header card
+- - title
+  - discription
+  - profile button
+  - update button
 # UI
 - better background color
 - More Buttons to other pages
@@ -19,6 +24,8 @@
 - tail header
 - even more improvements to button ui
 - improvements to social media buttons
+- bottom page bar
+- icons
 # Cards
 - images and descriptive context cards
 - RepAnt System card (main card)
