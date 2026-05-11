@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>RepLog</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
@@ -36,8 +35,7 @@ body{
   padding-bottom:90px;
 }
 
-/* background glow */
-
+/* glow background */
 body::before{
   content:"";
   position:fixed;
@@ -49,7 +47,6 @@ body::before{
 }
 
 /* NAV */
-
 nav{
   display:flex;
   justify-content:space-between;
@@ -72,66 +69,23 @@ nav{
   border-radius:12px;
 }
 
-.menu-btn{
-  font-size:22px;
-  color:white;
-}
-
 /* HERO */
-
 .hero{
-  padding:10px 20px 40px;
+  padding:10px 20px 30px;
 }
 
 .hero-card{
-  background:linear-gradient(
-    145deg,
+  background:linear-gradient(145deg,
     rgba(255,255,255,0.08),
-    rgba(255,255,255,0.03)
-  );
+    rgba(255,255,255,0.03));
 
   border:1px solid var(--stroke);
-  border-radius:32px;
-  padding:30px 24px;
-  position:relative;
-  overflow:hidden;
-
-  box-shadow:
-    0 10px 40px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.05);
-}
-
-.hero-card::before{
-  content:"";
-  position:absolute;
-  width:240px;
-  height:240px;
-  background:rgba(214,161,95,0.12);
-  border-radius:50%;
-  top:-120px;
-  right:-80px;
-  filter:blur(5px);
-}
-
-.hero-card::after{
-  content:"";
-  position:absolute;
-  width:120px;
-  height:120px;
-  background:rgba(143,92,255,0.12);
-  border-radius:50%;
-  top:160px;
-  right:220px;
-  filter:blur(10px);
+  border-radius:28px;
+  padding:28px 22px;
 }
 
 .hero h1{
-  font-size:46px;
-  line-height:0.95;
-  margin-bottom:14px;
-  font-weight:800;
-  position:relative;
-  z-index:2;
+  font-size:42px;
 }
 
 .hero h1 span{
@@ -142,114 +96,42 @@ nav{
   color:var(--muted);
   font-size:15px;
   max-width:300px;
-  line-height:1.6;
-  position:relative;
-  z-index:2;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:12px;
-  margin-top:28px;
-  position:relative;
-  z-index:2;
-}
-
-.hero-btn{
-  flex:1;
-  text-align:center;
-  padding:15px;
-  border-radius:18px;
-  text-decoration:none;
-  font-weight:700;
-  transition:0.25s;
-}
-
-.hero-btn:hover{
-  transform:translateY(-2px);
-}
-
-.primary{
-  background:linear-gradient(135deg,#d6a15f,#ffcb7d);
-  color:black;
-  box-shadow:0 8px 25px rgba(214,161,95,0.28);
-}
-
-.secondary{
-  background:rgba(255,255,255,0.07);
-  color:white;
-  border:1px solid var(--stroke);
 }
 
 /* STATS */
-
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
+  gap:12px;
   padding:0 20px;
   margin-top:-10px;
 }
 
 .stat-card{
-  background:linear-gradient(
-    145deg,
-    rgba(255,255,255,0.07),
-    rgba(255,255,255,0.03)
-  );
-
+  background:var(--card);
   border:1px solid var(--stroke);
-  border-radius:22px;
-  padding:20px 12px;
+  border-radius:20px;
+  padding:18px 12px;
   text-align:center;
   backdrop-filter:blur(12px);
-
-  box-shadow:
-    0 10px 25px rgba(0,0,0,0.20);
 }
 
 .stat-card h2{
   color:var(--accent);
-  font-size:24px;
-  font-weight:800;
+  font-size:22px;
 }
 
 .stat-card p{
   color:var(--muted);
   font-size:12px;
-  margin-top:4px;
 }
 
 /* SECTION */
-
 .section{
-  padding:38px 20px 0;
+  padding:35px 20px 0;
 }
 
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
-}
-
-.section-title h2{
-  font-size:24px;
-}
-
-.section-title span{
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* CHALLENGE CARDS */
-
-.challenge-grid{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-}
-
+/* CHALLENGES */
 .challenge-card{
   background:linear-gradient(
     145deg,
@@ -258,331 +140,80 @@ nav{
   );
 
   border:1px solid var(--stroke);
-  border-radius:28px;
-  padding:22px;
-  position:relative;
-  overflow:hidden;
-  transition:0.25s;
-
-  box-shadow:
-    0 10px 35px rgba(0,0,0,0.22);
+  border-radius:24px;
+  padding:20px;
+  margin-bottom:16px;
 }
 
-.challenge-card:hover{
-  transform:translateY(-4px);
-}
-
-.challenge-card::before{
-  content:"";
-  position:absolute;
-  width:160px;
-  height:160px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.04);
-  right:-70px;
-  top:-70px;
-}
-
-.challenge-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.challenge-icon{
-  width:62px;
-  height:62px;
-  border-radius:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  color:white;
-
-  box-shadow:
-    0 10px 25px rgba(0,0,0,0.25);
-}
-
-.push{
-  background:linear-gradient(135deg,#ff9966,#ff5e62);
-}
-
-.core{
-  background:linear-gradient(135deg,#36d1dc,#5b86e5);
-}
-
-.cardio{
-  background:linear-gradient(135deg,#8e2de2,#4a00e0);
-}
-
-.challenge-level{
-  background:rgba(255,255,255,0.08);
-  padding:7px 12px;
-  border-radius:12px;
-  font-size:12px;
-  color:var(--muted);
-  border:1px solid rgba(255,255,255,0.06);
-}
-
-.challenge-card h3{
-  margin-top:20px;
-  font-size:26px;
-  position:relative;
-  z-index:2;
-}
-
-.challenge-card p{
-  color:var(--muted);
-  margin-top:8px;
-  font-size:14px;
-  line-height:1.6;
-  position:relative;
-  z-index:2;
-}
-
-.challenge-btn{
-  display:inline-block;
-  margin-top:20px;
-  padding:13px 18px;
-  border-radius:16px;
-
-  background:rgba(255,255,255,0.08);
-  border:1px solid var(--stroke);
-
-  color:white;
-  text-decoration:none;
-  font-size:14px;
-  font-weight:600;
-
-  transition:0.25s;
-}
-
-.challenge-btn:hover{
-  transform:translateY(-2px);
-  background:rgba(255,255,255,0.12);
-}
-
-/* COMING SOON BANNER */
+/* ========================= */
+/* CLEAN COMING SOON BANNER */
+/* ========================= */
 
 .coming-banner{
-  position:relative;
-  margin:60px 20px 25px;
-  overflow:hidden;
+  margin:50px 20px 20px;
+  border-radius:24px;
 
-  border-radius:36px;
+  background:rgba(143,92,255,0.10);
+  border:1px solid rgba(143,92,255,0.25);
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(143,92,255,0.35),
-      rgba(74,0,224,0.22),
-      rgba(255,255,255,0.05)
-    );
-
-  border:1px solid rgba(143,92,255,0.30);
-
-  padding:45px 30px;
-
-  box-shadow:
-    0 0 50px rgba(143,92,255,0.18),
-    0 20px 40px rgba(0,0,0,0.28),
-    inset 0 0 25px rgba(255,255,255,0.03);
+  padding:28px 22px;
 }
 
-.coming-banner::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background:
-    linear-gradient(
-      120deg,
-      transparent,
-      rgba(255,255,255,0.08),
-      transparent
-    );
-
-  transform:translateX(-100%);
-  animation:shine 5s linear infinite;
-}
-
-@keyframes shine{
-  100%{
-    transform:translateX(100%);
-  }
-}
-
-.coming-glow{
-  position:absolute;
-  width:350px;
-  height:350px;
-  border-radius:50%;
-
-  background:rgba(143,92,255,0.28);
-
-  top:-170px;
-  right:-110px;
-
-  filter:blur(80px);
-}
-
-.coming-content{
-  position:relative;
-  z-index:2;
-}
-
-.coming-tag{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-
-  padding:9px 15px;
-
-  border-radius:999px;
-
-  background:rgba(255,255,255,0.10);
-
-  border:1px solid rgba(255,255,255,0.10);
-
-  color:#e7d8ff;
-
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:1px;
-
-  margin-bottom:20px;
-
-  backdrop-filter:blur(10px);
-}
-
-.coming-banner h1{
-  font-size:44px;
-  line-height:0.95;
-  margin-bottom:16px;
-  font-weight:800;
-
-  background:linear-gradient(to right,#ffffff,#e5d8ff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.coming-banner p{
-  color:rgba(255,255,255,0.80);
-
-  font-size:15px;
-  line-height:1.7;
-
-  max-width:320px;
-}
-
-.coming-banner a{
-  display:inline-block;
-
-  margin-top:26px;
-
-  padding:15px 22px;
-
-  border-radius:18px;
-
-  text-decoration:none;
-
-  background:white;
-  color:black;
-
-  font-weight:800;
-  font-size:14px;
-  letter-spacing:0.5px;
-
-  box-shadow:
-    0 10px 25px rgba(255,255,255,0.12);
-
-  transition:0.25s;
-}
-
-.coming-banner a:hover{
-  transform:translateY(-2px) scale(1.03);
-}
-
-/* SOCIALS */
-
-.social-section{
-  padding:5px 20px 10px;
-}
-
-.social-card{
-  background:linear-gradient(
-    145deg,
-    rgba(255,255,255,0.08),
-    rgba(255,255,255,0.03)
-  );
-
-  border:1px solid var(--stroke);
-
-  border-radius:28px;
-
-  padding:24px;
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.22);
-}
-
-.social-card h2{
-  font-size:24px;
+.coming-banner h2{
+  font-size:26px;
   margin-bottom:8px;
 }
 
-.social-card p{
+.coming-banner p{
   color:var(--muted);
-  line-height:1.6;
-  margin-bottom:22px;
+  font-size:14px;
+  line-height:1.5;
 }
 
-.social-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.social-btn{
-  text-decoration:none;
-  color:white;
-
-  padding:16px;
-
-  border-radius:18px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-
+.coming-tag{
+  display:inline-block;
+  margin-bottom:12px;
+  font-size:12px;
   font-weight:700;
-
-  transition:0.25s;
+  color:#cdb7ff;
 }
 
-.social-btn:hover{
-  transform:translateY(-2px);
+/* SOCIAL CLEAN VERSION */
+
+.social-section{
+  padding:20px;
 }
 
-.tiktok{
-  background:linear-gradient(135deg,#111111,#ff0050);
+.social-title{
+  font-size:20px;
+  margin-bottom:14px;
 }
 
-.youtube{
-  background:linear-gradient(135deg,#ff0000,#cc0000);
+.social-row{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding-bottom:6px;
 }
 
-.discord{
-  background:linear-gradient(135deg,#5865f2,#404eed);
+.social-row::-webkit-scrollbar{
+  display:none;
 }
 
-.instagram{
-  background:linear-gradient(135deg,#fd1d1d,#833ab4);
+.social-pill{
+  min-width:120px;
+  padding:14px;
+  border-radius:16px;
+
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+
+  text-align:center;
+  font-size:13px;
+  color:white;
 }
 
 /* BOTTOM NAV */
-
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -594,7 +225,6 @@ nav{
   display:flex;
   justify-content:space-around;
   padding:12px 0;
-  z-index:999;
 }
 
 .bottom-nav a{
@@ -603,25 +233,11 @@ nav{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:5px;
   font-size:11px;
-}
-
-.bottom-nav i{
-  font-size:20px;
 }
 
 .bottom-nav a.active{
   color:var(--accent);
-}
-
-/* FOOTER */
-
-footer{
-  text-align:center;
-  color:rgba(255,255,255,0.35);
-  padding:35px 20px;
-  font-size:12px;
 }
 
 </style>
@@ -629,52 +245,22 @@ footer{
 
 <body>
 
-<!-- NAV -->
-
 <nav>
-
   <div class="logo">
     <img src="RepLogHeader.png">
     <span>RepLog</span>
   </div>
-
-  <div class="menu-btn">
-    <i class="fa-solid fa-bars"></i>
-  </div>
-
 </nav>
 
 <!-- HERO -->
-
 <section class="hero">
-
   <div class="hero-card">
-
     <h1>Build Your <span>Colony</span></h1>
-
-    <p>
-      Complete challenges, earn XP, unlock ants,
-      and evolve your progression journey.
-    </p>
-
-    <div class="hero-buttons">
-
-      <a class="hero-btn primary" href="profile.html">
-        Profile
-      </a>
-
-      <a class="hero-btn secondary" href="UpdLog.html">
-        Updates
-      </a>
-
-    </div>
-
+    <p>Complete challenges, earn XP, unlock progression.</p>
   </div>
-
 </section>
 
 <!-- STATS -->
-
 <section class="stats">
 
   <div class="stat-card">
@@ -695,209 +281,73 @@ footer{
 </section>
 
 <!-- CHALLENGES -->
-
 <section class="section">
 
-  <div class="section-title">
-    <h2>Challenges</h2>
-    <span>3 Active</span>
+  <div class="challenge-card">
+    <h3>Push Challenge</h3>
   </div>
 
-  <div class="challenge-grid">
+  <div class="challenge-card">
+    <h3>Core Challenge</h3>
+  </div>
 
-    <!-- PUSH -->
-
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-
-        <div class="challenge-icon push">
-          <i class="fa-solid fa-dumbbell"></i>
-        </div>
-
-        <div class="challenge-level">
-          Beginner
-        </div>
-
-      </div>
-
-      <h3>Push Challenge</h3>
-
-      <p>
-        Increase reps, gain XP, and level up your
-        strength progression.
-      </p>
-
-      <a class="challenge-btn" href="PushUpChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
-
-    <!-- CORE -->
-
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-
-        <div class="challenge-icon core">
-          <i class="fa-solid fa-fire"></i>
-        </div>
-
-        <div class="challenge-level">
-          Intermediate
-        </div>
-
-      </div>
-
-      <h3>Core Challenge</h3>
-
-      <p>
-        Train consistency and improve your endurance
-        through core progression.
-      </p>
-
-      <a class="challenge-btn" href="CoreChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
-
-    <!-- CARDIO -->
-
-    <div class="challenge-card">
-
-      <div class="challenge-top">
-
-        <div class="challenge-icon cardio">
-          <i class="fa-solid fa-bolt"></i>
-        </div>
-
-        <div class="challenge-level">
-          Advanced
-        </div>
-
-      </div>
-
-      <h3>Cardio Challenge</h3>
-
-      <p>
-        Push your stamina, maintain streaks,
-        and unlock higher XP tiers.
-      </p>
-
-      <a class="challenge-btn" href="CardioChallenge.html">
-        Enter Challenge
-      </a>
-
-    </div>
-
+  <div class="challenge-card">
+    <h3>Cardio Challenge</h3>
   </div>
 
 </section>
 
-<!-- COMING SOON BANNER -->
-
+<!-- CLEAN COMING SOON -->
 <section class="coming-banner">
 
-  <div class="coming-glow"></div>
+  <div class="coming-tag">NEW UPDATE</div>
 
-  <div class="coming-content">
+  <h2>Workout Generator</h2>
 
-    <div class="coming-tag">
-      <i class="fa-solid fa-sparkles"></i>
-      NEW FEATURE
-    </div>
-
-    <h1>
-      Workout Generator
-    </h1>
-
-    <p>
-      Generate randomized workouts based on
-      your level, streaks, and unlocked ants.
-    </p>
-
-    <a href="ComingSoonPage.html">
-      COMING SOON
-    </a>
-
-  </div>
+  <p>
+    A smarter system that builds workouts based on your level,
+    streak, and progression.
+  </p>
 
 </section>
 
-<!-- SOCIALS -->
-
+<!-- CLEAN SOCIALS -->
 <section class="social-section">
 
-  <div class="social-card">
+  <div class="social-title">Socials</div>
 
-    <h2>Join The Colony</h2>
+  <div class="social-row">
 
-    <p>
-      Follow RepLog for updates, new challenges,
-      future features, and progression content.
-    </p>
-
-    <div class="social-buttons">
-
-      <a class="social-btn tiktok" href="#">
-        <i class="fa-brands fa-tiktok"></i>
-        TikTok
-      </a>
-
-      <a class="social-btn youtube" href="#">
-        <i class="fa-brands fa-youtube"></i>
-        YouTube
-      </a>
-
-      <a class="social-btn discord" href="#">
-        <i class="fa-brands fa-discord"></i>
-        Discord
-      </a>
-
-      <a class="social-btn instagram" href="#">
-        <i class="fa-brands fa-instagram"></i>
-        Instagram
-      </a>
-
-    </div>
+    <div class="social-pill">TikTok</div>
+    <div class="social-pill">YouTube</div>
+    <div class="social-pill">Discord</div>
+    <div class="social-pill">Instagram</div>
 
   </div>
 
 </section>
 
-<footer>
-  RepLog • Colony Training System [V1.0.0]
-</footer>
-
 <!-- BOTTOM NAV -->
-
 <div class="bottom-nav">
 
-  <a class="active" href="index.html">
+  <a class="active">
     <i class="fa-solid fa-house"></i>
     Home
   </a>
 
-  <a href="PushUpChallenge.html">
+  <a>
     <i class="fa-solid fa-dumbbell"></i>
     Push
   </a>
 
-  <a href="CoreChallenge.html">
+  <a>
     <i class="fa-solid fa-fire"></i>
     Core
   </a>
 
-  <a href="CardioChallenge.html">
+  <a>
     <i class="fa-solid fa-bolt"></i>
     Cardio
-  </a>
-
-  <a href="profile.html">
-    <i class="fa-solid fa-user"></i>
-    Profile
   </a>
 
 </div>
