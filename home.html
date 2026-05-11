@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>RepLog</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -91,38 +91,47 @@ nav{
   );
 
   border:1px solid var(--stroke);
-  border-radius:28px;
-  padding:28px 22px;
+  border-radius:32px;
+  padding:30px 24px;
   position:relative;
   overflow:hidden;
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .hero-card::before{
   content:"";
   position:absolute;
-  width:220px;
-  height:220px;
+  width:240px;
+  height:240px;
   background:rgba(214,161,95,0.12);
   border-radius:50%;
   top:-120px;
   right:-80px;
+  filter:blur(5px);
 }
 
 .hero-card::after{
   content:"";
   position:absolute;
-  width:100px;
-  height:100px;
-  background:rgba(214,161,95,0.12);
+  width:120px;
+  height:120px;
+  background:rgba(143,92,255,0.12);
   border-radius:50%;
-  top:150px;
-  right:225px;
+  top:160px;
+  right:220px;
+  filter:blur(10px);
 }
 
 .hero h1{
-  font-size:42px;
-  line-height:1;
-  margin-bottom:12px;
+  font-size:46px;
+  line-height:0.95;
+  margin-bottom:14px;
+  font-weight:800;
+  position:relative;
+  z-index:2;
 }
 
 .hero h1 span{
@@ -133,26 +142,37 @@ nav{
   color:var(--muted);
   font-size:15px;
   max-width:300px;
+  line-height:1.6;
+  position:relative;
+  z-index:2;
 }
 
 .hero-buttons{
   display:flex;
   gap:12px;
-  margin-top:25px;
+  margin-top:28px;
+  position:relative;
+  z-index:2;
 }
 
 .hero-btn{
   flex:1;
   text-align:center;
-  padding:14px;
-  border-radius:16px;
+  padding:15px;
+  border-radius:18px;
   text-decoration:none;
-  font-weight:600;
+  font-weight:700;
+  transition:0.25s;
+}
+
+.hero-btn:hover{
+  transform:translateY(-2px);
 }
 
 .primary{
-  background:var(--accent);
+  background:linear-gradient(135deg,#d6a15f,#ffcb7d);
   color:black;
+  box-shadow:0 8px 25px rgba(214,161,95,0.28);
 }
 
 .secondary{
@@ -166,34 +186,44 @@ nav{
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px;
+  gap:14px;
   padding:0 20px;
-  margin-top:-15px;
+  margin-top:-10px;
 }
 
 .stat-card{
-  background:var(--card);
+  background:linear-gradient(
+    145deg,
+    rgba(255,255,255,0.07),
+    rgba(255,255,255,0.03)
+  );
+
   border:1px solid var(--stroke);
-  border-radius:20px;
-  padding:18px 12px;
+  border-radius:22px;
+  padding:20px 12px;
   text-align:center;
   backdrop-filter:blur(12px);
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.20);
 }
 
 .stat-card h2{
   color:var(--accent);
-  font-size:22px;
+  font-size:24px;
+  font-weight:800;
 }
 
 .stat-card p{
   color:var(--muted);
   font-size:12px;
+  margin-top:4px;
 }
 
 /* SECTION */
 
 .section{
-  padding:35px 20px 0;
+  padding:38px 20px 0;
 }
 
 .section-title{
@@ -204,7 +234,7 @@ nav{
 }
 
 .section-title h2{
-  font-size:22px;
+  font-size:24px;
 }
 
 .section-title span{
@@ -217,7 +247,7 @@ nav{
 .challenge-grid{
   display:flex;
   flex-direction:column;
-  gap:16px;
+  gap:18px;
 }
 
 .challenge-card{
@@ -228,15 +258,29 @@ nav{
   );
 
   border:1px solid var(--stroke);
-  border-radius:24px;
-  padding:20px;
+  border-radius:28px;
+  padding:22px;
   position:relative;
   overflow:hidden;
   transition:0.25s;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.22);
 }
 
 .challenge-card:hover{
-  transform:translateY(-3px);
+  transform:translateY(-4px);
+}
+
+.challenge-card::before{
+  content:"";
+  position:absolute;
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.04);
+  right:-70px;
+  top:-70px;
 }
 
 .challenge-top{
@@ -246,14 +290,17 @@ nav{
 }
 
 .challenge-icon{
-  width:58px;
-  height:58px;
-  border-radius:18px;
+  width:62px;
+  height:62px;
+  border-radius:20px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:24px;
   color:white;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.25);
 }
 
 .push{
@@ -270,74 +317,113 @@ nav{
 
 .challenge-level{
   background:rgba(255,255,255,0.08);
-  padding:6px 10px;
-  border-radius:10px;
+  padding:7px 12px;
+  border-radius:12px;
   font-size:12px;
   color:var(--muted);
+  border:1px solid rgba(255,255,255,0.06);
 }
 
 .challenge-card h3{
-  margin-top:18px;
-  font-size:24px;
+  margin-top:20px;
+  font-size:26px;
+  position:relative;
+  z-index:2;
 }
 
 .challenge-card p{
   color:var(--muted);
-  margin-top:6px;
+  margin-top:8px;
   font-size:14px;
-  line-height:1.5;
+  line-height:1.6;
+  position:relative;
+  z-index:2;
 }
 
 .challenge-btn{
   display:inline-block;
-  margin-top:18px;
-  padding:12px 18px;
-  border-radius:14px;
+  margin-top:20px;
+  padding:13px 18px;
+  border-radius:16px;
+
   background:rgba(255,255,255,0.08);
   border:1px solid var(--stroke);
+
   color:white;
   text-decoration:none;
   font-size:14px;
+  font-weight:600;
+
+  transition:0.25s;
+}
+
+.challenge-btn:hover{
+  transform:translateY(-2px);
+  background:rgba(255,255,255,0.12);
 }
 
 /* COMING SOON BANNER */
 
 .coming-banner{
   position:relative;
-  margin:55px 20px 20px;
+  margin:60px 20px 25px;
   overflow:hidden;
 
-  border-radius:34px;
+  border-radius:36px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(143,92,255,0.30),
-      rgba(74,0,224,0.18),
-      rgba(255,255,255,0.04)
+      rgba(143,92,255,0.35),
+      rgba(74,0,224,0.22),
+      rgba(255,255,255,0.05)
     );
 
-  border:1px solid rgba(143,92,255,0.25);
+  border:1px solid rgba(143,92,255,0.30);
 
-  padding:42px 28px;
+  padding:45px 30px;
 
   box-shadow:
-    0 0 40px rgba(143,92,255,0.12),
-    inset 0 0 20px rgba(255,255,255,0.03);
+    0 0 50px rgba(143,92,255,0.18),
+    0 20px 40px rgba(0,0,0,0.28),
+    inset 0 0 25px rgba(255,255,255,0.03);
+}
+
+.coming-banner::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(255,255,255,0.08),
+      transparent
+    );
+
+  transform:translateX(-100%);
+  animation:shine 5s linear infinite;
+}
+
+@keyframes shine{
+  100%{
+    transform:translateX(100%);
+  }
 }
 
 .coming-glow{
   position:absolute;
-  width:320px;
-  height:320px;
+  width:350px;
+  height:350px;
   border-radius:50%;
 
-  background:rgba(143,92,255,0.25);
+  background:rgba(143,92,255,0.28);
 
-  top:-140px;
-  right:-100px;
+  top:-170px;
+  right:-110px;
 
-  filter:blur(60px);
+  filter:blur(80px);
 }
 
 .coming-content{
@@ -346,40 +432,45 @@ nav{
 }
 
 .coming-tag{
-  display:inline-block;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
 
-  padding:8px 14px;
+  padding:9px 15px;
 
   border-radius:999px;
 
-  background:rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.10);
 
   border:1px solid rgba(255,255,255,0.10);
 
-  color:#d8c4ff;
+  color:#e7d8ff;
 
   font-size:12px;
   font-weight:700;
   letter-spacing:1px;
 
-  margin-bottom:18px;
+  margin-bottom:20px;
+
+  backdrop-filter:blur(10px);
 }
 
 .coming-banner h1{
-  font-size:40px;
-  line-height:1;
-  margin-bottom:14px;
+  font-size:44px;
+  line-height:0.95;
+  margin-bottom:16px;
+  font-weight:800;
 
-  background:linear-gradient(to right,#ffffff,#d8c4ff);
+  background:linear-gradient(to right,#ffffff,#e5d8ff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
 .coming-banner p{
-  color:rgba(255,255,255,0.78);
+  color:rgba(255,255,255,0.80);
 
   font-size:15px;
-  line-height:1.6;
+  line-height:1.7;
 
   max-width:320px;
 }
@@ -387,25 +478,107 @@ nav{
 .coming-banner a{
   display:inline-block;
 
-  margin-top:24px;
+  margin-top:26px;
 
-  padding:14px 20px;
+  padding:15px 22px;
 
-  border-radius:16px;
+  border-radius:18px;
 
   text-decoration:none;
 
   background:white;
   color:black;
 
-  font-weight:700;
+  font-weight:800;
   font-size:14px;
+  letter-spacing:0.5px;
+
+  box-shadow:
+    0 10px 25px rgba(255,255,255,0.12);
 
   transition:0.25s;
 }
 
 .coming-banner a:hover{
   transform:translateY(-2px) scale(1.03);
+}
+
+/* SOCIALS */
+
+.social-section{
+  padding:5px 20px 10px;
+}
+
+.social-card{
+  background:linear-gradient(
+    145deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.03)
+  );
+
+  border:1px solid var(--stroke);
+
+  border-radius:28px;
+
+  padding:24px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.22);
+}
+
+.social-card h2{
+  font-size:24px;
+  margin-bottom:8px;
+}
+
+.social-card p{
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:22px;
+}
+
+.social-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.social-btn{
+  text-decoration:none;
+  color:white;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  font-weight:700;
+
+  transition:0.25s;
+}
+
+.social-btn:hover{
+  transform:translateY(-2px);
+}
+
+.tiktok{
+  background:linear-gradient(135deg,#111111,#ff0050);
+}
+
+.youtube{
+  background:linear-gradient(135deg,#ff0000,#cc0000);
+}
+
+.discord{
+  background:linear-gradient(135deg,#5865f2,#404eed);
+}
+
+.instagram{
+  background:linear-gradient(135deg,#fd1d1d,#833ab4);
 }
 
 /* BOTTOM NAV */
@@ -447,7 +620,7 @@ nav{
 footer{
   text-align:center;
   color:rgba(255,255,255,0.35);
-  padding:30px 20px;
+  padding:35px 20px;
   font-size:12px;
 }
 
@@ -632,6 +805,7 @@ footer{
   <div class="coming-content">
 
     <div class="coming-tag">
+      <i class="fa-solid fa-sparkles"></i>
       NEW FEATURE
     </div>
 
@@ -647,6 +821,47 @@ footer{
     <a href="ComingSoonPage.html">
       COMING SOON
     </a>
+
+  </div>
+
+</section>
+
+<!-- SOCIALS -->
+
+<section class="social-section">
+
+  <div class="social-card">
+
+    <h2>Join The Colony</h2>
+
+    <p>
+      Follow RepLog for updates, new challenges,
+      future features, and progression content.
+    </p>
+
+    <div class="social-buttons">
+
+      <a class="social-btn tiktok" href="#">
+        <i class="fa-brands fa-tiktok"></i>
+        TikTok
+      </a>
+
+      <a class="social-btn youtube" href="#">
+        <i class="fa-brands fa-youtube"></i>
+        YouTube
+      </a>
+
+      <a class="social-btn discord" href="#">
+        <i class="fa-brands fa-discord"></i>
+        Discord
+      </a>
+
+      <a class="social-btn instagram" href="#">
+        <i class="fa-brands fa-instagram"></i>
+        Instagram
+      </a>
+
+    </div>
 
   </div>
 
