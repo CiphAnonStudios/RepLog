@@ -329,6 +329,23 @@ footer{
 
 </section>
 
+<section class="section">
+
+  <div class="section-title">
+    <h2>Workout Calendar</h2>
+    <span>Track Consistency</span>
+  </div>
+
+  <div class="list-card">
+
+    <div id="month" style="font-size:22px;font-weight:700;color:var(--accent);margin-bottom:18px;"></div>
+
+    <div id="calendar" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;"></div>
+
+  </div>
+
+</section>
+
 <footer>
   Summer Glow-Up System V1.0
 </footer>
@@ -388,6 +405,10 @@ const setinfo=document.getElementById("setinfo");
 
 const percent=document.getElementById("percent");
 const circle=document.getElementById("circle");
+const calendar=document.getElementById("calendar");
+
+let completedDays=
+JSON.parse(localStorage.getItem("summer_completedDays") || "{}");
 
 function updateStats(){
 
@@ -413,6 +434,19 @@ percent.innerText=Math.floor(progress)+"%";
 function render(){
 
 if(index>=workout.length){
+
+let today=new Date();
+
+let todayStr=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+completedDays[todayStr]=
+(completedDays[todayStr]||0)+1;
+
+localStorage.setItem(
+"summer_completedDays",
+JSON.stringify(completedDays));
+
+renderCalendar();
 
 exercise.innerText="Workout Complete";
 
@@ -469,7 +503,95 @@ index=0;
 render();
 }
 
+function renderCalendar(){
+
+calendar.innerHTML="";
+
+let now=new Date();
+
+let year=now.getFullYear();
+
+let month=now.getMonth();
+
+document.getElementById("month").innerText=
+now.toLocaleString("default",
+{month:"long"})+" "+year;
+
+let firstDay=
+new Date(year,month,1).getDay();
+
+let days=
+new Date(year,month+1,0).getDate();
+
+["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+.forEach(n=>{
+
+let el=document.createElement("div");
+
+el.style.textAlign="center";
+
+el.style.color="rgba(255,255,255,0.5)";
+
+el.style.fontSize="12px";
+
+el.innerText=n;
+
+calendar.appendChild(el);
+});
+
+for(let i=0;i<firstDay;i++){
+
+let empty=document.createElement("div");
+
+calendar.appendChild(empty);
+}
+
+for(let d=1; d<=days; d++){
+
+let dateStr=
+`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+let div=document.createElement("div");
+
+div.innerText=d;
+
+div.style.aspectRatio="1";
+
+div.style.display="flex";
+
+div.style.alignItems="center";
+
+div.style.justifyContent="center";
+
+div.style.borderRadius="14px";
+
+div.style.background="rgba(255,255,255,0.05)";
+
+div.style.border="1px solid rgba(255,255,255,0.05)";
+
+if(completedDays[dateStr]){
+
+if(completedDays[dateStr]>1){
+
+div.style.background=
+"linear-gradient(135deg,#8e2de2,#4a00e0)";
+
+}
+else{
+
+div.style.background=
+"linear-gradient(135deg,#ff3c3c,#8b0000)";
+}
+
+}
+
+calendar.appendChild(div);
+}
+}
+
+
 updateStats();
+renderCalendar();
 render();
 
 });
