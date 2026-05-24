@@ -362,115 +362,258 @@ nav{
   background:rgba(255,255,255,0.12);
 }
 
-/* DIFFICULTY CARD */
+/* COMING SOON BANNER */
 
-.difficulty-wrap{
-  padding:35px 20px 0;
-}
-
-.difficulty-card{
+.coming-banner{
   position:relative;
+  margin:60px 20px 25px;
   overflow:hidden;
 
-  border-radius:34px;
-  padding:30px;
+  border-radius:36px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(255,255,255,0.08),
-      rgba(255,255,255,0.03)
+      rgba(143,92,255,0.35),
+      rgba(74,0,224,0.22),
+      rgba(255,255,255,0.05)
     );
+
+  border:1px solid rgba(143,92,255,0.30);
+
+  padding:45px 30px;
+
+  box-shadow:
+    0 0 50px rgba(143,92,255,0.18),
+    0 20px 40px rgba(0,0,0,0.28),
+    inset 0 0 25px rgba(255,255,255,0.03);
+}
+
+.coming-banner::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(255,255,255,0.08),
+      transparent
+    );
+
+  transform:translateX(-100%);
+  animation:shine 5s linear infinite;
+  filter: blur(15px);
+}
+
+@keyframes shine{
+  100%{
+    transform:translateX(100%);
+  }
+}
+
+.coming-glow{
+  position:absolute;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+
+  background:rgba(143,92,255,0.28);
+
+  top:-170px;
+  right:-110px;
+
+  filter:blur(80px);
+}
+
+.coming-content{
+  position:relative;
+  z-index:2;
+}
+
+.coming-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  padding:9px 15px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,0.10);
+
+  border:1px solid rgba(255,255,255,0.10);
+
+  color:#e7d8ff;
+
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1px;
+
+  margin-bottom:20px;
+
+  backdrop-filter:blur(10px);
+}
+
+.coming-banner h1{
+  font-size:44px;
+  line-height:0.95;
+  margin-bottom:16px;
+  font-weight:800;
+
+  background:linear-gradient(to right,#ffffff,#e5d8ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.coming-banner p{
+  color:rgba(255,255,255,0.80);
+
+  font-size:15px;
+  line-height:1.7;
+
+  max-width:320px;
+}
+
+.coming-banner a{
+  display:inline-block;
+
+  margin-top:26px;
+
+  padding:15px 22px;
+
+  border-radius:18px;
+
+  text-decoration:none;
+
+  background:white;
+  color:black;
+
+  font-weight:800;
+  font-size:14px;
+  letter-spacing:0.5px;
+
+  box-shadow:
+    0 10px 25px rgba(255,255,255,0.12);
+
+  transition:0.25s;
+}
+
+.coming-banner a:hover{
+  transform:translateY(-2px) scale(1.03);
+}
+
+/* SOCIALS */
+
+.social-section{
+  padding:5px 20px 10px;
+}
+
+.social-card{
+  background:linear-gradient(
+    145deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.03)
+  );
 
   border:1px solid var(--stroke);
 
+  border-radius:28px;
+
+  padding:24px;
+
   box-shadow:
-    0 15px 35px rgba(0,0,0,0.22);
+    0 10px 30px rgba(0,0,0,0.22);
 }
 
-.difficulty-card h1{
-  font-size:40px;
-  line-height:0.95;
-  margin-bottom:15px;
-}
-
-.difficulty-card p{
-  color:var(--muted);
-  margin-bottom:28px;
-  line-height:1.7;
-}
-
-.difficulty-level{
-  margin-bottom:24px;
-}
-
-.difficulty-top{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
-}
-
-.difficulty-stars{
-  display:flex;
-  gap:8px;
-}
-
-.difficulty-stars i{
+.social-card h2{
   font-size:24px;
-
-  opacity:0;
-  transform:translateX(-20px) scale(0.6);
-
-  transition:
-    transform 0.45s ease,
-    opacity 0.45s ease;
+  margin-bottom:8px;
 }
 
-.difficulty-card.show i{
-  opacity:1;
-  transform:translateX(0) scale(1);
+.social-card p{
+  color:var(--muted);
+  line-height:1.6;
+  margin-bottom:22px;
 }
 
-.green{
-  color:#59ff87;
+.social-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
 
-.yellow{
-  color:#ffd54a;
+.social-btn{
+  text-decoration:none;
+  color:white;
+
+  padding:16px;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  font-weight:700;
+
+  transition:0.25s;
 }
 
-.red{
-  color:#ff5e5e;
+.social-btn:hover{
+  transform:translateY(-2px);
 }
 
-.purple{
-  color:#b26cff;
+.tiktok{
+  background:linear-gradient(135deg,#111111,#ff0050);
 }
 
-.gray{
-  color:#7d7d7d;
+.youtube{
+  background:linear-gradient(135deg,#ff0000,#cc0000);
 }
 
-/* STAR DELAYS */
-
-.difficulty-card.show i:nth-child(1){
-  transition-delay:0.05s;
+.discord{
+  background:linear-gradient(135deg,#5865f2,#404eed);
 }
 
-.difficulty-card.show i:nth-child(2){
-  transition-delay:0.15s;
+.instagram{
+  background:linear-gradient(135deg,#fd1d1d,#833ab4);
 }
 
-.difficulty-card.show i:nth-child(3){
-  transition-delay:0.25s;
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--stroke);
+  display:flex;
+  justify-content:space-around;
+  padding:12px 0;
+  z-index:999;
 }
 
-.difficulty-card.show i:nth-child(4){
-  transition-delay:0.35s;
+.bottom-nav a{
+  color:var(--muted);
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
 }
 
-.difficulty-card.show i:nth-child(5){
-  transition-delay:0.45s;
+.bottom-nav i{
+  font-size:20px;
+}
+
+.bottom-nav a.active{
+  color:var(--accent);
 }
 
 /* FOOTER */
@@ -481,11 +624,196 @@ footer{
   padding:35px 20px;
   font-size:12px;
 }
+  
+.ComingSoonBar {
+    height: 100px;
+    width: 500px;
+    position: absolute;
+    background-color: #412476;
+    top: px;
+    left: px;
+    transform: rotate(25deg);
+}
 
+/* STAR CREATOR CARD */
+
+.creator-wrap{
+  padding:30px 20px 10px;
+}
+
+.creator-card{
+  position:relative;
+  overflow:hidden;
+
+  border-radius:34px;
+  padding:30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,215,120,0.14),
+      rgba(255,255,255,0.04)
+    );
+
+  border:1px solid rgba(255,215,120,0.20);
+
+  box-shadow:
+    0 0 40px rgba(255,215,120,0.08),
+    0 18px 40px rgba(0,0,0,0.25);
+}
+
+.creator-card::before{
+  content:"";
+  position:absolute;
+
+  width:260px;
+  height:260px;
+
+  border-radius:50%;
+
+  background:rgba(255,215,120,0.12);
+
+  top:-120px;
+  right:-90px;
+
+  filter:blur(10px);
+}
+
+.creator-stars{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.creator-stars span{
+  position:absolute;
+  color:rgba(255,255,255,0.7);
+  animation:floatStar 4s ease-in-out infinite;
+}
+
+.creator-stars span:nth-child(1){
+  top:25px;
+  left:30px;
+  font-size:12px;
+}
+
+.creator-stars span:nth-child(2){
+  top:70px;
+  right:60px;
+  font-size:16px;
+  animation-delay:1s;
+}
+
+.creator-stars span:nth-child(3){
+  bottom:35px;
+  left:60px;
+  font-size:14px;
+  animation-delay:2s;
+}
+
+@keyframes floatStar{
+  0%,100%{
+    transform:translateY(0px);
+    opacity:0.7;
+  }
+
+  50%{
+    transform:translateY(-8px);
+    opacity:1;
+  }
+}
+
+.creator-content{
+  position:relative;
+  z-index:2;
+}
+
+.creator-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  padding:9px 14px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,0.08);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  font-size:12px;
+  font-weight:700;
+
+  color:#ffe29c;
+
+  margin-bottom:18px;
+}
+
+.creator-card h1{
+  font-size:42px;
+  line-height:0.95;
+  font-weight:800;
+
+  margin-bottom:14px;
+
+  background:linear-gradient(
+    to right,
+    #fff7d1,
+    #ffd86b
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.creator-card p{
+  color:rgba(255,255,255,0.78);
+
+  line-height:1.7;
+  font-size:15px;
+
+  max-width:320px;
+}
+
+.creator-button{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+
+  margin-top:24px;
+
+  padding:15px 22px;
+
+  border-radius:18px;
+
+  text-decoration:none;
+
+  background:linear-gradient(
+    135deg,
+    #ffd86b,
+    #ffb347
+  );
+
+  color:black;
+
+  font-weight:800;
+  font-size:14px;
+
+  box-shadow:
+    0 10px 25px rgba(255,200,90,0.20);
+
+  transition:0.25s;
+}
+
+.creator-button:hover{
+  transform:translateY(-2px) scale(1.02);
+}
 </style>
 </head>
 
 <body>
+
+<!-- NAV -->
 
 <nav>
 
@@ -499,6 +827,8 @@ footer{
   </div>
 
 </nav>
+
+<!-- HERO -->
 
 <section class="hero">
 
@@ -527,6 +857,8 @@ footer{
 
 </section>
 
+<!-- STATS -->
+
 <section class="stats">
 
   <div class="stat-card">
@@ -546,6 +878,8 @@ footer{
 
 </section>
 
+<!-- CHALLENGES -->
+
 <section class="section">
 
   <div class="section-title">
@@ -554,6 +888,8 @@ footer{
   </div>
 
   <div class="challenge-grid">
+
+    <!-- PUSH -->
 
     <div class="challenge-card">
 
@@ -582,127 +918,186 @@ footer{
 
     </div>
 
+    <!-- CORE -->
+
+    <div class="challenge-card">
+
+      <div class="challenge-top">
+
+        <div class="challenge-icon core">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+
+        <div class="challenge-level">
+          Intermediate
+        </div>
+
+      </div>
+
+      <h3>Core Challenge</h3>
+
+      <p>
+        Train consistency and improve your endurance
+        through core progression.
+      </p>
+
+      <a class="challenge-btn" href="CoreChallenge.html">
+        Enter Challenge
+      </a>
+
+    </div>
+
+    <!-- CARDIO -->
+
+    <div class="challenge-card">
+
+      <div class="challenge-top">
+
+        <div class="challenge-icon cardio">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+
+        <div class="challenge-level">
+          Advanced
+        </div>
+
+      </div>
+
+      <h3>Cardio Challenge</h3>
+
+      <p>
+        Push your stamina, maintain streaks,
+        and unlock higher XP tiers.
+      </p>
+
+      <a class="challenge-btn" href="CardioChallenge.html">
+        Enter Challenge
+      </a>
+
+    </div>
+
   </div>
 
 </section>
 
-<!-- DIFFICULTY LEVELS -->
+<!-- COMING SOON BANNER -->
 
-<section class="difficulty-wrap">
+<section class="coming-banner">
 
-  <div class="difficulty-card" id="difficultyCard">
+  <div class="coming-glow"></div>
+
+  <div class="coming-content">
+
+    <div class="coming-tag">
+      <i class="fa-solid fa-sparkles"></i>
+      NEW FEATURE
+    </div>
 
     <h1>
-      Difficulty<br>
-      Levels
+      Workout Generator
     </h1>
 
     <p>
-      Scroll to reveal the challenge difficulty system.
+      Generate randomized workouts based on
+      your level, streaks, and unlocked ants.
+    </p>
+    <a href="ComingSoonPage.html">
+      COMING SOON
+    </a>
+
+  </div>
+
+</section>
+ <!-- <div class="ComingSoonBar"></div> -->
+<!-- SOCIALS -->
+
+<section class="social-section">
+
+  <div class="social-card">
+
+    <h2>Join The Colony</h2>
+
+    <p>
+      Follow RepLog for updates, new challenges,
+      future features, and progression content.
     </p>
 
-    <!-- Beginner -->
+    <div class="social-buttons">
 
-    <div class="difficulty-level">
+      <a class="social-btn tiktok" href="#">
+        <i class="fa-brands fa-tiktok"></i>
+        TikTok
+      </a>
 
-      <div class="difficulty-top">
-        <span>Beginner</span>
-        <span>1 / 5</span>
-      </div>
+      <a class="social-btn youtube" href="#">
+        <i class="fa-brands fa-youtube"></i>
+        YouTube
+      </a>
 
-      <div class="difficulty-stars">
-        <i class="fa-solid fa-star green"></i>
-        <i class="fa-regular fa-star"></i>
-        <i class="fa-regular fa-star"></i>
-        <i class="fa-regular fa-star"></i>
-        <i class="fa-regular fa-star"></i>
-      </div>
+      <a class="social-btn discord" href="#">
+        <i class="fa-brands fa-discord"></i>
+        Discord
+      </a>
 
-    </div>
-
-    <!-- Intermediate -->
-
-    <div class="difficulty-level">
-
-      <div class="difficulty-top">
-        <span>Intermediate</span>
-        <span>2 / 5</span>
-      </div>
-
-      <div class="difficulty-stars">
-        <i class="fa-solid fa-star yellow"></i>
-        <i class="fa-solid fa-star yellow"></i>
-        <i class="fa-regular fa-star"></i>
-        <i class="fa-regular fa-star"></i>
-        <i class="fa-regular fa-star"></i>
-      </div>
-
-    </div>
-
-    <!-- Professional -->
-
-    <div class="difficulty-level">
-
-      <div class="difficulty-top">
-        <span>Professional</span>
-        <span>3 / 5</span>
-      </div>
-
-      <div class="difficulty-stars">
-        <i class="fa-solid fa-star red"></i>
-        <i class="fa-solid fa-star red"></i>
-        <i class="fa-solid fa-star red"></i>
-        <i class="fa-regular fa-star"></i>
-        <i class="fa-regular fa-star"></i>
-      </div>
-
-    </div>
-
-    <!-- Intense -->
-
-    <div class="difficulty-level">
-
-      <div class="difficulty-top">
-        <span>Intense</span>
-        <span>4 / 5</span>
-      </div>
-
-      <div class="difficulty-stars">
-        <i class="fa-solid fa-star purple"></i>
-        <i class="fa-solid fa-star purple"></i>
-        <i class="fa-solid fa-star purple"></i>
-        <i class="fa-solid fa-star purple"></i>
-        <i class="fa-regular fa-star"></i>
-      </div>
-
-    </div>
-
-    <!-- Elite -->
-
-    <div class="difficulty-level">
-
-      <div class="difficulty-top">
-        <span>Elite</span>
-        <span>5 / 5</span>
-      </div>
-
-      <div class="difficulty-stars">
-        <i class="fa-solid fa-star gray"></i>
-        <i class="fa-solid fa-star gray"></i>
-        <i class="fa-solid fa-star gray"></i>
-        <i class="fa-solid fa-star gray"></i>
-        <i class="fa-solid fa-star gray"></i>
-      </div>
+      <a class="social-btn instagram" href="#">
+        <i class="fa-brands fa-instagram"></i>
+        Instagram
+      </a>
 
     </div>
 
   </div>
 
 </section>
+   <a class="challenge-btn" href="CreatorChallenge.html">
+        Creator Challenge 
+      </a>
 
+<!-- STAR CREATOR CARD -->
+
+<section class="creator-wrap">
+
+  <div class="creator-card">
+
+    <div class="creator-stars">
+      <span>✦</span>
+      <span>✧</span>
+      <span>✦</span>
+    </div>
+
+    <div class="creator-content">
+
+      <div class="creator-badge">
+        <i class="fa-solid fa-star"></i>
+        ELITE CHALLENGE
+      </div>
+
+      <h1>
+        Creator<br>
+        Challenge
+      </h1>
+
+      <p>
+        Build discipline, stay consistent,
+        create content, and evolve your
+        creator progression path.
+      </p>
+
+      <a class="creator-button" href="CreatorChallenge.html">
+        <i class="fa-solid fa-arrow-right"></i>
+        ENTER CHALLENGE
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
 <footer>
   RepLog • Colony Training System [V1.0.0]
 </footer>
+
+<!-- BOTTOM NAV -->
 
 <div class="bottom-nav">
 
@@ -732,30 +1127,6 @@ footer{
   </a>
 
 </div>
-
-<script>
-
-const difficultyCard = document.getElementById("difficultyCard");
-
-const observer = new IntersectionObserver((entries)=>{
-
-  entries.forEach((entry)=>{
-
-    if(entry.isIntersecting){
-      difficultyCard.classList.add("show");
-    }else{
-      difficultyCard.classList.remove("show");
-    }
-
-  });
-
-},{
-  threshold:0.45
-});
-
-observer.observe(difficultyCard);
-
-</script>
 
 </body>
 </html>
