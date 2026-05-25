@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Cube Core Fix</title>
+<title>Juicy Cube Toy</title>
 
 <style>
   body {
     margin: 0;
     overflow: hidden;
-    background: black;
+    background: #000;
     touch-action: none;
   }
 
@@ -20,6 +20,7 @@
     color: white;
     font-family: Arial;
     z-index: 10;
+    font-size: 18px;
   }
 
   #crosshair {
@@ -57,7 +58,7 @@
 <body>
 
 <div id="ui">
-  <div id="score">Score: 0</div>
+  Score: <span id="score">0</span>
 </div>
 
 <div id="crosshair"></div>
@@ -74,7 +75,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 100);
 camera.position.z = 6;
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias:true });
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -105,22 +106,21 @@ spawnTarget();
 
 /* ---------------- PHYSICS ---------------- */
 let vel = new THREE.Vector2();
-let rotVel = new THREE.Vector3();
+let rot = new THREE.Vector3();
 let wobble = 0;
 
 /* ---------------- BOUNDS ---------------- */
-function getBounds() {
-  const vFOV = THREE.MathUtils.degToRad(camera.fov);
-  const height = 2 * Math.tan(vFOV / 2) * camera.position.z;
-  const width = height * camera.aspect;
+function bounds() {
+  const h = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov)/2) * camera.position.z;
+  const w = h * camera.aspect;
 
   return {
-    x: width / 2 - 0.7,
-    y: height / 2 - 0.7
+    x: w/2 - 0.7,
+    y: h/2 - 0.7
   };
 }
 
-/* ---------------- TOUCH (FIXED CORE FEEL) ---------------- */
+/* ---------------- TOUCH CONTROL ---------------- */
 let dragging = false;
 let last = null;
 
@@ -135,13 +135,14 @@ window.addEventListener("pointermove", (e) => {
   const dx = e.clientX - last.clientX;
   const dy = e.clientY - last.clientY;
 
-  /* REAL PUSH FEEL */
-  vel.x += dx * 0.0022;
-  vel.y -= dy * 0.0022;
+  /* JUICY FORCE (this is what makes it fun) */
+  vel.x += dx * 0.004;
+  vel.y -= dy * 0.004;
 
-  /* FLIP / FLOP ROTATION */
-  rotVel.y += dx * 0.02;
-  rotVel.x += dy * 0.02;
+  /* SPIN / FLIP */
+  rot.y += dx * 0.03;
+  rot.x += dy * 0.03;
+  rot.z += dx * 0.01;
 
   last = e;
 });
@@ -155,41 +156,61 @@ function animate() {
   requestAnimationFrame(animate);
 
   /* gravity */
-  if (!dragging) vel.y -= 0.012;
+  if (!dragging) vel.y -= 0.008;
 
-  /* smooth movement */
-  vel.multiplyScalar(0.93);
+  /* motion smoothing */
+  vel.multiplyScalar(0.95);
 
   cube.position.x += vel.x;
   cube.position.y += vel.y;
 
   /* rotation */
-  cube.rotation.x += rotVel.x;
-  cube.rotation.y += rotVel.y;
-  cube.rotation.z += rotVel.z;
-  rotVel.multiplyScalar(0.88);
+  cube.rotation.x += rot.x;
+  cube.rotation.y += rot.y;
+  cube.rotation.z += rot.z;
 
-  /* simple jelly feel (stable version) */
-  wobble += 0.2;
-  const s = Math.sin(wobble) * 0.06;
+  rot.multiplyScalar(0.9);
+
+  /* SUPER JUICY WOBBLE */
+  wobble += vel.length() * 0.4;
+  const s = Math.sin(wobble) * 0.1;
 
   cube.scale.x = 1 + s;
   cube.scale.y = 1 - s;
-  cube.scale.z = 1 + s * 0.5;
+  cube.scale.z = 1 + s * 0.6;
 
-  /* screen bounds (clean + stable) */
-  const b = getBounds();
+  /* bounds bounce (FEELS GOOD NOT REALISTIC) */
+  const b = bounds();
 
-  cube.position.x = Math.max(-b.x, Math.min(b.x, cube.position.x));
-  cube.position.y = Math.max(-b.y, Math.min(b.y, cube.position.y));
-
-  /* collision */
-  if (cube.position.distanceTo(target.position) < 0.8) {
-    score++;
-    spawnTarget();
+  if (cube.position.x > b.x) {
+    cube.position.x = b.x;
+    vel.x *= -1.1;
+  }
+  if (cube.position.x < -b.x) {
+    cube.position.x = -b.x;
+    vel.x *= -1.1;
   }
 
-  scoreEl.innerText = "Score: " + score;
+  if (cube.position.y > b.y) {
+    cube.position.y = b.y;
+    vel.y *= -1.1;
+  }
+  if (cube.position.y < -b.y) {
+    cube.position.y = -b.y;
+    vel.y *= -1.1;
+  }
+
+  /* SCORE */
+  if (cube.position.distanceTo(target.position) < 0.8) {
+    score++;
+    scoreEl.innerText = score;
+
+    spawnTarget();
+
+    /* hit pop */
+    cube.scale.set(1.4, 0.6, 1.4);
+    setTimeout(() => cube.scale.set(1,1,1), 90);
+  }
 
   renderer.render(scene, camera);
 }
@@ -198,7 +219,7 @@ animate();
 
 /* resize */
 window.addEventListener("resize", () => {
-  camera.aspect = innerWidth / innerHeight;
+  camera.aspect = innerWidth/innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
 });
