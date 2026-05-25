@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cube Physics Game</title>
+
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+    font-family: Arial;
+  }
+
+  canvas {
+    display: block;
+  }
+
+  /* HUD */
+  #hud {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 16px;
+    z-index: 10;
+  }
+
+  button {
+    margin-top: 8px;
+    padding: 8px;
+    background: #111;
+    color: white;
+    border: 1px solid #333;
+    cursor: pointer;
+  }
+
+  /* Crosshair */
+  #crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+  }
+
+  #crosshair::before,
+  #crosshair::after {
+    content: "";
+    position: absolute;
+    background: red;
+  }
+
+  #crosshair::before {
+    width: 30px;
+    height: 2px;
+    top: 14px;
+    left: 0;
+  }
+
+  #crosshair::after {
+    width: 2px;
+    height: 30px;
+    left: 14px;
+    top: 0;
+  }
+
+  /* Shop */
+  #shop {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: #000000cc;
+    padding: 10px;
+    color: white;
+    display: none;
+    z-index: 20;
+  }
+
+  .item {
+    margin: 5px 0;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="hud">
+  <div id="score">Score: 0</div>
+  <div id="combo">Combo: 0x</div>
+  <div id="coins">Coins: 0</div>
+
+  <button onclick="toggleShop()">Shop</button>
+</div>
+
+<div id="crosshair"></div>
+
+<div id="shop">
+  <div><b>SHOP</b></div>
+  <div class="item" onclick="buySkin('fire',5)">🔥 Fire (5 coins)</div>
+  <div class="item" onclick="buySkin('ice',5)">❄️ Ice (5 coins)</div>
+  <div class="item" onclick="buySkin('glitch',10)">🟣 Glitch (10 coins)</div>
+  <div class="item" onclick="setSkin('normal')">Default</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+
+<script>
+/* -----------------------------
+   SAVE SYSTEM
+------------------------------*/
+let save = JSON.parse(localStorage.getItem("cubeSave")) || {
+  score: 0,
+  coins: 0,
+  skin: "normal"
+};
+
+let score = save.score;
+let coins = save.coins;
+let skin = save.skin;
+
+/* -----------------------------
+   UI
+------------------------------*/
+const scoreEl = document.getElementById("score");
+const comboEl = document.getElementById("combo");
+const coinsEl = document.getElementById("coins");
+const shop = document.getElementById("shop");
+
+let combo = 0;
+let bestCombo = 0;
+
+/* -----------------------------
+   THREE SETUP
+------------------------------*/
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 100);
+camera.position.z = 6;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+/* LIGHT */
+scene.add(new THREE.AmbientLight(0xffffff, 1));
+
+/* -----------------------------
+   CUBE
+------------------------------*/
+const geometry = new THREE.BoxGeometry(1,1,1);
+const material = new THREE.MeshStandardMaterial({ color: "orange" });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+/* -----------------------------
+   TARGET
+------------------------------*/
+const target = new THREE.Mesh(
+  new THREE.RingGeometry(0.3,0.5,32),
+  new THREE.MeshBasicMaterial({ color: "red" })
+);
+scene.add(target);
+
+function randomTarget(){
+  target.position.set(
+    (Math.random()-0.5)*4,
+    (Math.random()-0.5)*2,
+    (Math.random()-0.5)*4
+  );
+}
+randomTarget();
+
+/* -----------------------------
+   PHYSICS
+------------------------------*/
+let vel = new THREE.Vector3();
+let wobble = 0;
+
+/* -----------------------------
+   SKINS
+------------------------------*/
+function setSkin(name){
+  skin = name;
+
+  const colors = {
+    normal: "orange",
+    fire: "red",
+    ice: "cyan",
+    glitch: "magenta"
+  };
+
+  cube.material.color.set(colors[name] || "orange");
+
+  saveGame();
+}
+
+/* -----------------------------
+   SHOP
+------------------------------*/
+function toggleShop(){
+  shop.style.display = shop.style.display === "block" ? "none" : "block";
+}
+
+function buySkin(name, cost){
+  if(coins >= cost){
+    coins -= cost;
+    setSkin(name);
+    saveGame();
+  }
+}
+
+/* -----------------------------
+   SAVE
+------------------------------*/
+function saveGame(){
+  localStorage.setItem("cubeSave", JSON.stringify({
+    score,
+    coins,
+    skin
+  }));
+}
+
+/* -----------------------------
+   INPUT (DRAG / FLING)
+------------------------------*/
+let dragging = false;
+let last = null;
+
+window.addEventListener("pointerdown", (e)=>{
+  dragging = true;
+  last = e;
+});
+
+window.addEventListener("pointermove", (e)=>{
+  if(!dragging) return;
+
+  const dx = e.clientX - last.clientX;
+  const dy = e.clientY - last.clientY;
+
+  vel.x += dx * 0.0015;
+  vel.y -= dy * 0.0015;
+
+  last = e;
+});
+
+window.addEventListener("pointerup", ()=>{
+  dragging = false;
+});
+
+/* -----------------------------
+   TILT CONTROL
+------------------------------*/
+window.addEventListener("deviceorientation", (e)=>{
+  if(e.gamma && e.beta){
+    vel.x += e.gamma * 0.0005;
+    vel.z += e.beta * 0.0005;
+  }
+});
+
+/* -----------------------------
+   GAME LOOP
+------------------------------*/
+function animate(){
+  requestAnimationFrame(animate);
+
+  /* gravity */
+  vel.y -= 0.01;
+
+  cube.position.add(vel);
+  vel.multiplyScalar(0.97);
+
+  /* floor */
+  if(cube.position.y < -2){
+    cube.position.y = -2;
+    vel.y *= -0.5;
+
+    combo = 0;
+  }
+
+  /* jelly wobble */
+  wobble += 0.15;
+  const w = Math.sin(wobble) * 0.1;
+
+  cube.scale.x = 1 + w;
+  cube.scale.y = 1 - w;
+  cube.scale.z = 1 + w * 0.5;
+
+  /* collision */
+  const dist = cube.position.distanceTo(target.position);
+
+  if(dist < 0.8){
+    score++;
+    coins++;
+
+    combo++;
+    if(combo > bestCombo) bestCombo = combo;
+
+    navigator.vibrate?.(50);
+
+    randomTarget();
+  }
+
+  /* UI */
+  scoreEl.innerText = "Score: " + score;
+  comboEl.innerText = "Combo: " + combo + "x";
+  coinsEl.innerText = "Coins: " + coins;
+
+  saveGame();
+
+  renderer.render(scene, camera);
+}
+animate();
+
+/* resize */
+window.addEventListener("resize", ()=>{
+  camera.aspect = innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+
+</body>
+</html>
