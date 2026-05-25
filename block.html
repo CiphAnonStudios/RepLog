@@ -3,165 +3,112 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Cube Physics Game</title>
+<title>Bounded Cube Game</title>
 
 <style>
-  body {
-    margin: 0;
-    overflow: hidden;
-    background: #000;
-    font-family: Arial;
-  }
+  body { margin:0; overflow:hidden; background:#000; }
 
-  canvas {
-    display: block;
-  }
-
-  /* HUD */
-  #hud {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: white;
-    font-size: 16px;
-    z-index: 10;
+  #ui {
+    position:absolute;
+    top:20px;
+    left:20px;
+    color:white;
+    font-family:Arial;
+    z-index:10;
   }
 
   button {
-    margin-top: 8px;
-    padding: 8px;
-    background: #111;
-    color: white;
-    border: 1px solid #333;
-    cursor: pointer;
+    margin-top:8px;
+    padding:8px;
+    background:#111;
+    color:white;
+    border:1px solid #333;
   }
 
-  /* Crosshair */
   #crosshair {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 30px;
-    height: 30px;
-    transform: translate(-50%, -50%);
-    z-index: 5;
+    position:absolute;
+    top:55%;
+    left:50%;
+    width:40px;
+    height:40px;
+    transform:translate(-50%,-50%);
+    z-index:5;
   }
 
-  #crosshair::before,
-  #crosshair::after {
-    content: "";
-    position: absolute;
-    background: red;
+  #crosshair:before, #crosshair:after {
+    content:"";
+    position:absolute;
+    background:red;
   }
 
-  #crosshair::before {
-    width: 30px;
-    height: 2px;
-    top: 14px;
-    left: 0;
+  #crosshair:before {
+    width:40px; height:2px; top:19px; left:0;
   }
 
-  #crosshair::after {
-    width: 2px;
-    height: 30px;
-    left: 14px;
-    top: 0;
+  #crosshair:after {
+    width:2px; height:40px; left:19px; top:0;
   }
 
-  /* Shop */
-  #shop {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    background: #000000cc;
-    padding: 10px;
-    color: white;
-    display: none;
-    z-index: 20;
-  }
-
-  .item {
-    margin: 5px 0;
-    cursor: pointer;
+  #settings {
+    position:absolute;
+    right:20px;
+    top:20px;
+    background:#000000cc;
+    padding:10px;
+    color:white;
+    display:none;
   }
 </style>
 </head>
 
 <body>
 
-<div id="hud">
+<div id="ui">
   <div id="score">Score: 0</div>
-  <div id="combo">Combo: 0x</div>
-  <div id="coins">Coins: 0</div>
-
-  <button onclick="toggleShop()">Shop</button>
+  <button onclick="toggleSettings()">Settings</button>
 </div>
 
 <div id="crosshair"></div>
 
-<div id="shop">
-  <div><b>SHOP</b></div>
-  <div class="item" onclick="buySkin('fire',5)">🔥 Fire (5 coins)</div>
-  <div class="item" onclick="buySkin('ice',5)">❄️ Ice (5 coins)</div>
-  <div class="item" onclick="buySkin('glitch',10)">🟣 Glitch (10 coins)</div>
-  <div class="item" onclick="setSkin('normal')">Default</div>
+<div id="settings">
+  <button onclick="toggleTilt()">Screen Rotate: <span id="tiltState">OFF</span></button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 
 <script>
-/* -----------------------------
-   SAVE SYSTEM
-------------------------------*/
-let save = JSON.parse(localStorage.getItem("cubeSave")) || {
-  score: 0,
-  coins: 0,
-  skin: "normal"
-};
-
+/* ---------------- SAVE ---------------- */
+let save = JSON.parse(localStorage.getItem("cubeGame")) || { score: 0 };
 let score = save.score;
-let coins = save.coins;
-let skin = save.skin;
 
-/* -----------------------------
-   UI
-------------------------------*/
+/* ---------------- UI ---------------- */
 const scoreEl = document.getElementById("score");
-const comboEl = document.getElementById("combo");
-const coinsEl = document.getElementById("coins");
-const shop = document.getElementById("shop");
+const tiltState = document.getElementById("tiltState");
+const settings = document.getElementById("settings");
 
-let combo = 0;
-let bestCombo = 0;
-
-/* -----------------------------
-   THREE SETUP
-------------------------------*/
+/* ---------------- SCENE ---------------- */
 const scene = new THREE.Scene();
+
 const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 100);
 camera.position.z = 6;
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias:true });
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
-/* LIGHT */
-scene.add(new THREE.AmbientLight(0xffffff, 1));
+scene.add(new THREE.AmbientLight(0xffffff,1));
 
-/* -----------------------------
-   CUBE
-------------------------------*/
-const geometry = new THREE.BoxGeometry(1,1,1);
-const material = new THREE.MeshStandardMaterial({ color: "orange" });
-const cube = new THREE.Mesh(geometry, material);
+/* ---------------- CUBE ---------------- */
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry(1,1,1),
+  new THREE.MeshStandardMaterial({ color:"orange" })
+);
 scene.add(cube);
 
-/* -----------------------------
-   TARGET
-------------------------------*/
+/* ---------------- TARGET ---------------- */
 const target = new THREE.Mesh(
-  new THREE.RingGeometry(0.3,0.5,32),
-  new THREE.MeshBasicMaterial({ color: "red" })
+  new THREE.RingGeometry(0.35,0.5,32),
+  new THREE.MeshBasicMaterial({ color:"red" })
 );
 scene.add(target);
 
@@ -169,64 +116,51 @@ function randomTarget(){
   target.position.set(
     (Math.random()-0.5)*4,
     (Math.random()-0.5)*2,
-    (Math.random()-0.5)*4
+    (Math.random()-0.5)*3
   );
 }
 randomTarget();
 
-/* -----------------------------
-   PHYSICS
-------------------------------*/
+/* ---------------- PHYSICS ---------------- */
 let vel = new THREE.Vector3();
 let wobble = 0;
 
-/* -----------------------------
-   SKINS
-------------------------------*/
-function setSkin(name){
-  skin = name;
+/* ---------------- CAMERA BOUNDS (IMPORTANT FIX) ---------------- */
+/*
+We compute visible world bounds at cube depth so it NEVER leaves screen.
+*/
+function getBounds(){
+  const vFOV = THREE.MathUtils.degToRad(camera.fov);
+  const height = 2 * Math.tan(vFOV / 2) * camera.position.z;
+  const width = height * camera.aspect;
 
-  const colors = {
-    normal: "orange",
-    fire: "red",
-    ice: "cyan",
-    glitch: "magenta"
+  return {
+    x: width / 2 - 0.6,
+    y: height / 2 - 0.6
   };
-
-  cube.material.color.set(colors[name] || "orange");
-
-  saveGame();
 }
 
-/* -----------------------------
-   SHOP
-------------------------------*/
-function toggleShop(){
-  shop.style.display = shop.style.display === "block" ? "none" : "block";
+/* ---------------- TILT ---------------- */
+let tiltEnabled = false;
+
+function toggleTilt(){
+  tiltEnabled = !tiltEnabled;
+  tiltState.innerText = tiltEnabled ? "ON" : "OFF";
 }
 
-function buySkin(name, cost){
-  if(coins >= cost){
-    coins -= cost;
-    setSkin(name);
-    saveGame();
-  }
+window.addEventListener("deviceorientation", (e)=>{
+  if(!tiltEnabled) return;
+
+  vel.x += (e.gamma || 0) * 0.0006;
+  vel.z += (e.beta || 0) * 0.0006;
+});
+
+/* ---------------- SETTINGS ---------------- */
+function toggleSettings(){
+  settings.style.display = settings.style.display === "block" ? "none" : "block";
 }
 
-/* -----------------------------
-   SAVE
-------------------------------*/
-function saveGame(){
-  localStorage.setItem("cubeSave", JSON.stringify({
-    score,
-    coins,
-    skin
-  }));
-}
-
-/* -----------------------------
-   INPUT (DRAG / FLING)
-------------------------------*/
+/* ---------------- TOUCH FLING ---------------- */
 let dragging = false;
 let last = null;
 
@@ -241,8 +175,8 @@ window.addEventListener("pointermove", (e)=>{
   const dx = e.clientX - last.clientX;
   const dy = e.clientY - last.clientY;
 
-  vel.x += dx * 0.0015;
-  vel.y -= dy * 0.0015;
+  vel.x += dx * 0.0018;
+  vel.y -= dy * 0.0018;
 
   last = e;
 });
@@ -251,67 +185,47 @@ window.addEventListener("pointerup", ()=>{
   dragging = false;
 });
 
-/* -----------------------------
-   TILT CONTROL
-------------------------------*/
-window.addEventListener("deviceorientation", (e)=>{
-  if(e.gamma && e.beta){
-    vel.x += e.gamma * 0.0005;
-    vel.z += e.beta * 0.0005;
-  }
-});
-
-/* -----------------------------
-   GAME LOOP
-------------------------------*/
+/* ---------------- GAME LOOP ---------------- */
 function animate(){
   requestAnimationFrame(animate);
 
-  /* gravity */
-  vel.y -= 0.01;
-
+  vel.y -= 0.012;
   cube.position.add(vel);
   vel.multiplyScalar(0.97);
 
-  /* floor */
-  if(cube.position.y < -2){
-    cube.position.y = -2;
-    vel.y *= -0.5;
+  /* ---------------- 🔒 HARD PHONE BOUNDS ---------------- */
+  const b = getBounds();
 
-    combo = 0;
-  }
+  if(cube.position.x > b.x){ cube.position.x = b.x; vel.x *= -0.6; }
+  if(cube.position.x < -b.x){ cube.position.x = -b.x; vel.x *= -0.6; }
+
+  if(cube.position.y > b.y){ cube.position.y = b.y; vel.y *= -0.6; }
+  if(cube.position.y < -b.y){ cube.position.y = -b.y; vel.y *= -0.6; }
+
+  /* Z clamp (depth safety) */
+  if(cube.position.z > 3){ cube.position.z = 3; vel.z *= -0.6; }
+  if(cube.position.z < -3){ cube.position.z = -3; vel.z *= -0.6; }
 
   /* jelly wobble */
-  wobble += 0.15;
-  const w = Math.sin(wobble) * 0.1;
+  wobble += 0.2;
+  const s = Math.sin(wobble) * 0.08;
 
-  cube.scale.x = 1 + w;
-  cube.scale.y = 1 - w;
-  cube.scale.z = 1 + w * 0.5;
+  cube.scale.x = 1 + s;
+  cube.scale.y = 1 - s;
+  cube.scale.z = 1 + s * 0.6;
 
-  /* collision */
-  const dist = cube.position.distanceTo(target.position);
-
-  if(dist < 0.8){
+  /* target hit */
+  if(cube.position.distanceTo(target.position) < 0.8){
     score++;
-    coins++;
-
-    combo++;
-    if(combo > bestCombo) bestCombo = combo;
-
-    navigator.vibrate?.(50);
+    save.score = score;
+    localStorage.setItem("cubeGame", JSON.stringify(save));
 
     randomTarget();
   }
 
-  /* UI */
   scoreEl.innerText = "Score: " + score;
-  comboEl.innerText = "Combo: " + combo + "x";
-  coinsEl.innerText = "Coins: " + coins;
 
-  saveGame();
-
-  renderer.render(scene, camera);
+  renderer.render(scene,camera);
 }
 animate();
 
@@ -319,7 +233,7 @@ animate();
 window.addEventListener("resize", ()=>{
   camera.aspect = innerWidth/innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
+  renderer.setSize(innerWidth,innerHeight);
 });
 </script>
 
