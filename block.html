@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Cube Physics Toy</title>
+<title>Cube Toy Physics</title>
 
 <style>
   body {
     margin: 0;
     overflow: hidden;
-    background: #000;
+    background: black;
   }
 
   #ui {
@@ -21,12 +21,8 @@
     z-index: 10;
   }
 
-  button {
-    margin-top: 8px;
-    padding: 8px;
-    background: #111;
-    color: white;
-    border: 1px solid #333;
+  #score {
+    font-size: 18px;
   }
 
   #crosshair {
@@ -39,35 +35,25 @@
     z-index: 5;
   }
 
-  #crosshair:before,
-  #crosshair:after {
+  #crosshair::before,
+  #crosshair::after {
     content: "";
     position: absolute;
     background: red;
   }
 
-  #crosshair:before {
+  #crosshair::before {
     width: 40px;
     height: 2px;
     top: 19px;
     left: 0;
   }
 
-  #crosshair:after {
+  #crosshair::after {
     width: 2px;
     height: 40px;
     top: 0;
     left: 19px;
-  }
-
-  #settings {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    background: #000000cc;
-    padding: 10px;
-    color: white;
-    display: none;
   }
 </style>
 </head>
@@ -76,14 +62,9 @@
 
 <div id="ui">
   <div id="score">Score: 0</div>
-  <button onclick="toggleSettings()">Settings</button>
 </div>
 
 <div id="crosshair"></div>
-
-<div id="settings">
-  <button onclick="toggleTilt()">Screen Rotate: <span id="tiltState">OFF</span></button>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 
@@ -92,10 +73,7 @@
 let save = JSON.parse(localStorage.getItem("cubeGame")) || { score: 0 };
 let score = save.score;
 
-/* ---------------- UI ---------------- */
 const scoreEl = document.getElementById("score");
-const tiltState = document.getElementById("tiltState");
-const settings = document.getElementById("settings");
 
 /* ---------------- SCENE ---------------- */
 const scene = new THREE.Scene();
@@ -128,24 +106,21 @@ const target = new THREE.Mesh(
 );
 scene.add(target);
 
-function randomTarget() {
+function spawnTarget() {
   target.position.set(
     (Math.random() - 0.5) * 4,
     (Math.random() - 0.5) * 2,
     0
   );
 }
-randomTarget();
+spawnTarget();
 
 /* ---------------- PHYSICS ---------------- */
-let vel = new THREE.Vector3();
+let vel = new THREE.Vector2();
 let rotVel = new THREE.Vector3();
 let wobble = 0;
 
-/* LOCK Z (IMPORTANT) */
-cube.position.z = 0;
-
-/* ---------------- SCREEN BOUNDS ---------------- */
+/* ---------------- BOUNDS ---------------- */
 function getBounds() {
   const vFOV = THREE.MathUtils.degToRad(camera.fov);
   const height = 2 * Math.tan(vFOV / 2) * camera.position.z;
@@ -157,78 +132,64 @@ function getBounds() {
   };
 }
 
-/* ---------------- SETTINGS ---------------- */
-let tiltEnabled = false;
-
-function toggleTilt() {
-  tiltEnabled = !tiltEnabled;
-  tiltState.innerText = tiltEnabled ? "ON" : "OFF";
-}
-
-function toggleSettings() {
-  settings.style.display =
-    settings.style.display === "block" ? "none" : "block";
-}
-
-/* ---------------- TILT CONTROL ---------------- */
-window.addEventListener("deviceorientation", (e) => {
-  if (!tiltEnabled) return;
-
-  vel.x += (e.gamma || 0) * 0.0006;
-  vel.y += (e.beta || 0) * 0.0006;
-});
-
-/* ---------------- TOUCH CONTROL ---------------- */
+/* ---------------- TOUCH GRAB SYSTEM ---------------- */
 let dragging = false;
-let last = null;
+let grabOffset = new THREE.Vector2();
 
 window.addEventListener("pointerdown", (e) => {
   dragging = true;
-  last = e;
+
+  const nx = (e.clientX / innerWidth) * 2 - 1;
+  const ny = -(e.clientY / innerHeight) * 2 + 1;
+
+  grabOffset.set(
+    cube.position.x - nx * 4,
+    cube.position.y - ny * 3
+  );
 });
 
 window.addEventListener("pointermove", (e) => {
   if (!dragging) return;
 
-  const dx = e.clientX - last.clientX;
-  const dy = e.clientY - last.clientY;
+  const nx = (e.clientX / innerWidth) * 2 - 1;
+  const ny = -(e.clientY / innerHeight) * 2 + 1;
 
-  /* PUSH PHYSICS */
-  vel.x += dx * 0.002;
-  vel.y -= dy * 0.002;
+  const tx = nx * 4 + grabOffset.x;
+  const ty = ny * 3 + grabOffset.y;
 
-  /* ROTATION (FLIP / FLOP) */
-  rotVel.y += dx * 0.02;
-  rotVel.x += dy * 0.02;
+  /* smooth follow (important for feel) */
+  vel.x = (tx - cube.position.x) * 0.3;
+  vel.y = (ty - cube.position.y) * 0.3;
 
-  last = e;
+  /* spin from movement */
+  rotVel.y += vel.x * 0.15;
+  rotVel.x += vel.y * 0.15;
 });
 
 window.addEventListener("pointerup", () => {
   dragging = false;
 });
 
-/* ---------------- GAME LOOP ---------------- */
+/* ---------------- LOOP ---------------- */
 function animate() {
   requestAnimationFrame(animate);
 
-  /* GRAVITY */
-  vel.y -= 0.012;
+  /* gravity */
+  if (!dragging) {
+    vel.y -= 0.012;
+    vel.multiplyScalar(0.92);
+  }
 
-  /* MOVE */
   cube.position.x += vel.x;
   cube.position.y += vel.y;
 
-  vel.multiplyScalar(0.94);
-
-  /* ROTATION (IMPORTANT FOR "FLOP") */
+  /* rotation (flop feel) */
   cube.rotation.x += rotVel.x;
   cube.rotation.y += rotVel.y;
   cube.rotation.z += rotVel.z;
+  rotVel.multiplyScalar(0.85);
 
-  rotVel.multiplyScalar(0.9);
-
-  /* JELLY WOBBLE */
+  /* jelly squash */
   wobble += 0.2;
   const s = Math.sin(wobble) * 0.08;
 
@@ -236,34 +197,18 @@ function animate() {
   cube.scale.y = 1 - s;
   cube.scale.z = 1 + s * 0.6;
 
-  /* ---------------- HARD SCREEN BOUNDS ---------------- */
+  /* screen lock */
   const b = getBounds();
 
-  if (cube.position.x > b.x) {
-    cube.position.x = b.x;
-    vel.x *= -0.6;
-  }
-  if (cube.position.x < -b.x) {
-    cube.position.x = -b.x;
-    vel.x *= -0.6;
-  }
+  cube.position.x = Math.max(-b.x, Math.min(b.x, cube.position.x));
+  cube.position.y = Math.max(-b.y, Math.min(b.y, cube.position.y));
 
-  if (cube.position.y > b.y) {
-    cube.position.y = b.y;
-    vel.y *= -0.6;
-  }
-  if (cube.position.y < -b.y) {
-    cube.position.y = -b.y;
-    vel.y *= -0.6;
-  }
-
-  /* ---------------- TARGET HIT ---------------- */
+  /* collision */
   if (cube.position.distanceTo(target.position) < 0.8) {
     score++;
     save.score = score;
     localStorage.setItem("cubeGame", JSON.stringify(save));
-
-    randomTarget();
+    spawnTarget();
   }
 
   scoreEl.innerText = "Score: " + score;
@@ -273,7 +218,7 @@ function animate() {
 
 animate();
 
-/* RESIZE */
+/* resize */
 window.addEventListener("resize", () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
