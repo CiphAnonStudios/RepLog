@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Cube Toy + Effects</title>
+<title>Cube Core Fix</title>
 
 <style>
   body {
     margin: 0;
     overflow: hidden;
     background: black;
+    touch-action: none;
   }
 
   #ui {
@@ -19,15 +20,6 @@
     color: white;
     font-family: Arial;
     z-index: 10;
-  }
-
-  #flash {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: white;
-    opacity: 0;
-    pointer-events: none;
   }
 
   #crosshair {
@@ -68,59 +60,44 @@
   <div id="score">Score: 0</div>
 </div>
 
-<div id="flash"></div>
 <div id="crosshair"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 
 <script>
-let save = JSON.parse(localStorage.getItem("cubeGame")) || { score: 0 };
-let score = save.score;
-
+/* ---------------- BASIC SETUP ---------------- */
+let score = 0;
 const scoreEl = document.getElementById("score");
-const flash = document.getElementById("flash");
 
-/* ---------------- SCENE ---------------- */
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 100);
 camera.position.z = 6;
 
-const renderer = new THREE.WebGLRenderer({ antialias:true });
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
 scene.add(new THREE.AmbientLight(0xffffff, 1));
 
-/* ---------------- MAIN CUBE ---------------- */
+/* ---------------- CUBE ---------------- */
 const cube = new THREE.Mesh(
   new THREE.BoxGeometry(1,1,1),
-  new THREE.MeshStandardMaterial({ color:"orange" })
+  new THREE.MeshStandardMaterial({ color: "orange" })
 );
 scene.add(cube);
 
-/* ---------------- TRAIL CUBES (VISUAL EFFECT) ---------------- */
-const trail = [];
-for(let i=0;i<6;i++){
-  const t = new THREE.Mesh(
-    new THREE.BoxGeometry(1,1,1),
-    new THREE.MeshBasicMaterial({ color:"orange", transparent:true, opacity:0.2 })
-  );
-  scene.add(t);
-  trail.push(t);
-}
-
 /* ---------------- TARGET ---------------- */
 const target = new THREE.Mesh(
-  new THREE.RingGeometry(0.35,0.5,32),
-  new THREE.MeshBasicMaterial({ color:"red" })
+  new THREE.RingGeometry(0.35, 0.5, 32),
+  new THREE.MeshBasicMaterial({ color: "red" })
 );
 scene.add(target);
 
-function spawnTarget(){
+function spawnTarget() {
   target.position.set(
-    (Math.random()-0.5)*4,
-    (Math.random()-0.5)*2,
+    (Math.random() - 0.5) * 4,
+    (Math.random() - 0.5) * 2,
     0
   );
 }
@@ -128,145 +105,102 @@ spawnTarget();
 
 /* ---------------- PHYSICS ---------------- */
 let vel = new THREE.Vector2();
-let rot = new THREE.Vector3();
+let rotVel = new THREE.Vector3();
 let wobble = 0;
-let shake = 0;
 
 /* ---------------- BOUNDS ---------------- */
-function bounds(){
+function getBounds() {
   const vFOV = THREE.MathUtils.degToRad(camera.fov);
-  const h = 2 * Math.tan(vFOV/2) * camera.position.z;
-  const w = h * camera.aspect;
+  const height = 2 * Math.tan(vFOV / 2) * camera.position.z;
+  const width = height * camera.aspect;
 
-  return { x: w/2 - 0.7, y: h/2 - 0.7 };
+  return {
+    x: width / 2 - 0.7,
+    y: height / 2 - 0.7
+  };
 }
 
-/* ---------------- TOUCH ---------------- */
+/* ---------------- TOUCH (FIXED CORE FEEL) ---------------- */
 let dragging = false;
-let grabOffset = new THREE.Vector2();
+let last = null;
 
-window.addEventListener("pointerdown", (e)=>{
+window.addEventListener("pointerdown", (e) => {
   dragging = true;
-
-  const nx = (e.clientX/innerWidth)*2 - 1;
-  const ny = -(e.clientY/innerHeight)*2 + 1;
-
-  grabOffset.set(
-    cube.position.x - nx*4,
-    cube.position.y - ny*3
-  );
+  last = e;
 });
 
-window.addEventListener("pointermove", (e)=>{
-  if(!dragging) return;
+window.addEventListener("pointermove", (e) => {
+  if (!dragging) return;
 
-  const nx = (e.clientX/innerWidth)*2 - 1;
-  const ny = -(e.clientY/innerHeight)*2 + 1;
+  const dx = e.clientX - last.clientX;
+  const dy = e.clientY - last.clientY;
 
-  const tx = nx*4 + grabOffset.x;
-  const ty = ny*3 + grabOffset.y;
+  /* REAL PUSH FEEL */
+  vel.x += dx * 0.0022;
+  vel.y -= dy * 0.0022;
 
-  const fx = tx - cube.position.x;
-  const fy = ty - cube.position.y;
+  /* FLIP / FLOP ROTATION */
+  rotVel.y += dx * 0.02;
+  rotVel.x += dy * 0.02;
 
-  vel.x += fx * 0.25;
-  vel.y += fy * 0.25;
-
-  rot.y += fx * 0.12;
-  rot.x += fy * 0.12;
+  last = e;
 });
 
-window.addEventListener("pointerup", ()=> dragging = false);
+window.addEventListener("pointerup", () => {
+  dragging = false;
+});
 
 /* ---------------- LOOP ---------------- */
-function animate(){
+function animate() {
   requestAnimationFrame(animate);
 
-  if(!dragging) vel.y -= 0.012;
+  /* gravity */
+  if (!dragging) vel.y -= 0.012;
 
-  vel.multiplyScalar(0.92);
+  /* smooth movement */
+  vel.multiplyScalar(0.93);
 
   cube.position.x += vel.x;
   cube.position.y += vel.y;
 
-  rot.multiplyScalar(0.85);
+  /* rotation */
+  cube.rotation.x += rotVel.x;
+  cube.rotation.y += rotVel.y;
+  cube.rotation.z += rotVel.z;
+  rotVel.multiplyScalar(0.88);
 
-  cube.rotation.x += rot.x;
-  cube.rotation.y += rot.y;
-  cube.rotation.z += rot.z;
+  /* simple jelly feel (stable version) */
+  wobble += 0.2;
+  const s = Math.sin(wobble) * 0.06;
 
-  /* -------- JELLY -------- */
-  const speed = vel.length();
-  wobble += speed * 0.2;
-
-  const s = Math.sin(wobble) * (0.05 + speed*0.02);
   cube.scale.x = 1 + s;
   cube.scale.y = 1 - s;
-  cube.scale.z = 1 + s * 0.6;
+  cube.scale.z = 1 + s * 0.5;
 
-  /* -------- TRAIL EFFECT -------- */
-  trail.unshift({
-    x: cube.position.x,
-    y: cube.position.y
-  });
+  /* screen bounds (clean + stable) */
+  const b = getBounds();
 
-  if(trail.length > 6) trail.pop();
+  cube.position.x = Math.max(-b.x, Math.min(b.x, cube.position.x));
+  cube.position.y = Math.max(-b.y, Math.min(b.y, cube.position.y));
 
-  trail.forEach((t, i)=>{
-    const m = trail[i];
-    if(!m) return;
-
-    m.position.x = t.x;
-    m.position.y = t.y;
-
-    m.scale.setScalar(1 - i*0.12);
-    m.material.opacity = 0.25 - i*0.04;
-  });
-
-  /* -------- SCREEN SHAKE -------- */
-  if(shake > 0){
-    camera.position.x = (Math.random()-0.5)*shake;
-    camera.position.y = (Math.random()-0.5)*shake;
-    shake *= 0.9;
-  } else {
-    camera.position.x = 0;
-    camera.position.y = 0;
-  }
-
-  /* -------- TARGET FLOAT -------- */
-  target.position.y += Math.sin(Date.now()*0.003) * 0.002;
-
-  /* -------- HIT -------- */
-  if(cube.position.distanceTo(target.position) < 0.8){
+  /* collision */
+  if (cube.position.distanceTo(target.position) < 0.8) {
     score++;
-    save.score = score;
-    localStorage.setItem("cubeGame", JSON.stringify(save));
-
-    /* flash */
-    flash.style.opacity = 0.8;
-    setTimeout(()=> flash.style.opacity = 0, 80);
-
-    /* shake */
-    shake = 0.2;
-
-    /* pop animation */
-    cube.scale.set(1.4,0.6,1.4);
-    setTimeout(()=> cube.scale.set(1,1,1), 80);
-
     spawnTarget();
   }
 
   scoreEl.innerText = "Score: " + score;
 
-  renderer.render(scene,camera);
+  renderer.render(scene, camera);
 }
 
 animate();
 
-window.addEventListener("resize", ()=>{
-  camera.aspect = innerWidth/innerHeight;
+/* resize */
+window.addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight);
+  renderer.setSize(innerWidth, innerHeight);
 });
 </script>
 
