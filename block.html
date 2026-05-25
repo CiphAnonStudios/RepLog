@@ -3,60 +3,71 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Bounded Cube Game</title>
+<title>Cube Physics Toy</title>
 
 <style>
-  body { margin:0; overflow:hidden; background:#000; }
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+  }
 
   #ui {
-    position:absolute;
-    top:20px;
-    left:20px;
-    color:white;
-    font-family:Arial;
-    z-index:10;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-family: Arial;
+    z-index: 10;
   }
 
   button {
-    margin-top:8px;
-    padding:8px;
-    background:#111;
-    color:white;
-    border:1px solid #333;
+    margin-top: 8px;
+    padding: 8px;
+    background: #111;
+    color: white;
+    border: 1px solid #333;
   }
 
   #crosshair {
-    position:absolute;
-    top:55%;
-    left:50%;
-    width:40px;
-    height:40px;
-    transform:translate(-50%,-50%);
-    z-index:5;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translate(-50%, -50%);
+    z-index: 5;
   }
 
-  #crosshair:before, #crosshair:after {
-    content:"";
-    position:absolute;
-    background:red;
+  #crosshair:before,
+  #crosshair:after {
+    content: "";
+    position: absolute;
+    background: red;
   }
 
   #crosshair:before {
-    width:40px; height:2px; top:19px; left:0;
+    width: 40px;
+    height: 2px;
+    top: 19px;
+    left: 0;
   }
 
   #crosshair:after {
-    width:2px; height:40px; left:19px; top:0;
+    width: 2px;
+    height: 40px;
+    top: 0;
+    left: 19px;
   }
 
   #settings {
-    position:absolute;
-    right:20px;
-    top:20px;
-    background:#000000cc;
-    padding:10px;
-    color:white;
-    display:none;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: #000000cc;
+    padding: 10px;
+    color: white;
+    display: none;
   }
 </style>
 </head>
@@ -89,124 +100,135 @@ const settings = document.getElementById("settings");
 /* ---------------- SCENE ---------------- */
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(
+  70,
+  innerWidth / innerHeight,
+  0.1,
+  100
+);
 camera.position.z = 6;
 
-const renderer = new THREE.WebGLRenderer({ antialias:true });
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
-scene.add(new THREE.AmbientLight(0xffffff,1));
+scene.add(new THREE.AmbientLight(0xffffff, 1));
 
 /* ---------------- CUBE ---------------- */
 const cube = new THREE.Mesh(
-  new THREE.BoxGeometry(1,1,1),
-  new THREE.MeshStandardMaterial({ color:"orange" })
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshStandardMaterial({ color: "orange" })
 );
 scene.add(cube);
 
 /* ---------------- TARGET ---------------- */
 const target = new THREE.Mesh(
-  new THREE.RingGeometry(0.35,0.5,32),
-  new THREE.MeshBasicMaterial({ color:"red" })
+  new THREE.RingGeometry(0.35, 0.5, 32),
+  new THREE.MeshBasicMaterial({ color: "red" })
 );
 scene.add(target);
 
-function randomTarget(){
+function randomTarget() {
   target.position.set(
-    (Math.random()-0.5)*4,
-    (Math.random()-0.5)*2,
-    (Math.random()-0.5)*3
+    (Math.random() - 0.5) * 4,
+    (Math.random() - 0.5) * 2,
+    0
   );
 }
 randomTarget();
 
 /* ---------------- PHYSICS ---------------- */
 let vel = new THREE.Vector3();
+let rotVel = new THREE.Vector3();
 let wobble = 0;
 
-/* ---------------- CAMERA BOUNDS (IMPORTANT FIX) ---------------- */
-/*
-We compute visible world bounds at cube depth so it NEVER leaves screen.
-*/
-function getBounds(){
+/* LOCK Z (IMPORTANT) */
+cube.position.z = 0;
+
+/* ---------------- SCREEN BOUNDS ---------------- */
+function getBounds() {
   const vFOV = THREE.MathUtils.degToRad(camera.fov);
   const height = 2 * Math.tan(vFOV / 2) * camera.position.z;
   const width = height * camera.aspect;
 
   return {
-    x: width / 2 - 0.6,
-    y: height / 2 - 0.6
+    x: width / 2 - 0.7,
+    y: height / 2 - 0.7
   };
 }
 
-/* ---------------- TILT ---------------- */
+/* ---------------- SETTINGS ---------------- */
 let tiltEnabled = false;
 
-function toggleTilt(){
+function toggleTilt() {
   tiltEnabled = !tiltEnabled;
   tiltState.innerText = tiltEnabled ? "ON" : "OFF";
 }
 
-window.addEventListener("deviceorientation", (e)=>{
-  if(!tiltEnabled) return;
-
-  vel.x += (e.gamma || 0) * 0.0006;
-  vel.z += (e.beta || 0) * 0.0006;
-});
-
-/* ---------------- SETTINGS ---------------- */
-function toggleSettings(){
-  settings.style.display = settings.style.display === "block" ? "none" : "block";
+function toggleSettings() {
+  settings.style.display =
+    settings.style.display === "block" ? "none" : "block";
 }
 
-/* ---------------- TOUCH FLING ---------------- */
+/* ---------------- TILT CONTROL ---------------- */
+window.addEventListener("deviceorientation", (e) => {
+  if (!tiltEnabled) return;
+
+  vel.x += (e.gamma || 0) * 0.0006;
+  vel.y += (e.beta || 0) * 0.0006;
+});
+
+/* ---------------- TOUCH CONTROL ---------------- */
 let dragging = false;
 let last = null;
 
-window.addEventListener("pointerdown", (e)=>{
+window.addEventListener("pointerdown", (e) => {
   dragging = true;
   last = e;
 });
 
-window.addEventListener("pointermove", (e)=>{
-  if(!dragging) return;
+window.addEventListener("pointermove", (e) => {
+  if (!dragging) return;
 
   const dx = e.clientX - last.clientX;
   const dy = e.clientY - last.clientY;
 
-  vel.x += dx * 0.0018;
-  vel.y -= dy * 0.0018;
+  /* PUSH PHYSICS */
+  vel.x += dx * 0.002;
+  vel.y -= dy * 0.002;
+
+  /* ROTATION (FLIP / FLOP) */
+  rotVel.y += dx * 0.02;
+  rotVel.x += dy * 0.02;
 
   last = e;
 });
 
-window.addEventListener("pointerup", ()=>{
+window.addEventListener("pointerup", () => {
   dragging = false;
 });
 
 /* ---------------- GAME LOOP ---------------- */
-function animate(){
+function animate() {
   requestAnimationFrame(animate);
 
+  /* GRAVITY */
   vel.y -= 0.012;
-  cube.position.add(vel);
-  vel.multiplyScalar(0.97);
 
-  /* ---------------- 🔒 HARD PHONE BOUNDS ---------------- */
-  const b = getBounds();
+  /* MOVE */
+  cube.position.x += vel.x;
+  cube.position.y += vel.y;
 
-  if(cube.position.x > b.x){ cube.position.x = b.x; vel.x *= -0.6; }
-  if(cube.position.x < -b.x){ cube.position.x = -b.x; vel.x *= -0.6; }
+  vel.multiplyScalar(0.94);
 
-  if(cube.position.y > b.y){ cube.position.y = b.y; vel.y *= -0.6; }
-  if(cube.position.y < -b.y){ cube.position.y = -b.y; vel.y *= -0.6; }
+  /* ROTATION (IMPORTANT FOR "FLOP") */
+  cube.rotation.x += rotVel.x;
+  cube.rotation.y += rotVel.y;
+  cube.rotation.z += rotVel.z;
 
-  /* Z clamp (depth safety) */
-  if(cube.position.z > 3){ cube.position.z = 3; vel.z *= -0.6; }
-  if(cube.position.z < -3){ cube.position.z = -3; vel.z *= -0.6; }
+  rotVel.multiplyScalar(0.9);
 
-  /* jelly wobble */
+  /* JELLY WOBBLE */
   wobble += 0.2;
   const s = Math.sin(wobble) * 0.08;
 
@@ -214,8 +236,29 @@ function animate(){
   cube.scale.y = 1 - s;
   cube.scale.z = 1 + s * 0.6;
 
-  /* target hit */
-  if(cube.position.distanceTo(target.position) < 0.8){
+  /* ---------------- HARD SCREEN BOUNDS ---------------- */
+  const b = getBounds();
+
+  if (cube.position.x > b.x) {
+    cube.position.x = b.x;
+    vel.x *= -0.6;
+  }
+  if (cube.position.x < -b.x) {
+    cube.position.x = -b.x;
+    vel.x *= -0.6;
+  }
+
+  if (cube.position.y > b.y) {
+    cube.position.y = b.y;
+    vel.y *= -0.6;
+  }
+  if (cube.position.y < -b.y) {
+    cube.position.y = -b.y;
+    vel.y *= -0.6;
+  }
+
+  /* ---------------- TARGET HIT ---------------- */
+  if (cube.position.distanceTo(target.position) < 0.8) {
     score++;
     save.score = score;
     localStorage.setItem("cubeGame", JSON.stringify(save));
@@ -225,15 +268,16 @@ function animate(){
 
   scoreEl.innerText = "Score: " + score;
 
-  renderer.render(scene,camera);
+  renderer.render(scene, camera);
 }
+
 animate();
 
-/* resize */
-window.addEventListener("resize", ()=>{
-  camera.aspect = innerWidth/innerHeight;
+/* RESIZE */
+window.addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight);
+  renderer.setSize(innerWidth, innerHeight);
 });
 </script>
 
