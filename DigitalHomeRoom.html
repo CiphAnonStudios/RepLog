@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mini Roblox Three.js</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    touch-action:none;
+}
+
+#ui{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+
+#joystick{
+    position:absolute;
+    left:40px;
+    bottom:40px;
+    width:130px;
+    height:130px;
+    background:#ffffff33;
+    border-radius:50%;
+    pointer-events:auto;
+}
+
+#stick{
+    position:absolute;
+    width:50px;
+    height:50px;
+    left:40px;
+    top:40px;
+    background:#fff;
+    border-radius:50%;
+}
+
+#jump{
+    position:absolute;
+    right:50px;
+    bottom:70px;
+    width:90px;
+    height:90px;
+    background:#ffffff55;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    pointer-events:auto;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div id="ui">
+
+<div id="joystick">
+<div id="stick"></div>
+</div>
+
+<div id="jump">
+JUMP
+</div>
+
+</div>
+
+
+<script type="module">
+
+import * as THREE from 
+"https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js";
+
+
+// SETUP
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x87ceeb);
+
+
+const camera = new THREE.PerspectiveCamera(
+75,
+innerWidth/innerHeight,
+0.1,
+1000
+);
+
+
+const renderer = new THREE.WebGLRenderer({
+antialias:true
+});
+
+renderer.setSize(
+innerWidth,
+innerHeight
+);
+
+document.body.appendChild(renderer.domElement);
+
+
+
+// LIGHT
+
+const light = new THREE.DirectionalLight(
+0xffffff,
+2
+);
+
+light.position.set(5,10,5);
+scene.add(light);
+
+
+
+// BLOCKS
+
+let blocks=[];
+
+
+function makeBlock(x,y,z,color=0x777777){
+
+let b=new THREE.Mesh(
+new THREE.BoxGeometry(1,1,1),
+new THREE.MeshStandardMaterial({
+color:color
+})
+);
+
+b.position.set(x,y,z);
+
+scene.add(b);
+
+blocks.push(b);
+
+return b;
+
+}
+
+
+
+// ground
+
+for(let x=-10;x<=10;x++){
+
+for(let z=-10;z<=10;z++){
+
+makeBlock(
+x,
+-1,
+z,
+0x3baa3b
+);
+
+}
+
+}
+
+
+
+// random blocks
+
+for(let i=0;i<30;i++){
+
+makeBlock(
+Math.floor(Math.random()*10)-5,
+0,
+Math.floor(Math.random()*10)-5
+);
+
+}
+
+
+
+// PLAYER
+
+const player=new THREE.Group();
+
+
+function part(x,y,z,color){
+
+let p=new THREE.Mesh(
+new THREE.BoxGeometry(x,y,z),
+new THREE.MeshStandardMaterial({
+color
+})
+);
+
+return p;
+
+}
+
+
+let body=part(1,1.5,.6,0x3366ff);
+let head=part(.8,.8,.8,0xffcc99);
+
+let armL=part(.3,1,.3,0xffcc99);
+let armR=armL.clone();
+
+let legL=part(.35,1,.35,0x222222);
+let legR=legL.clone();
+
+
+head.position.y=1.3;
+
+armL.position.set(-.7,0,0);
+armR.position.set(.7,0,0);
+
+legL.position.set(-.25,-1.2,0);
+legR.position.set(.25,-1.2,0);
+
+
+player.add(
+body,
+head,
+armL,
+armR,
+legL,
+legR
+);
+
+
+player.position.y=1;
+
+scene.add(player);
+
+
+
+// MOVEMENT
+
+let mx=0;
+let mz=0;
+
+let velocityY=0;
+
+let cameraAngle=0;
+
+
+
+// JOYSTICK
+
+let joystick=document.getElementById("joystick");
+let stick=document.getElementById("stick");
+
+let joy=false;
+
+
+joystick.ontouchstart=()=>{
+joy=true;
+};
+
+
+joystick.ontouchend=()=>{
+
+joy=false;
+mx=0;
+mz=0;
+
+stick.style.left="40px";
+stick.style.top="40px";
+
+};
+
+
+
+joystick.ontouchmove=e=>{
+
+if(!joy)return;
+
+
+let r=joystick.getBoundingClientRect();
+
+let t=e.touches[0];
+
+
+let x=t.clientX-r.left-65;
+let y=t.clientY-r.top-65;
+
+
+x=Math.max(-40,Math.min(40,x));
+y=Math.max(-40,Math.min(40,y));
+
+
+stick.style.left=x+40+"px";
+stick.style.top=y+40+"px";
+
+
+mx=x/40;
+mz=y/40;
+
+};
+
+
+
+// CAMERA TOUCH
+
+let lastX=0;
+
+
+renderer.domElement.ontouchstart=e=>{
+
+lastX=e.touches[0].clientX;
+
+};
+
+
+renderer.domElement.ontouchmove=e=>{
+
+let x=e.touches[0].clientX;
+
+let diff=x-lastX;
+
+cameraAngle-=diff*0.005;
+
+lastX=x;
+
+};
+
+
+
+// JUMP
+
+document.getElementById("jump").onclick=()=>{
+
+if(player.position.y<=1.01){
+
+velocityY=.18;
+
+}
+
+};
+
+
+
+// BLOCK EDITING
+
+let raycaster=new THREE.Raycaster();
+
+
+renderer.domElement.onclick=e=>{
+
+
+let mouse=new THREE.Vector2();
+
+mouse.x=(e.clientX/innerWidth)*2-1;
+mouse.y=-(e.clientY/innerHeight)*2+1;
+
+
+raycaster.setFromCamera(
+mouse,
+camera
+);
+
+
+let hit=raycaster.intersectObjects(blocks);
+
+
+if(hit.length){
+
+let block=hit[0].object;
+
+
+if(e.shiftKey){
+
+scene.remove(block);
+blocks.splice(
+blocks.indexOf(block),
+1
+);
+
+}else{
+
+let pos=hit[0].point.clone();
+
+makeBlock(
+Math.round(pos.x),
+Math.round(pos.y),
+Math.round(pos.z)
+);
+
+}
+
+}
+
+};
+
+
+
+// GAME LOOP
+
+let walk=0;
+
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+
+// movement direction based on camera
+
+let dx=
+Math.sin(cameraAngle)*mz+
+Math.cos(cameraAngle)*mx;
+
+let dz=
+Math.cos(cameraAngle)*mz-
+Math.sin(cameraAngle)*mx;
+
+
+player.position.x+=dx*.08;
+player.position.z+=dz*.08;
+
+
+
+// gravity
+
+velocityY-=.01;
+
+player.position.y+=velocityY;
+
+
+if(player.position.y<1){
+
+player.position.y=1;
+velocityY=0;
+
+}
+
+
+
+// animation
+
+if(Math.abs(mx)+Math.abs(mz)>.1){
+
+walk+=.2;
+
+armL.rotation.x=Math.sin(walk)*.5;
+armR.rotation.x=-Math.sin(walk)*.5;
+
+legL.rotation.x=-Math.sin(walk)*.5;
+legR.rotation.x=Math.sin(walk)*.5;
+
+}
+
+
+
+// camera
+
+let distance=6;
+
+camera.position.x=
+player.position.x+
+Math.sin(cameraAngle)*distance;
+
+camera.position.z=
+player.position.z+
+Math.cos(cameraAngle)*distance;
+
+camera.position.y=
+player.position.y+4;
+
+
+camera.lookAt(
+player.position
+);
+
+
+
+renderer.render(
+scene,
+camera
+);
+
+}
+
+
+animate();
+
+
+
+window.onresize=()=>{
+
+camera.aspect=
+innerWidth/innerHeight;
+
+camera.updateProjectionMatrix();
+
+renderer.setSize(
+innerWidth,
+innerHeight
+);
+
+};
+
+
+</script>
+
+</body>
+</html>
